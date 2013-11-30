@@ -1,17 +1,12 @@
 package com.aes;
 
-/*
- * Encryption
- * @author Song, Yuanzheng
- * 
- */
+public class CryptographicAlgorithm {
 
-public class Encryption implements CipherInterface {
-	
 	//XOR
-	private byte ffAdd(byte a, byte b){
+	public byte ffAdd(byte a, byte b){
 		
 		return (byte)(a^b);
+		
 	}
 	
 	//[SY] testing xtime
@@ -21,10 +16,11 @@ public class Encryption implements CipherInterface {
 		if(a<0)
 			return (byte)(out^((byte)0x1b));
 		else
-			return out;	
+			return out;
+			
 	}
 	
-	private byte ffMultiply(byte xL, byte yR){
+	public byte ffMultiply(byte xL, byte yR){
 		
 		byte result = xL;
 		//byte a = 0;
@@ -43,7 +39,4 @@ public class Encryption implements CipherInterface {
 		
 		return b;
 	}
-	
-	
-
 }
