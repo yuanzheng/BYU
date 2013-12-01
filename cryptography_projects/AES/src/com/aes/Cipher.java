@@ -14,7 +14,7 @@ package com.aes;
 public class Cipher extends CryptographicAlgorithm implements CipherInterface {
 
 	private byte[][] state;
-	//private byte[][] cipherKey;
+	private byte[][] cipherKey;
 	private final int Nb = 4;
 	private int Nk;
 	private int Nr;
@@ -23,8 +23,6 @@ public class Cipher extends CryptographicAlgorithm implements CipherInterface {
 	{
 		Nk = 4;
 		Nr = 10;
-		state = new byte[4][Nb];
-		//cipherKey = new byte[4][Nk];
 	}
 	/*
 	private Cipher(byte[][] in){
@@ -110,7 +108,7 @@ public class Cipher extends CryptographicAlgorithm implements CipherInterface {
 		
 	}
 	
-	private byte[] KeyExpansion(byte[][] cipherKey) {
+	private byte[] KeyExpansion() {
 		KeyExpansion genKey = new KeyExpansion(cipherKey, Nb, Nk, Nr);
 		
         byte[] generatedKey;
@@ -126,8 +124,8 @@ public class Cipher extends CryptographicAlgorithm implements CipherInterface {
         return generatedKey;
 	}
 	
-	public void Encryption(String input, String key) {
-		
+	// initialize input and key into state blocks
+	private void init(String input, String key) {
 		Nk = key.length()/8;  //the number of 32bits-word
 		//int Nr = 10;//set the default value
 		//System.out.println("Nk: " + Nk);
@@ -149,20 +147,19 @@ public class Cipher extends CryptographicAlgorithm implements CipherInterface {
 		//state = getState(key, Nb);
 		//cipherKey = ArrayConvertor(key, Nk);
 		//testing
-		byte[][] cipherKey = getState(key, Nk);
+		cipherKey = getState(key, Nk);
 		//print them out, check them
 		System.out.println("message state: ");
 		printOut(state, Nb);
 		System.out.println("cipherKey: ");
 		printOut(cipherKey, Nk);
+	}
+	
+	public void Encryption(String input, String key) {
+		init(input, key);
+		byte[] generatedKey = KeyExpansion();
 		
-		/* ******************************************** Encryption *******************
-		 * Starting, read key and plaintext
-		 * Generating Keys, totally 11 keys for encrption loops
-		 */
-		
-		byte[] generatedKey = KeyExpansion(cipherKey);
-        
+		/* ******************************************** Encryption *******************/
         System.out.println("\n\n\nStart encryption*******************:");
         
         /*
