@@ -1,20 +1,22 @@
 package com.aes;
 
-public class KeyExpansion extends CryptographicAlgorithm implements CipherInterface {
+public class KeyExpansion implements CipherInterface {
 
 	private final int Nb;
 	private final int Nk;
 	private final int Nr;
 	private byte[] Key;
-	private byte[] dKey; //for the equivalent inverse cipher
+	private Mode operation;
+	//private byte[] dKey; //for the equivalent inverse cipher
 	
-	public KeyExpansion(byte[][] cipherKey, int Nb, int Nk, int Nr){
+	public KeyExpansion(byte[][] cipherKey, int Nb, int Nk, int Nr, Mode operation){
 		this.Nb = Nb;
 		this.Nk = Nk;
 		this.Nr = Nr;
+		this.operation = operation;
 		
 		Key = new byte[4*Nb*(Nr+1)];
-		dKey = new byte[4*Nb*(Nr+1)];
+		//dKey = new byte[4*Nb*(Nr+1)];
 		keySwitch(cipherKey);
 	}
 	
@@ -62,7 +64,38 @@ public class KeyExpansion extends CryptographicAlgorithm implements CipherInterf
 		
 	}
 	
-	private void KeyGenerating(){
+	private void GenerateEncryptKey(){
+		
+		byte[] temp = new byte[4];
+		int i = Nk;
+		
+		while(i < Nb * (Nr + 1)){
+			
+			for(int j =0; j < 4; j++){
+				temp[j] = Key[(i - 1) * 4 + j];
+			}
+			
+			if(i % Nk == 0){
+
+				RotWord(temp);
+				SubWord(temp);
+				temp[0] = (byte)(temp[0] ^ (byte)(Rcon[i / Nk]));
+				
+			}else if((Nk>6) & (i%Nk==4))
+				SubWord(temp);
+			
+			int p = i * 4;
+			for(int j =0; j < 4; j++){
+				Key[p] = (byte)(Key[p - Nk*4] ^ temp[j]);
+				p++;
+			}
+			
+			
+			i++;			
+		}
+	}
+	
+	private void GenerateDecryptKey(){
 		
 		byte[] temp = new byte[4];
 		int i = Nk;
@@ -92,18 +125,15 @@ public class KeyExpansion extends CryptographicAlgorithm implements CipherInterf
 			 * [SY] for the equivalent inverse Cipher, creating a decryption key expansion
 			 *     which is as same as cryption key.
 			 */
-			for(int k=0; k<(Nr + 1)*Nb*4; k++)
-				dKey[k] = Key[k];
-			
+						
 			for(int round = 1; round<Nr; round++)
-				InvMixColumns(dKey, round);
+				MixColumns(Key, round);
 	
 			i++;			
 		}
 	}
 	
-	private void InvMixColumns(byte[] dKey, int round){		
-		//byte[][] temp = new byte[4][4];
+	private void MixColumns(byte[] dKey, int round){		
 		byte[][] key_seq = new byte[4][4];
 		
 		int x = round * 16;
@@ -122,7 +152,7 @@ public class KeyExpansion extends CryptographicAlgorithm implements CipherInterf
 				byte sum = 0;
 				
 				for(int k = 0; k<4; k++){
-					sum = (byte)(sum ^ ffMultiply(key_seq[k][i], b[j][k]));					
+					sum = (byte)(sum ^ CryptographicAlgorithm.ffMultiply(key_seq[k][i], b[j][k]));					
 				}
 				dKey[y] = sum;
 				y++;
@@ -132,13 +162,22 @@ public class KeyExpansion extends CryptographicAlgorithm implements CipherInterf
 	
 	public byte[] getKey(){
 		
-		KeyGenerating();
+		switch (operation){
+		case ENCRYPTION: 
+			GenerateEncryptKey();
+			break;
+		case DECRYPTION:
+			GenerateDecryptKey();
+			break;
+		}
 		
 		return Key;
 					
 	}
-	
+	/*
 	public byte[] getDKey(){
 		return dKey;
 	}
+	*/
+
 }

@@ -56,4 +56,7 @@ public interface CipherInterface {
 		0x10, 0x20, 0x40, 0x80,
 		0x1B, 0x36};
 
+	public enum Mode {
+		ENCRYPTION, DECRYPTION;
+	}
 }

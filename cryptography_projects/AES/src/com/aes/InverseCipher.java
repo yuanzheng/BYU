@@ -1,34 +1,13 @@
 package com.aes;
 
-public class InverseCipher extends CryptographicAlgorithm implements CipherInterface {
-	private int Nb;
-	private byte[][] state;
-	
-	public InverseCipher(byte[][] in, int Nb){
+
+public class InverseCipher extends CryptographicAlgorithm {
 		
-		state = in;
-		this.Nb = Nb;
+	public InverseCipher(){
+		
 	}
 
-	public void AddRoundKey(byte[] cipherKey, int round, int loop){
-		//byte[][] out = new byte[4][4];
-		int k = round;
-		for(int i = 0; i<4; i++)
-			for(int j = 0; j<4; j++){
-				try{
-					if(k > loop)
-						throw new Exception();
-					
-					state[j][i] = ffAdd(state[j][i], cipherKey[k]);
-					k++;
-					
-				}catch(Exception error){
-					System.err.println("Error! Line 48 in class Cipher.");
-				}
-			}
-	}
-	
-	public void InvShiftRows(){
+	public void ShiftRows(){
 		
 		byte temp = 0;
 		
@@ -44,7 +23,7 @@ public class InverseCipher extends CryptographicAlgorithm implements CipherInter
 		}
 	}
 	
-	public void InvSubBytes(){
+	public void SubBytes(){
 		
 		int left = 0;
 		int right = 0;
@@ -64,7 +43,7 @@ public class InverseCipher extends CryptographicAlgorithm implements CipherInter
 			}
 	}
 	
-	public void InvMixColumns(){		
+	public void MixColumns(){		
 		byte[][] temp = new byte[4][4];
 		
 		for(int i = 0; i<4; i++){
@@ -82,4 +61,47 @@ public class InverseCipher extends CryptographicAlgorithm implements CipherInter
 			for(int j = 0; j<4; j++)
 				state[i][j] = temp[i][j];
 	}
+	
+	public byte[] KeyExpansion() {
+		KeyExpansion genKey = new KeyExpansion(cipherKey, Nb, Nk, Nr, Mode.DECRYPTION);
+		
+        byte[] generatedKey;
+        generatedKey = genKey.getKey();
+        
+        /********* verification and test **********/
+        System.out.println("\ngeneratedKey for each round: ");
+        
+        for(int x = 0; x<(Nr+1)*Nb*4; x++){
+        	if(x%4 == 0)
+        		System.out.println();
+        	System.out.print(Converting(generatedKey[x]));
+        }
+        return generatedKey;
+	}
+	
+	
+	public String Decryption(String cipher, String key) {
+		super.init(cipher, key);
+		byte[] dKey = KeyExpansion();
+		
+    	AddRoundKey(dKey, Nr*Nb*4, (Nr+1)*Nb*4 -1);
+    	
+    	System.out.println("Decryption:***************");
+    	for(int round = Nr-1; round>0; round--){
+    		SubBytes();
+    		ShiftRows();
+    		MixColumns();
+    		AddRoundKey(dKey, round*Nb*4, (round+1)*Nb*4 -1);
+    	}
+    	
+    	SubBytes();
+    	ShiftRows();
+    	AddRoundKey(dKey, 0, Nb*4-1);
+    	System.out.println("text: ");
+    	printOut(state, Nb);
+    	
+    	return Output(super.state, Nb);
+	}
+	
+	
 }
