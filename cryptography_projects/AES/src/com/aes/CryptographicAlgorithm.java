@@ -31,7 +31,7 @@ public abstract class CryptographicAlgorithm implements CipherInterface {
 			
 	}
 	
-	protected static byte ffMultiply(byte xL, byte yR){
+	protected byte ffMultiply(byte xL, byte yR){
 		
 		byte result = xL;
 		//byte a = 0;

@@ -1,13 +1,13 @@
 package com.aes;
 
-public class KeyExpansion implements CipherInterface {
+public class KeyExpansion extends CryptographicAlgorithm  {
 
 	private final int Nb;
 	private final int Nk;
 	private final int Nr;
 	private byte[] Key;
 	private Mode operation;
-	//private byte[] dKey; //for the equivalent inverse cipher
+	private byte[] dKey; //for the equivalent inverse cipher
 	
 	public KeyExpansion(byte[][] cipherKey, int Nb, int Nk, int Nr, Mode operation){
 		this.Nb = Nb;
@@ -16,7 +16,7 @@ public class KeyExpansion implements CipherInterface {
 		this.operation = operation;
 		
 		Key = new byte[4*Nb*(Nr+1)];
-		//dKey = new byte[4*Nb*(Nr+1)];
+		dKey = new byte[4*Nb*(Nr+1)];
 		keySwitch(cipherKey);
 	}
 	
@@ -125,9 +125,12 @@ public class KeyExpansion implements CipherInterface {
 			 * [SY] for the equivalent inverse Cipher, creating a decryption key expansion
 			 *     which is as same as cryption key.
 			 */
-						
+			
+			for(int k=0; k<(Nr + 1)*Nb*4; k++)
+				dKey[k] = Key[k];
+			
 			for(int round = 1; round<Nr; round++)
-				MixColumns(Key, round);
+				MixColumns(dKey, round);
 	
 			i++;			
 		}
@@ -152,7 +155,7 @@ public class KeyExpansion implements CipherInterface {
 				byte sum = 0;
 				
 				for(int k = 0; k<4; k++){
-					sum = (byte)(sum ^ CryptographicAlgorithm.ffMultiply(key_seq[k][i], b[j][k]));					
+					sum = (byte)(sum ^ ffMultiply(key_seq[k][i], b[j][k]));					
 				}
 				dKey[y] = sum;
 				y++;
@@ -161,23 +164,25 @@ public class KeyExpansion implements CipherInterface {
 	}
 	
 	public byte[] getKey(){
-		
-		switch (operation){
-		case ENCRYPTION: 
-			GenerateEncryptKey();
-			break;
-		case DECRYPTION:
-			GenerateDecryptKey();
-			break;
-		}
+		GenerateEncryptKey();
 		
 		return Key;
 					
 	}
-	/*
+	
 	public byte[] getDKey(){
+		GenerateDecryptKey();
 		return dKey;
 	}
-	*/
 
+
+	public void SubBytes() {
+		
+	}
+	public void ShiftRows() {
+		
+	}
+	public void MixColumns() {
+		
+	}
 }

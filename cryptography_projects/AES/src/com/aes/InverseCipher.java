@@ -66,7 +66,7 @@ public class InverseCipher extends CryptographicAlgorithm {
 		KeyExpansion genKey = new KeyExpansion(cipherKey, Nb, Nk, Nr, Mode.DECRYPTION);
 		
         byte[] generatedKey;
-        generatedKey = genKey.getKey();
+        generatedKey = genKey.getDKey();
         
         /********* verification and test **********/
         System.out.println("\ngeneratedKey for each round: ");
@@ -86,7 +86,7 @@ public class InverseCipher extends CryptographicAlgorithm {
 		
     	AddRoundKey(dKey, Nr*Nb*4, (Nr+1)*Nb*4 -1);
     	
-    	System.out.println("Decryption:***************");
+    	System.out.println("\nDecryption:***************");
     	for(int round = Nr-1; round>0; round--){
     		SubBytes();
     		ShiftRows();
