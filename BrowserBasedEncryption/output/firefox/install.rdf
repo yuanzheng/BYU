@@ -1,0 +1,22 @@
+<?xml version="1.0" ?><RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+    <Description about="urn:mozilla:install-manifest">
+        <em:id>{FF842F01-E4A9-4C2E-9598-2BC1D27FF810}</em:id>
+        <em:name>BME</em:name>
+        <em:version>1.2.0</em:version>
+        <em:targetApplication>
+            <Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>8.0</em:minVersion>
+                <em:maxVersion>27.*</em:maxVersion>
+            </Description>
+        </em:targetApplication>
+        <em:bootstrap>true</em:bootstrap>
+        <em:description>MS Thesis Project, a Browser-based Manual Encryption</em:description>
+        <em:creator>Yuanzheng (Lucas) Song</em:creator>
+        <em:homepageURL>http://students.cs.byu.edu/~yuanzheng/homepage/</em:homepageURL>
+        <em:iconURL>chrome://kango-ff842f01-e4a9-4c2e-9598-2bc1d27ff810/content/icons/icon32.png</em:iconURL>
+        
+        
+        
+    </Description>
+</RDF>

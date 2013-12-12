@@ -1,0 +1,37 @@
+ 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="ExtraLibraries/jquery-1.9.0.min.js"></script>
+    
+    <script  type="text/javascript" src="popup.js"></script>
+
+    <title>Getting Started Browser Extension</title>
+</head>
+<body>
+<!-- TODO using onload to check if use login-->
+<h1> Browser-based Manual Encryption </h1>
+
+<div id="help" class="help"></div>
+<fieldset>
+    <legend>Input:</legend>
+    <textarea id="input" rows="4" cols="50"></textarea>
+    <button id="base64">Encrypt</button>
+    <button id="decrypt">Decrypt it</button>  
+</fieldset>
+	<button id="clearUp">Clear up</button>
+    <button id="clearDown">Clear down</button>
+
+<fieldset>
+	<legend>Output:</legend>
+    <textarea id="demo" rows="4" cols="50"></textarea>
+</fieldset>
+
+    <p> Seconds   you have spent viewing this page so far:
+    <strong id="soFar">0</strong></p>
+    
+<div id="status"></div>
+
+</body>
+</html>
