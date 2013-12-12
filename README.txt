@@ -1,7 +1,11 @@
 
 This is the repository only for all my CS projects did at BYU.
 
-1. cryptography_project:
+
+1. BrowserBasedEncryption:
+It is my MS thesis project. It is a browser extension using manual encryption methodology to encrypt/decrypt messages.
+
+2. cryptography_project ( CS465 Computer Security ):
 AES, Diffie-Hellman, and RSA, and Auto-graders for students to passoff labs
 
 AES: https://facwiki.cs.byu.edu/cs465/index.php/Project_1_(AES)
@@ -13,7 +17,5 @@ Key size: 128, 192, 256bits
 
 
 
-2. BrowserBasedEncryption:
-It is my MS thesis project. It is a browser extension using manual encryption methodology to encrypt/decrypt messages.
 
 
