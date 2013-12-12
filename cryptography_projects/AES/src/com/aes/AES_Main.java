@@ -21,5 +21,5 @@ public class AES_Main {
 		InverseCipher t = new InverseCipher();
 		String plaintext = t.Decryption(ciphertext, key);
 		System.out.println(plaintext + "\n");
-	}
+	} 
 }
