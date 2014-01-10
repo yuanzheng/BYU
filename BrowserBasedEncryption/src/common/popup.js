@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Created with IntelliJ IDEA.
  * User: SongYz
  * Date: 10/10/13
@@ -6,50 +6,10 @@
  * To change this template use File | Settings | File Templates.
  */
 
+
+
 // Save this script as `options.js`
-$(function() {
-	$( "#datepicker" ).datepicker();
-});
 
-$(document).ready(function()
-{
-	$(".account").click(function()
-{
-var X=$(this).attr('id');
-
-if(X==1)
-{
-	$(".submenu").hide();
-	$(this).attr('id', '0');	
-}
-else
-{
-	$(".submenu").show();
-	$(this).attr('id', '1');
-}
-	
-});
-
-//Mouseup textarea false
-$(".submenu").mouseup(function()
-{
-	return false
-});
-$(".account").mouseup(function()
-{
-	return false
-});
-
-
-//Textarea without editing.
-$(document).mouseup(function()
-{
-	$(".submenu").hide();
-	$(".account").attr('id', '');
-});
-	
-});
-	
 // Saves current content into localStorage.
 function save_options() {
     var content = document.getElementById("input").value;
@@ -241,7 +201,7 @@ function _utf8_decode(utftext) {
     var i = 0;
     var c = c1 = c2 = 0;
 
-    while ( i < utftext.length ) {
+    while (i < utftext.length) {
 
         c = utftext.charCodeAt(i);
 
@@ -249,14 +209,14 @@ function _utf8_decode(utftext) {
             string += String.fromCharCode(c);
             i++;
         }
-        else if((c > 191) && (c < 224)) {
-            c2 = utftext.charCodeAt(i+1);
+        else if ((c > 191) && (c < 224)) {
+            c2 = utftext.charCodeAt(i + 1);
             string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
             i += 2;
         }
         else {
-            c2 = utftext.charCodeAt(i+1);
-            c3 = utftext.charCodeAt(i+2);
+            c2 = utftext.charCodeAt(i + 1);
+            c3 = utftext.charCodeAt(i + 2);
             string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
             i += 3;
         }
@@ -266,58 +226,135 @@ function _utf8_decode(utftext) {
     return string;
 }
 
-
-// TODO optimize it to support all browsers
-
-var helpArray = ["Enter your message in this textbox",
-                  "Click this button to encrypt your message above based on Bas64",
-                  "Click this button to decrypt your ciphertext below",
-                  "Clear the message above",
-                  "Clear the ciphertext below",
-                  "Enter the Ciphertext in here",
-                  ""];
-
-function helpText(messageNum) {
-    document.getElementById("help").innerHTML = helpArray[messageNum];
-}
-
-
-function startTimer() {
-    // function updateTime() should be called every 1000 milliseconds
-    window.setInterval("updateTime()", 10000);
-}
-var seconds = 0;
-function updateTime() {
-    ++seconds;
-    document.getElementById("soFar").innerHTML = ""+seconds;
-}
-
-$(document).ready(function(){
-    $(window).load(function(){
-        restore_options();
+/*
+$(document).ready(function () {
+    $('.btn').on('click', function () {
+        $('#myModal').modal('show');
     });
 
-    $("#input").keyup(function() {
-        save_options();
+    $('.dropdown-toggle').click(function () {
+        $('.dropdown-toggle').dropdown();
+
     });
 
-    $("#demo").keyup(function() {
-        save_cipher_options();
-    });
-
-    $("#base64").click(function() {
-        base64_it();
-    });
-
-    $("#decrypt").click(function() {
-        Decrypt_it();
-    });
-
-    $("#clearUp").click(function() {
-        clear_up();
-    });
-
-    $("#clearDown").click(function() {
-        clear_down();
-    });
 });
+*/
+function createNewNode() {
+    var newNode = document.createElement("div");
+    var text = "Hello World -- Song";
+
+    newNode.appendChild(document.createTextNode(text));
+    return newNode;
+}
+
+function activeTo() {
+    var currentNode = document.getElementById("address");
+    currentNode.style.width = "554px";
+}
+
+function testing() {
+    var currentNode = document.getElementById("Div5");
+    var childNode = currentNode.childNodes[1];
+    var newNode = createNewNode();
+    currentNode.appendChild(newNode);
+    //currentNode.replaceChild(newNode, childNode);
+
+
+}
+
+function changeButton() {
+    var currentNode = document.getElementById("button");
+    currentNode.className += " TIjw";
+    return;
+}
+
+var buttonClass = "";
+function mouseOverButton() {
+    var button = document.getElementById("button");
+    buttonClass = button.className;
+    button.className += " TIjw";
+}
+
+function mouseOutButton() {
+    var button = document.getElementById("button");
+    button.className = buttonClass;
+    buttonClass = "";
+}
+
+function mouseOverFormat() {
+    var button = document.getElementById("Format");
+    buttonClass = button.className;
+    button.className += " JZIJW";
+
+    //var highlight = document.getElementsByClassName("dv");
+    // add jquery to modify class attribute - opacity
+    $('.dv').css({opacity:'1.0'});
+    
+}
+
+function mouseOutFormat() {
+    var button = document.getElementById("Format");
+    button.className = buttonClass;
+    buttonClass = "";
+    $('.dv').css({ opacity: '.55' });
+}
+
+$(document).ready(function (event) {
+    $('.vO').focus();
+
+});
+
+//var button = document.getElementById("button");
+//button.onmousedown = changeButton();
+
+//document.onload = testing;
+document.addEventListener('DOMContentLoaded', restore_options);
+
+document.querySelector('#button').addEventListener('click', testing);
+
+//ocument.querySelector('#to').addEventListener('click', activeTo);
+
+document.querySelector('#button').addEventListener('mouseover', mouseOverButton, false);
+document.querySelector('#button').addEventListener('mouseout', mouseOutButton, false);
+
+document.querySelector('#Format').addEventListener('mouseover', mouseOverFormat, false);
+document.querySelector('#Format').addEventListener('mouseout', mouseOutFormat, false);
+
+
+//document.querySelector('#base64').addEventListener('click', base64_it);
+//document.querySelector('#decrypt').addEventListener('click', Decrypt_it);
+//document.querySelector('#clearUp').addEventListener('click', clear_up);
+//document.querySelector('#clearDown').addEventListener('click', clear_down);
+//document.querySelector('#input').addEventListener('keyup', save_options);
+//document.querySelector('#demo').addEventListener('keyup', save_cipher_options);
+
+/*
+ <div id="navbar-example" class="navbar navbar-static">
+        <div class="navbar-inner">
+        <div class="container" style="width: auto;">
+            <div class="aCk">
+                <div class="Hp">New Message</div>
+            </div>
+            <!--a class="brand" href="#">Project Name</!--a -->
+            
+            <ul class="nav pull-left">
+            <li id="fat-menu" class="dropdown">
+                <a href="#" id="drop3" role="button" class="dropdown-toggle" title="Is it your Email Address data-toggle="dropdown">
+                    <div class="song">
+                    yuanzheng_song@gmail.com
+                    </div>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                </ul>
+            </li>
+            </ul>
+        </div>
+        </div>
+    </div> <!-- /navbar-example -->
+    */

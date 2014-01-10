@@ -1,16 +1,19 @@
- 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Getting Started Browser Extension</title>
-	
+        <title>Getting Started Browser Extension</title>
+        
     <script type="text/javascript" src="ExtraLibraries/jquery-1.9.1.js"></script>
-    <script src="ExtraLibraries/jquery-ui.js"></script>
-    <script  type="text/javascript" src="popup.js"></script>
-	<link rel="stylesheet" type="text/css" href="jquery-ui.css">
+    <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+    <!--script src="ExtraLibraries/jquery-ui.js"></script -->
+   
+	<!--link rel="stylesheet" type="text/css" href="jquery-ui.css"-->
 	<link rel="stylesheet" type="text/css" href="background.css">
-
+	
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    
+    
 </head>
 
 
@@ -23,175 +26,254 @@
 <div class="m">
 <div class="n">
 <div class="k">
-<div class="aCk">
-	<table cellpadding="0" class="cf Ht">
-		<tbody>
+    <!--
+    <div id="navbar-example" class="navbar navbar-static">
+        <div class="navbar-inner">
+        <div class="container" style="width: auto;">
+            <a class="brand" href="#">Project Name</a>
+            <ul class="nav" role="navigation">
+            <li class="dropdown">
+                <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="http://google.com">Action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#anotherAction">Another action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 2 <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                </ul>
+            </li>
+            </ul>
+            <ul class="nav pull-right">
+            <li id="fat-menu" class="dropdown">
+                <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 3 <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                </ul>
+            </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    -->
+
+    <div id="" class="navbar navbar-static">
+        <div class="navbar-inner">
+        <div class="container" style="width: auto; padding-left:0px; padding-right:0px;">
+            <div class="aCk">
+                <div class="Hp">New Message</div>
+            </div>
+            
+            <ul class="nav pull-right">
+            <li id="fat-menu" class="dropdown">
+                
+                <a href="#" id="drop3" role="button" class="dropdown-toggle" title="Is it your Email Address" data-toggle="dropdown" style="padding:10px 9px;">
+                    <div class="displayEmail">
+                    yuanzheng_song@gmail.com
+                    </div>
+                    <b class="caret"></b>
+                </a>
+                <!-- Email account information: login/change -->
+                <ul class="dropdown-menu" role="menu" aria-labelledby="drop3"  style="width:310px; height:280px;">
+               
+                    <!-- login with a new Email address -->
+                    <div id="login" style="display:none;">
+                    </div>
+
+                    <!-- change the encryption Email address -->
+                    <div id="change" style="display:none;">
+                    </div>
+                    <div style="display:none;">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                    </div>
+                </ul>
+            </li>
+            </ul>
+        </div>
+        </div>
+    </div> <!-- /navbar-example -->
+
+   
+</div> <!-- ending New Message Navbar class k -->
+</div> <!-- ending class n -->
+</div> <!-- ending class m -->
+<div class="dJ"></div>
+
+<div class="aaZ">
+<div class="aoI">
+    <table class="aoP">
 		<tr>
-			<td>
-			<div style="width:100px" class="Hp">New Message</div>
+			<td class="IS">
+				<form id="" action method="POST" enctype="multipart/form-data" accept-charset="utf-8">
+				<div class="fX" >
+				<table class="GS" tabindex="-1">
+					<tr>
+						<td class="ok az4">
+							<label class="gO" data-tooltip="Select Contacts">To</label>
+						</td>
+						<td class="eV" style="max-width:306px;">
+							<div class="oj">
+							<div id="to" class="wO nr l1">
+								<input class="wA" tabindex="-1" aria-hidden="true">
+								<textarea id="address" rows="1" class="vO" name="to" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" autocomplete="false" tabindex="1" dir="ltr" aria-label="Address" aria-haspopup="true" style="width: 554px;">
+								</textarea>
+								<div class="aA6">
+								</div>
+							</div>
+							</div>
+						</td>
+						<td class="az3">
+							<div id=":o2" class="ow">
+								<span>
+									<span>
+										<span id="Span1" class="aB gQ pE" role="link" tabindex="2" data-tooltip="Add Cc Recipients(Ctrl-Shift-C)" aria-label="Add Cc Recipients (Ctrl-Shift-C)" style="-webkit-user-select: none;">Cc</span>
+										<span id="Span2" class="aB  gQ pB" role="link" tabindex="2" data-tooltip="Add Bcc Recipients(Ctrl-Shift-B)" aria-label="Add Bcc Recipients(Ctrl-Shift-B)" style="-webkit-user-select: none;">Bcc</span>
+									</span>
+								</span>
+							</div>
+						</td>
+						
+					</tr>
+					<!--
+					<tr id="" >
+						<td class="ok">
+						<div>
+							<label class="gO aQY" data-tooltip="Select Contacts">Cc</label>
+						</div>
+						</td>
+						<td class="eV">
+							<div class="oj">
+							<div>
+							<input class="wA" tabindex="-1" aria-hidden="true">
+								<textarea rows="1" class="vO" name="Cc" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" tabindex="1" dir="ltr" aria-label="Address">
+								</textarea>
+								<div class="aA6">
+								</div>
+							</div>
+							</div>
+						</td>
+					</tr>
+					<tr id="" >
+						<td class="ok">
+						<div>
+							<label class="gO aQY" data-tooltip="Select Contacts">Bcc</label>
+						</div>
+						</td>
+						<td class="eV">
+							<div class="oj">
+							<div>
+							<input class="wA" tabindex="-1" aria-hidden="true">
+								<textarea rows="1" class="vO" name="bcc" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" tabindex="1" dir="ltr" aria-label="Address">
+								</textarea>
+								<div class="aA6">
+								</div>
+							</div>
+							</div>
+						</td>
+					</tr>
+					-->
+				</table>
+				</div>				
+				</form>  
+				
+				<table class="iN">
+					<tr>
+						<td class="GQ">
+							<div id="Div1" class="GP">
+							<div id="Div2" class="qz">
+							<div class="et">
+							<div class=""><!-- Loading rich text... --></div>
+							<table cellpadding="0" class="cf An">
+								<tr>
+									<td class="Ap">
+										<div id="Div3" class="Ar As aoE" style="display: none;">
+                                            <div class="At">
+                                                <textarea id="Textarea1" class="Ak aXjCH" style="" aria-label="Message Body" spellcheck="true" itacorner="6,7:1,1,0,0" tabindex="1" form="nosend">
+                                                </textarea>
+                                            </div>
+										</div>
+										<div id="Div4" class="Ar" style="display: block;">
+											<div onload="testing()" id="Div5" class="Am Al editable LW-avf" hidefocus="true" aria-label="Message Body" g_editable="true" role="textbox" contenteditable="true" tabindex="1" style="direction: ltr; min-height: 80px;">
+											<br clear="all">
+											</div>
+										</div>
+									</td>
+								</tr>
+							</table>
+							</div>
+							</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="HE">
+							<div class="aDg">
+							<div class="aDj aDn">
+							<div id="Div6" class="aC5"><div style="display: none;"><div id="Div7" class="aBt"><div id=":2bk" class="aBq" style="width: 447px;"><div id="Div8" class="aBs" style="width: 433px;"></div></div><div class="aBr"></div></div></div></div>
+							<!-- 3 extra div -->
+							<div class="aDh">
+								<table class="IZ">
+									<!-- <colgroup><col id=":2cs"><col class="Uf"><col class="UA"><col class="Uy"><col class="VUP8bf"><col class="az8"><col id=":sl"></colgroup> -->
+									<tr class="ntfz">
+										<td class="gU Up">
+										<div class="JJ5Ji">
+											<div class="JJ5Ji"></div>
+											<div id="button" class="TI JJ5Ji aoO TIatl L3" role="button" tabindex="1" data-tooltip="Encrypt (Ctrl-Enter)" aria-label="Encrypt (Ctrl-Enter)" data-tooltip-delay="800" style="-webkit-user-select:none;"-->
+											Encrypt
+											</!--div>
+										</div>
+										</td>
+										
+										<td id="Td1" class="oc gU">
+										<div data-tooltip="Formatting options" aria-label="Formatting options">
+											<div id="Format" class="JZI JJ5Ji" aria-pressed="false" role="button" style="-webkit-user-select: none;">
+											<div class="JJ5Ji JZIKvH">
+											<div class="JJ5Ji JZIJ6H">
+											<div class="dv">
+											</div>
+											</div></div></div>
+										</div>
+										</td>
+										<td id="Td2" class="gU">
+										<div id="Div10" class="aWQ">
+											<span id=":ps" class="oG" style=""></span>
+											<span class="aWR">&nbsp;</span>
+										</div>
+										</td>
+										
+									</tr>
+								</table>
+							</div>
+							</div>
+							</div>
+						</td>
+					</tr>
+				</table>									
 			</td>
-			<td style="width:300px">
-			</td>
-			<td>
-			
-			<div  class="Hm" style="max-width: 195px; min-width: 195px; width: 195px;">
-			<a class="Hm_sub" style="max-width: 180px; min-width: 180px; width: 180px;" href="" title="Is it your Email Address" 
-			aria-haspopup="true" guidedhelpid="" aria-expanded="false">
-			yuanzheng_song@gmail.com
-			</a>
-			</div>
-			
-			<div class="gb_L"></div>
-			<div class="gb_r" aria-hidden="true">
-				<div class="gb_2"><div>This account is managed by <b>cs.byu.edu</b>.</div><a class="" href="http://www.google.com/support/accounts/bin/answer.py?answer=181692&amp;hl=en" target="_blank">Learn more</a></div>
-			</div>
-			</td>
-			
 		</tr>
-		</tbody>
 	</table>
 </div>
 </div>
-</div>
-</div>
-<div class="dJ"></div>
-</div>
-<div class="aaZ">
-<div class="aoI">
-	<table class="aoP">
-		<tbody>
-			<tr>
-				<td class="IS">
-					<form id="" action method="POST" enctype="multipart/form-data" accept-charset="utf-8">
-						<div class="fX" style="display:none;">
-							<table class="GS" tabindex="-1">
-								<tbody>
-									<tr>
-										<td class="ok">
-										<div>
-											<label class="gO aQY" data-tooltip="Select Contacts">To</label>
-										</div>
-										</td>
-										<td class="eV">
-											<div class="oj">
-											<div>
-											<input class="wA" tabindex="-1" aria-hidden="true">
-												<textarea rows="1" class="vO" name="to" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" tabindex="1" dir="ltr" aria-label="Address" aria-haspopup="true" style="width: 0px;">
-												</textarea>
-												<div class="aA6">
-												</div>
-											</div>
-											</div>
-										</td>
-									</tr>
-									<tr id="" style="display:none">
-										<td class="ok">
-										<div>
-											<label class="gO aQY" data-tooltip="Select Contacts">Cc</label>
-										</div>
-										</td>
-										<td class="eV">
-											<div class="oj">
-											<div>
-											<input class="wA" tabindex="-1" aria-hidden="true">
-												<textarea rows="1" class="vO" name="Cc" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" tabindex="1" dir="ltr" aria-label="Address">
-												</textarea>
-												<div class="aA6">
-												</div>
-											</div>
-											</div>
-										</td>
-									</tr>
-									<tr id="" style="display:none">
-										<td class="ok">
-										<div>
-											<label class="gO aQY" data-tooltip="Select Contacts">Bcc</label>
-										</div>
-										</td>
-										<td class="eV">
-											<div class="oj">
-											<div>
-											<input class="wA" tabindex="-1" aria-hidden="true">
-												<textarea rows="1" class="vO" name="bcc" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" tabindex="1" dir="ltr" aria-label="Address">
-												</textarea>
-												<div class="aA6">
-												</div>
-											</div>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div id="" class="aoD hl" tabindex="1" style="">
-							<div id="" class="oL aDm">Recipients</div>
-						</div>
-					
-					</form>	
-					<table class="iN">
-					<tbody>
-						<tr>
-							<td class="GQ">
-								<div id="" class="GP" style="max-height: 318px; min-height: 318px; height: 318px;">
-								<div id="" class="qz" style="max-height: 318px;">
-								<div class="et">
-								<div class=""><!-- Loading rich text... --></div>
-								<table cellpadding="0" class="cf An">
-									<tbody>
-										<tr>
-											<td class="Ap">
-												<div id="" class="Ar As aoE" style="display: none;"><div class="At"><textarea id="" class="Ak aXjCH" style="" aria-label="Message Body" spellcheck="true" itacorner="6,7:1,1,0,0" tabindex="1" form="nosend"></textarea></div></div>
-												<div id="" class="Ar" style="display: block;">
-													<div id="" class="Am Al editable LW-avf" hidefocus="true" aria-label="Message Body" g_editable="true" role="textbox" contenteditable="true" tabindex="1" style="direction: ltr; min-height: 80px;">
-													<br clear="all">
-													</div>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								</div>
-								</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td class="HE">
-								<div class="aDg">
-								<div class="aDj aDn">
-								<div id="" class="aC5"><div style="display: none;"><div id="" class="aBt"><div id=":2bk" class="aBq" style="width: 447px;"><div id="" class="aBs" style="width: 433px;"></div></div><div class="aBr"></div></div></div></div>
-								<!-- 3 extra div -->
-								<div class="aDh">
-									<table class="IZ">
-										<!-- <colgroup><col id=":2cs"><col class="Uf"><col class="UA"><col class="Uy"><col class="VUP8bf"><col class="az8"><col id=":sl"></colgroup> -->
-										<tbody>
-											<tr class="ntfz">
-												<td class="gU Up">
-												<div class="JJ5Ji">
-													<div class="JJ5Ji"></div>
-													<div class="TI JJ5Ji aoO TIatl TIjw" role="button" tabindex="1" data-tooltip="Encrypt (Ctrl-Enter)" aria-label="Send (Ctrl-Enter)" data-tooltip-delay="800" style="-webkit-user-select:none;">
-													Encrypt
-													</div>
-												</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								</div>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-					</table>
-				</td>
-			</tr>
-		</tbody>
-</div>
-</div>
-
-</div>
-
+     
+    <script type="text/javascript" src="popup.js"></script>
 </body>
 
 </html>
+
