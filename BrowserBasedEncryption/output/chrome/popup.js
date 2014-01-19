@@ -5,240 +5,146 @@
  * Time: 9:40 PM
  * To change this template use File | Settings | File Templates.
  */
-
-
-
+var user_email = "";
+var cipherTitle = new String("--- Begin Encrypted Message ---");
+var encryptionMode = true;
+/*
+localStorage["to_address"] = "";
+localStorage["from_address"] = "";
+localStorage["current_content"] = "";
+localStorage["login"] = "";
+*/
 // Save this script as `options.js`
+function save_RecipientAddress() {
+    var content = document.getElementById("recipient").value;
 
+    localStorage["to_address"] = content;
+
+}
+
+function save_SenderAddress() {
+    var content = document.getElementById("sender").value;
+
+    localStorage["from_address"] = content;
+
+}
 // Saves current content into localStorage.
-function save_options() {
-    var content = document.getElementById("input").value;
+function save_Msg() {
+    var content = document.getElementById("message").innerText;
 
     localStorage["current_content"] = content;
 
-    // Update status to let user know options were saved.
-    //var status = document.getElementById("status");
-    /*
-     status.innerHTML = "Content Saved.";
-     setTimeout(function () {
-     status.innerHTML = "";
-     }, 750);
-     */
-}
-//content will be saved automaticly
-function save_cipher_options() {
-    var content = document.getElementById("demo").value;
-
-    localStorage["current_encryption"] = content;
-
+    update_status(content);
 }
 
+function update_status(content) {
+    if (cipherTitle.length <= content.length && encryptionMode) { // decrypt message
+        var subContent = content.substr(0, cipherTitle.length);
+
+        if (cipherTitle == subContent) { // modify button "decrypt"
+            elementStyleDisplay("Ebutton", "none");
+            elementStyleDisplay("Dbutton", "");
+            
+            elementStyleDisplay("to_id", "none");
+            elementStyleDisplay("from_id", "");
+
+            elementStyleDisplay("recipient", "none");
+            elementStyleDisplay("sender", "");
+
+            // update email address
+
+            encryptionMode = false;
+        }
+    }
+    else if (cipherTitle.length > content.length && !encryptionMode) {
+        elementStyleDisplay("Ebutton", "");
+        elementStyleDisplay("Dbutton", "none");
+
+        elementStyleDisplay("to_id", "");
+        elementStyleDisplay("from_id", "none");
+
+        elementStyleDisplay("recipient", "");
+        elementStyleDisplay("sender", "none");
+
+        // update email address
+
+
+        encryptionMode = true;
+    }
+}
 
 // Restores select box state to saved value from localStorage.
 function restore_options() {
-
+    var user_email = localStorage["login"];
+    restore_login(user_email);
+    
     var content = localStorage["current_content"];
-    if (content) {
-        var textArea = document.getElementById("input");
-        textArea.innerHTML = content;
-    }
+    if(content)
+        restore_content(content)
 
-    var cipher = localStorage["current_encryption"];
-    if (cipher) {
-        var cipherArea = document.getElementById("demo");
-        cipherArea.innerHTML = cipher;
-    }
-
+    //TODO  restore to/send email address
+    //restore_emailAddress();
 }
 
-function clear_up() {
+function restore_login(user_email) {
+    if (user_email) {  // email existing
+        var text = document.createTextNode(user_email);
+        var login = document.getElementById("login");
+        login.style.width = "";
+        document.getElementById("login").appendChild(text);
+
+        //change Popover display status
+        var loginPage = document.getElementById("login_Input");
+        loginPage.style.display = "none";
+        var changePage = document.getElementById("change");
+        changePage.style.display = "";
+    }
+    else {// not existing
+        var text = document.getElementById("login");
+        text.innerText = "log in";
+        localStorage["login"] = "";
+
+        //change Popover display status
+        var loginPage = document.getElementById("login_Input");
+        loginPage.style.display = "";
+        var changePage = document.getElementById("change");
+        changePage.style.display = "none";
+        
+    }
+}
+
+function restore_content(content) {
+    var textArea = document.getElementById("message");
+    textArea.innerText = content;
+    update_status(content);
+}
+
+function restore_emailAddress() {
+    var hisEmail = localStorage["to_address"];
+    if (hisEmail) {
+        var textArea = document.getElementById("recipient");
+        textArea.value = hisEmail;
+    }
+
+    hisEmail = localStorage["from_address"];
+}
+
+
+// delete message, and erase to/from email address
+function cleanTable() {
     localStorage["current_content"] = "";
-    var textArea = document.getElementById("input");
-    textArea.innerHTML = "";
-    textArea.value = "";
-}
+    var textArea = document.getElementById("message");
+    textArea.innerText = "";
 
-function clear_down() {
-    localStorage["current_encryption"] = "";
-    var textArea = document.getElementById("demo");
-    textArea.innerHTML = "";
-    textArea.value = "";
-}
+    localStorage["to_address"] = "";
+    
+    var hisEmail = document.getElementById("recipient");
+    hisEmail.value = "";
 
-function base64_it() {
-    var textArea = document.getElementById("demo");
-    textArea.innerHTML = "";
-    textArea.value = "";
-
-    var content = localStorage["current_content"];
-    if (!content) {
-        return;
-    }
-
-    localStorage["current_encryption"] = encode(content);
-    textArea.innerHTML = localStorage["current_encryption"];
-    textArea.value = localStorage["current_encryption"];
-}
-var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-
-function encode(input) {
-    var output = "";
-    var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-    var i = 0;
-
-    //var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-
-    input = _utf8_encode(input);
-
-    while (i < input.length) {
-
-        chr1 = input.charCodeAt(i++);
-        chr2 = input.charCodeAt(i++);
-        chr3 = input.charCodeAt(i++);
-
-        enc1 = chr1 >> 2;
-        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-        enc4 = chr3 & 63;
-
-        if (isNaN(chr2)) {
-            enc3 = enc4 = 64;
-        } else if (isNaN(chr3)) {
-            enc4 = 64;
-        }
-
-        output = output +
-            _keyStr.charAt(enc1) + _keyStr.charAt(enc2) +
-            _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
-
-    }
-
-    return output;
-}
-
-function Decrypt_it() {
-    var textArea = document.getElementById("input");
-    localStorage["current_content"] = "";
-    textArea.innerHTML = "";
-    textArea.value = "";
-
-    var cipher = localStorage["current_encryption"];
-    if (!cipher) {
-        return;
-    }
-
-    localStorage["current_content"] = decode(cipher);
-    textArea.innerHTML = localStorage["current_content"];
-    textArea.value = localStorage["current_content"];
-}
-
-
-function decode(input) {
-    var output = "";
-    var chr1, chr2, chr3;
-    var enc1, enc2, enc3, enc4;
-    var i = 0;
-
-    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-
-    while (i < input.length) {
-
-        enc1 = _keyStr.indexOf(input.charAt(i++));
-        enc2 = _keyStr.indexOf(input.charAt(i++));
-        enc3 = _keyStr.indexOf(input.charAt(i++));
-        enc4 = _keyStr.indexOf(input.charAt(i++));
-
-        chr1 = (enc1 << 2) | (enc2 >> 4);
-        chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-        chr3 = ((enc3 & 3) << 6) | enc4;
-
-        output = output + String.fromCharCode(chr1);
-
-        if (enc3 != 64) {
-            output = output + String.fromCharCode(chr2);
-        }
-        if (enc4 != 64) {
-            output = output + String.fromCharCode(chr3);
-        }
-
-    }
-
-    output = _utf8_decode(output);
-
-    return output;
-
-}
-
-// private method for UTF-8 encoding
-function _utf8_encode(string) {
-    string = string.replace(/\r\n/g, "\n");
-    var utftext = "";
-
-    for (var n = 0; n < string.length; n++) {
-
-        var c = string.charCodeAt(n);
-
-        if (c < 128) {
-            utftext += String.fromCharCode(c);
-        }
-        else if ((c > 127) && (c < 2048)) {
-            utftext += String.fromCharCode((c >> 6) | 192);
-            utftext += String.fromCharCode((c & 63) | 128);
-        }
-        else {
-            utftext += String.fromCharCode((c >> 12) | 224);
-            utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-            utftext += String.fromCharCode((c & 63) | 128);
-        }
-
-    }
-
-    return utftext;
-}
-
-function _utf8_decode(utftext) {
-    var string = "";
-    var i = 0;
-    var c = c1 = c2 = 0;
-
-    while (i < utftext.length) {
-
-        c = utftext.charCodeAt(i);
-
-        if (c < 128) {
-            string += String.fromCharCode(c);
-            i++;
-        }
-        else if ((c > 191) && (c < 224)) {
-            c2 = utftext.charCodeAt(i + 1);
-            string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
-            i += 2;
-        }
-        else {
-            c2 = utftext.charCodeAt(i + 1);
-            c3 = utftext.charCodeAt(i + 2);
-            string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-            i += 3;
-        }
-
-    }
-
-    return string;
+    removeOldCiphertext();
 }
 
 /*
-$(document).ready(function () {
-    $('.btn').on('click', function () {
-        $('#myModal').modal('show');
-    });
-
-    $('.dropdown-toggle').click(function () {
-        $('.dropdown-toggle').dropdown();
-
-    });
-
-});
-*/
 function createNewNode() {
     var newNode = document.createElement("div");
     var text = "Hello World -- Song";
@@ -253,21 +159,22 @@ function activeTo() {
 }
 
 function testing() {
-    var currentNode = document.getElementById("Div5");
+    var currentNode = document.getElementById("message");
     var childNode = currentNode.childNodes[1];
     var newNode = createNewNode();
     currentNode.appendChild(newNode);
-    //currentNode.replaceChild(newNode, childNode);
-
-
+  
 }
+*/
 
+/* Tool Bar */
 function changeButton() {
     var currentNode = document.getElementById("button");
     currentNode.className += " TIjw";
     return;
 }
 
+/* Encrypt button */
 var buttonClass = "";
 function mouseOverButton() {
     var button = document.getElementById("button");
@@ -281,6 +188,7 @@ function mouseOutButton() {
     buttonClass = "";
 }
 
+// highlight text Format tool button "A"
 function mouseOverFormat() {
     var button = document.getElementById("Format");
     buttonClass = button.className;
@@ -299,62 +207,245 @@ function mouseOutFormat() {
     $('.dv').css({ opacity: '.55' });
 }
 
-$(document).ready(function (event) {
-    $('.vO').focus();
+function mouseOverTrash() {
+    var button = document.getElementById("Trash");
+    buttonClass = button.className;
+    button.className += " JZIJW";
 
+    $('.og').css({ opacity: '1.0' });
+    
+}
+
+function mouseOutTrash() {
+    var button = document.getElementById("Trash");
+    button.className = buttonClass;
+    buttonClass = "";
+    $('.og').css({ opacity: '.55' });
+}
+var done = true;
+// Cursor is in email address input after launch BME
+$(document).ready(function (event) {
+    $('.vO').focus(); // cursor is at email address area
+
+    $(".btn").popover({
+
+    });
+
+    $("#button").click(function () {
+        if(!done)
+            $("#myModalMessage").modal('show');
+        else
+            $("#myOutputText").modal('show');
+    });
+
+    $("#Ebutton").tooltip({
+        placement: 'top'
+    });
+
+    $("#Dbutton").tooltip({
+        placement: 'top'
+    });
+
+    $("#FormatTip").tooltip({
+        placement: 'top'
+    });
+    $("#Trash").tooltip({
+        placement: 'top'
+    });
+
+    $("#To").tooltip({
+        placement: 'right'
+    });
+
+    $("#From").tooltip({
+        placement: 'right'
+    });
 });
 
-//var button = document.getElementById("button");
-//button.onmousedown = changeButton();
+function signIn() {
+    user_email = document.getElementById("Email").value;
+    
+    //var text = document.createTextNode(user_email);
+    var login = document.getElementById("login");
+    login.style.width = "183px";
+    login.innerText = user_email;
+    //login.appendChild(text);
+    var my_email = document.getElementById("email_id");
+    my_email.innerText = user_email;
+    localStorage["login"] = user_email;
 
-//document.onload = testing;
+    // finally check if Stay signed in is checked
+    if (document.getElementById("PersistentCookie").checked)
+        localStorage["login"] = user_email;
+
+    //change Drop menu display status
+    elementStyleDisplay("login_Input", "none");
+    elementStyleDisplay("change", "");
+
+}
+
+
+function signOut() {
+    var login = document.getElementById("login");
+    login.innerText = "log in";
+    login.style.width = "0px";
+    localStorage["login"] = "";
+
+    elementStyleDisplay("login_Input", "");
+    elementStyleDisplay("change", "none");
+    
+    //var my_email = document.getElementById("email_id");
+    //my_email.innerText = "";
+    document.getElementById("prefix").innerText = "";
+    document.getElementById("email_id").innerText = "";
+}
+
+function menuButton() {
+    var loginInfo = document.getElementById("login").innerText;
+
+    if (loginInfo == "log in")
+        return;
+    //var text = document.createTextNode(loginInfo);
+    document.getElementById("email_id").innerText = loginInfo;
+    var email_elements = loginInfo.split("@");
+
+    var addPrefix = document.getElementById("prefix");
+    addPrefix.innerText = email_elements[1];
+    
+}
+
+// if either user or recipient's email is not valid, then fail, refuse encryption
+function ValidEmailAddress(encryptMsg) {
+    // Check email address
+    if (localStorage["login"] == "") {
+        var warning = document.getElementById("messageBody");
+        if(encryptMsg)
+            warning.innerText = "We need your Email address to encrypt the message, please specify your Email address."
+        else
+            warning.innerText = "We need your Email address to decrypt the message, please specify your Email address."
+
+        done = false;
+        return false;
+    }
+
+    // check again, be sure that there is sender or recipient's email 
+    if (encryptMsg) {
+        save_RecipientAddress();
+        if (localStorage["to_address"] == "") {
+            var warning = document.getElementById("messageBody");
+            warning.innerText = "Please specify the recipient's Email address.";
+            done = false;
+            return false;
+        }
+    } else {
+        save_SenderAddress();
+        if (localStorage["from_address"] == "") {
+            var warning = document.getElementById("messageBody");
+            warning.innerText = "Please specify the sender's Email address.";
+            done = false;
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function elementStyleDisplay(id, value) {
+    var element = document.getElementById(id);
+    element.style.display = value;
+    return element;
+}
+
+function encryption() {
+    
+    var msg = localStorage["current_content"];
+
+    // check emails
+    if (!ValidEmailAddress(true))
+        return;
+
+    done = true;
+    var cipher = base64_it(msg);
+
+    removeOldCiphertext();
+    if (cipher) {
+        elementStyleDisplay("cipher", "");
+        var cipherArea = document.getElementById("appendMessage");
+        cipherArea.appendChild(packageMessage(cipher));
+
+        var plainTextArea = elementStyleDisplay("plaintext", "none");
+
+        elementStyleDisplay("Encryped_Text", "");
+        elementStyleDisplay("Decrypted_Text", "none");
+    }
+
+    // After encryption, recipient's email address should be deleted, avoid mistakes
+    var hisEmail = document.getElementById("recipient");
+    hisEmail.value = "";
+    localStorage["to_address"] = "";
+
+}
+
+function packageMessage(cipher) {
+    
+    var newNode = document.createElement("span");
+    newNode.id = "t1";
+    newNode.appendChild(document.createTextNode(cipher));
+
+    return newNode;
+}
+
+function removeOldCiphertext() {
+    var cipherNode = document.getElementById("appendMessage");
+    var childNode = document.getElementById("t1");
+
+    if(childNode!=null)
+        cipherNode.removeChild(childNode);
+}
+
+function decryption() {
+    // check emails
+    if (!ValidEmailAddress(false))
+        return;
+    done = true;
+    var msg_list = document.getElementById("message").innerText.split('\n');
+
+    if(msg_list.length<3)
+        return;
+    var cipher = msg_list[2];
+    var plainText = decode(cipher);
+
+    elementStyleDisplay("cipher", "none");
+    
+    elementStyleDisplay("plaintext");
+
+    var plainTextArea = elementStyleDisplay("plaintext", "");
+    plainTextArea.appendChild(packageMessage(plainText));
+    
+    elementStyleDisplay("Encryped_Text", "none");
+    elementStyleDisplay("Decrypted_Text", "");
+}
+// DOMContent loading, check if there is a signed in email address in local storage/session storage
+// And also check if there is a editing message in editing area
 document.addEventListener('DOMContentLoaded', restore_options);
 
-document.querySelector('#button').addEventListener('click', testing);
-
-//ocument.querySelector('#to').addEventListener('click', activeTo);
-
+document.querySelector('#drop3').addEventListener('click', menuButton);
+document.querySelector('#signIn').addEventListener('click', signIn);
+document.querySelector('#signOut').addEventListener('click', signOut);
+document.querySelector('#Ebutton').addEventListener('click', encryption);
+document.querySelector('#Dbutton').addEventListener('click', decryption);
+document.querySelector('#Trash').addEventListener('click', cleanTable);
+// Encrypt/Decrypt Button
 document.querySelector('#button').addEventListener('mouseover', mouseOverButton, false);
 document.querySelector('#button').addEventListener('mouseout', mouseOutButton, false);
 
+// Text format button
 document.querySelector('#Format').addEventListener('mouseover', mouseOverFormat, false);
 document.querySelector('#Format').addEventListener('mouseout', mouseOutFormat, false);
+// Erase content
+document.querySelector('#Trash').addEventListener('mouseover', mouseOverTrash, false);
+document.querySelector('#Trash').addEventListener('mouseout', mouseOutTrash, false);
 
-
-//document.querySelector('#base64').addEventListener('click', base64_it);
-//document.querySelector('#decrypt').addEventListener('click', Decrypt_it);
-//document.querySelector('#clearUp').addEventListener('click', clear_up);
-//document.querySelector('#clearDown').addEventListener('click', clear_down);
-//document.querySelector('#input').addEventListener('keyup', save_options);
-//document.querySelector('#demo').addEventListener('keyup', save_cipher_options);
-
-/*
- <div id="navbar-example" class="navbar navbar-static">
-        <div class="navbar-inner">
-        <div class="container" style="width: auto;">
-            <div class="aCk">
-                <div class="Hp">New Message</div>
-            </div>
-            <!--a class="brand" href="#">Project Name</!--a -->
-            
-            <ul class="nav pull-left">
-            <li id="fat-menu" class="dropdown">
-                <a href="#" id="drop3" role="button" class="dropdown-toggle" title="Is it your Email Address data-toggle="dropdown">
-                    <div class="song">
-                    yuanzheng_song@gmail.com
-                    </div>
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-                </ul>
-            </li>
-            </ul>
-        </div>
-        </div>
-    </div> <!-- /navbar-example -->
-    */
+document.querySelector('#recipient').addEventListener('keyup', save_RecipientAddress);//save_options);
+document.querySelector('#sender').addEventListener('keyup', save_SenderAddress);
+document.querySelector('#message').addEventListener('keyup', save_Msg);

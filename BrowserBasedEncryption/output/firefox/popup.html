@@ -6,6 +6,7 @@
         
     <script type="text/javascript" src="ExtraLibraries/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="base64.js"></script>
     <!--script src="ExtraLibraries/jquery-ui.js"></script -->
    
 	<!--link rel="stylesheet" type="text/css" href="jquery-ui.css"-->
@@ -26,83 +27,91 @@
 <div class="m">
 <div class="n">
 <div class="k">
-    <!--
-    <div id="navbar-example" class="navbar navbar-static">
-        <div class="navbar-inner">
-        <div class="container" style="width: auto;">
-            <a class="brand" href="#">Project Name</a>
-            <ul class="nav" role="navigation">
-            <li class="dropdown">
-                <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="http://google.com">Action</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#anotherAction">Another action</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 2 <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-                </ul>
-            </li>
-            </ul>
-            <ul class="nav pull-right">
-            <li id="fat-menu" class="dropdown">
-                <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 3 <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-                </ul>
-            </li>
-            </ul>
-        </div>
-        </div>
-    </div>
-    -->
-
     <div id="" class="navbar navbar-static">
-        <div class="navbar-inner">
+        <div class="navbar-inner"> 
         <div class="container" style="width: auto; padding-left:0px; padding-right:0px;">
             <div class="aCk">
-                <div class="Hp">New Message</div>
+                <div class="Hp">New Message / BME</div>
             </div>
             
             <ul class="nav pull-right">
             <li id="fat-menu" class="dropdown">
-                
-                <a href="#" id="drop3" role="button" class="dropdown-toggle" title="Is it your Email Address" data-toggle="dropdown" style="padding:10px 9px;">
-                    <div class="displayEmail">
-                    yuanzheng_song@gmail.com
+                <!-- Sender's email login -->
+                <a data-target="#" id="drop3" role="button" class="dropdown-toggle" title="Is it your Email Address" data-toggle="dropdown" style="padding:10px 9px;">
+                    <div id="login" class="displayEmail" tabindex="1" style="width:0px;">
+                    
                     </div>
                     <b class="caret"></b>
                 </a>
                 <!-- Email account information: login/change -->
                 <ul class="dropdown-menu" role="menu" aria-labelledby="drop3"  style="width:310px; height:280px;">
-               
                     <!-- login with a new Email address -->
-                    <div id="login" style="display:none;">
+                    <li>
+                    <div id="login_Input" style="display:normal;">
+                        <div class="card signin-card clearfix">
+                        <p class="profile-name">Sign in to Encrypt/Decrypt your message</p>
+                        <form novalidate="" method="post" action="" id="gaia_loginform">
+                            <label class="hidden-label" for="Email">Email</label>
+                            <input id="Email" name="Email" type="email" placeholder="Email" value="" spellcheck="false" class="">
+                            <!--label class="hidden-label" for="Passwd">Password</!--label>
+                            <input id="Passwd" name="Passwd" type="password" placeholder="Password" class=""-->
+                            <input id="signIn" name="signIn" class="rc-button rc-button-submit" type="submit" value="Sign in">
+                              <div class="label_size">
+                                <label class="remember">
+                                  <input id="PersistentCookie" name="PersistentCookie" type="checkbox" value="yes" checked="checked">
+                                  <span>
+                                  Stay signed in
+                                  </span>
+                                  <div class="bubble-wrap" role="tooltip">
+                                  <div class="bubble-pointer"></div>
+                                  <div class="bubble">
+                                  For your convenience, keep this checked only on this Email address you use regularly.
+                                  <a href="" target="_blank">Learn more</a>
+                                  <!-- give the url to explain user how this function work -->
+                                  </div>
+                                  </div>
+                                </label>
+                                </div>
+                              <a id="link-forgot-passwd" href="" class="need-help-reverse">
+                              Need help?
+                              </a>
+                        </form>
+                        </div>
                     </div>
 
                     <!-- change the encryption Email address -->
                     <div id="change" style="display:none;">
+                        <div id="email_intro" class="intro">
+                            Message will be encrypted/decrypted by 
+                            <b id="prefix">
+                            </b>
+                        </div>
+                        <div class="description">
+                            Tell users this email address is used during the encryption and decryption.
+                            <ul>
+                                <li></li>
+                            </ul>
+                        </div>
+                        <div class="info">
+                            <div class="info_1">
+                                <div class="info_2">
+                                    <div id="NameId" class="info_name">
+                                        User Name
+                                    </div>
+                                    <div id="email_id" class="info_email">
+                                        Your email address
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="loginfo">
+                            
+                            <div id="signOut" class="ChangeAccount" role="button">
+                                Change Account
+                            </div>
+                        </div>
                     </div>
-                    <div style="display:none;">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                    <li role="presentation" class="divider"></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-                    </div>
+                    </li>
                 </ul>
             </li>
             </ul>
@@ -112,7 +121,7 @@
 
    
 </div> <!-- ending New Message Navbar class k -->
-</div> <!-- ending class n -->
+</div> <!-- ending class n --> 
 </div> <!-- ending class m -->
 <div class="dJ"></div>
 
@@ -123,76 +132,45 @@
 			<td class="IS">
 				<form id="" action method="POST" enctype="multipart/form-data" accept-charset="utf-8">
 				<div class="fX" >
-				<table class="GS" tabindex="-1">
-					<tr>
-						<td class="ok az4">
-							<label class="gO" data-tooltip="Select Contacts">To</label>
+
+                <!-- Recipients' email address -->
+				<table class="GS">
+					<tr> 
+                        <!-- To label -->
+						<td id="to_id" class="ok az4" style="display:normal;">
+							<label class="gO" id="To" data-toggle="tooltip" data-original-title="Select Contacts" style="cursor:default;">To</label>
 						</td>
-						<td class="eV" style="max-width:306px;">
+                        <!-- From label -->
+                        <td id="from_id" class="ok az4" style="display:none;">
+							<label id="From" class="gO" data-toggle="tooltip" data-original-title="Message From the Select Contact" style="cursor:default;">From</label>
+						</td>
+						<!-- email address input area -->
+                        <td class="eV" style="max-width:306px;">
 							<div class="oj">
-							<div id="to" class="wO nr l1">
-								<input class="wA" tabindex="-1" aria-hidden="true">
-								<textarea id="address" rows="1" class="vO" name="to" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" autocomplete="false" tabindex="1" dir="ltr" aria-label="Address" aria-haspopup="true" style="width: 554px;">
-								</textarea>
+							<div class="wO nr l1">
+                                <input type="text" id="recipient" class="span2 vO" tabindex="2" style="width:533px; display:normal;" placeholder="Recipient's email address">
+                                <input type="text" id="sender" class="span2 vO" tabindex="2" style="width:533px; display:none;" placeholder="Sender's email address">
 								<div class="aA6">
 								</div>
 							</div>
 							</div>
 						</td>
+                        <!-- Cc Bcc -->
 						<td class="az3">
 							<div id=":o2" class="ow">
-								<span>
+								<!--span>
 									<span>
-										<span id="Span1" class="aB gQ pE" role="link" tabindex="2" data-tooltip="Add Cc Recipients(Ctrl-Shift-C)" aria-label="Add Cc Recipients (Ctrl-Shift-C)" style="-webkit-user-select: none;">Cc</span>
-										<span id="Span2" class="aB  gQ pB" role="link" tabindex="2" data-tooltip="Add Bcc Recipients(Ctrl-Shift-B)" aria-label="Add Bcc Recipients(Ctrl-Shift-B)" style="-webkit-user-select: none;">Bcc</span>
+										<span id="Span1" class="aB gQ pE" role="link" data-tooltip="Add Cc Recipients(Ctrl-Shift-C)" aria-label="Add Cc Recipients (Ctrl-Shift-C)" style="-webkit-user-select: none;">Cc</span>
+										<span id="Span2" class="aB  gQ pB" role="link" data-tooltip="Add Bcc Recipients(Ctrl-Shift-B)" aria-label="Add Bcc Recipients(Ctrl-Shift-B)" style="-webkit-user-select: none;">Bcc</span>
 									</span>
-								</span>
-							</div>
-						</td>
-						
-					</tr>
-					<!--
-					<tr id="" >
-						<td class="ok">
-						<div>
-							<label class="gO aQY" data-tooltip="Select Contacts">Cc</label>
-						</div>
-						</td>
-						<td class="eV">
-							<div class="oj">
-							<div>
-							<input class="wA" tabindex="-1" aria-hidden="true">
-								<textarea rows="1" class="vO" name="Cc" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" tabindex="1" dir="ltr" aria-label="Address">
-								</textarea>
-								<div class="aA6">
-								</div>
-							</div>
+								</span-->
 							</div>
 						</td>
 					</tr>
-					<tr id="" >
-						<td class="ok">
-						<div>
-							<label class="gO aQY" data-tooltip="Select Contacts">Bcc</label>
-						</div>
-						</td>
-						<td class="eV">
-							<div class="oj">
-							<div>
-							<input class="wA" tabindex="-1" aria-hidden="true">
-								<textarea rows="1" class="vO" name="bcc" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" tabindex="1" dir="ltr" aria-label="Address">
-								</textarea>
-								<div class="aA6">
-								</div>
-							</div>
-							</div>
-						</td>
-					</tr>
-					-->
 				</table>
 				</div>				
 				</form>  
-				
+				<!-- Message editing area, Encrypt/Decrypt, Text Format -->
 				<table class="iN">
 					<tr>
 						<td class="GQ">
@@ -200,18 +178,13 @@
 							<div id="Div2" class="qz">
 							<div class="et">
 							<div class=""><!-- Loading rich text... --></div>
+                            <!-- Message Editing -->
 							<table cellpadding="0" class="cf An">
 								<tr>
 									<td class="Ap">
-										<div id="Div3" class="Ar As aoE" style="display: none;">
-                                            <div class="At">
-                                                <textarea id="Textarea1" class="Ak aXjCH" style="" aria-label="Message Body" spellcheck="true" itacorner="6,7:1,1,0,0" tabindex="1" form="nosend">
-                                                </textarea>
-                                            </div>
-										</div>
 										<div id="Div4" class="Ar" style="display: block;">
-											<div onload="testing()" id="Div5" class="Am Al editable LW-avf" hidefocus="true" aria-label="Message Body" g_editable="true" role="textbox" contenteditable="true" tabindex="1" style="direction: ltr; min-height: 80px;">
-											<br clear="all">
+											<div id="message" class="Am Al editable LW-avf" tabindex="3"  g_editable="true" role="textbox" contentEditable="true" style="direction: ltr; min-height: 80px;">
+                                                <br clear="all">
 											</div>
 										</div>
 									</td>
@@ -229,35 +202,49 @@
 							<div id="Div6" class="aC5"><div style="display: none;"><div id="Div7" class="aBt"><div id=":2bk" class="aBq" style="width: 447px;"><div id="Div8" class="aBs" style="width: 433px;"></div></div><div class="aBr"></div></div></div></div>
 							<!-- 3 extra div -->
 							<div class="aDh">
+                                <!-- Tool bar: Encrypt/Decrypt, message format ... -->
 								<table class="IZ">
-									<!-- <colgroup><col id=":2cs"><col class="Uf"><col class="UA"><col class="Uy"><col class="VUP8bf"><col class="az8"><col id=":sl"></colgroup> -->
 									<tr class="ntfz">
+                                        <!--   -->
 										<td class="gU Up">
-										<div class="JJ5Ji">
-											<div class="JJ5Ji"></div>
-											<div id="button" class="TI JJ5Ji aoO TIatl L3" role="button" tabindex="1" data-tooltip="Encrypt (Ctrl-Enter)" aria-label="Encrypt (Ctrl-Enter)" data-tooltip-delay="800" style="-webkit-user-select:none;"-->
-											Encrypt
-											</!--div>
-										</div>
+                                            <div id="button" class="TI JJ5Ji aoO TIatl L3" role="button" tabindex="4" >
+											    <div id="Ebutton"  style="display:normal;" data-toggle="tooltip" data-original-title="Encrypt (Ctrl-Enter)" aria-label="Encrypt (Ctrl-Enter)" data-tooltip-delay="800" style="-webkit-user-select:none;">
+											    Encrypt
+											    </div>
+                                                <div id="Dbutton" style="display:none;" data-toggle="tooltip" data-original-title="Decrypt (Ctrl-Enter)" aria-label="Decrypt (Ctrl-Enter)" data-tooltip-delay="800" style="-webkit-user-select:none;">
+											    Decrypt
+											    </div>
+										    </div>
 										</td>
 										
 										<td id="Td1" class="oc gU">
-										<div data-tooltip="Formatting options" aria-label="Formatting options">
-											<div id="Format" class="JZI JJ5Ji" aria-pressed="false" role="button" style="-webkit-user-select: none;">
-											<div class="JJ5Ji JZIKvH">
-											<div class="JJ5Ji JZIJ6H">
-											<div class="dv">
-											</div>
-											</div></div></div>
-										</div>
+										    <div id="FormatTip" data-toggle="tooltip" data-original-title="Formatting options" aria-label="Formatting options">
+											    <div id="Format" class="JZI JJ5Ji" aria-pressed="false" role="button" tabindex="5" style="-webkit-user-select: none;">
+											    <div class="JJ5Ji JZIKvH">
+											    <div class="JJ5Ji JZIJ6H">
+											    <div class="dv">
+											    </div>
+											    </div></div></div>
+										    </div>
 										</td>
-										<td id="Td2" class="gU">
-										<div id="Div10" class="aWQ">
-											<span id=":ps" class="oG" style=""></span>
-											<span class="aWR">&nbsp;</span>
-										</div>
+										<td id="Td2" class="gU" style="width:409px;">
+										    <div id="Div10" class="aWQ">
+											    <span id=":ps" class="oG" style=""></span>
+											    <span class="aWR">&nbsp;</span>
+										    </div>
 										</td>
-										
+										<td class="gU az5">
+                                            <div id="Trash" class="oh JZI JJ5Ji TIax7" tabindex="6" role="button" data-toggle="tooltip" data-original-title="Delete message" aria-label="Delete message" style="-webkit-user-select: none;">
+                                                <div class="JJ5Ji JZIKvH" style="-webkit-user-select: none;">
+                                                    <div class="JJ5Ji JZIJ6H" style="-webkit-user-select: none;">
+                                                        <div class="og TIJ3" style="-webkit-user-select: none;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="Uz aw4 JJ5Ji"></div>
+										</td>
+
 									</tr>
 								</table>
 							</div>
@@ -271,7 +258,62 @@
 	</table>
 </div>
 </div>
-     
+    <!-- Modal -->
+    <div class="modal fade" id="myOutputText" role="dialog" aria-labelledby="OutputText" aria-hidden="true" style="left:40%; width:700px; height:487px;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="Encryped_Text" style="display:normal;">Encryted Message</h4>
+            <h4 class="modal-title" id="Decrypted_Text" style="display:none;">Decryted Message</h4>
+          </div>
+          <div class="modal-body" style="height:345px;">
+              <label id="cipher" class="A3" aria-label="Output Body" role="textbox" contentEditable="false" style="display:normal">
+                  <div style="font-family: verdana, geneva, sans-serif; font-size:larger; font-weight: 400; font-style: normal; display: block; color: rgb(51, 51, 51);">
+                      --- Begin Encrypted Message ---
+                  </div>
+                  <br />
+                  <div  id="appendMessage">
+
+                  </div>
+                  <br />
+                  <div style="font-family: verdana, geneva, sans-serif; font-size:larger; font-weight: 400; font-style: normal; display: block; color: rgb(51, 51, 51);">
+                      --- End Encrypted Message ---
+                  </div>
+
+             </label>
+
+              <label id="plaintext" class="A3" aria-label="Output Body" role="textbox" contentEditable="false" style="display:none">
+
+              </label>
+          </div>
+           
+          <div class="modal-footer">
+            <!--button type="button" class="ChangeAccount" data-dismiss="modal">Close</button-->
+            <button type="button" class="rc-button rc-button-submit">Copy to Clipboard</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --> 
+
+    <!-- Modal Error Messages -->
+    <div class="modal fade" id="myModalMessage" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Error</h4>
+          </div>
+          <div id="messageBody" class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="KjJDJl" data-dismiss="modal">OK</button>
+            
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <script type="text/javascript" src="popup.js"></script>
 </body>
 
