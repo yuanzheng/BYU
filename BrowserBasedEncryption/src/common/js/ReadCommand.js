@@ -2,7 +2,7 @@
  * The compose window scripts.
  * @class ComposeWindow
  */
-var sendEncryptMessage = function (msg, creatorId, recipients) {
+var sendEncryptedMessage = function (msg, creatorId, recipients) {
 
     
     //var msg = document.getElementById("contentArea").value;
@@ -15,11 +15,11 @@ var sendEncryptMessage = function (msg, creatorId, recipients) {
 
 
 
-    /** 
-    * Encrypts the message and returns a package.
-    * @method encryptMessage
-    * @param callback {Function} Function to call when encryption is finished, passed a string with the package.
-    */
+/** 
+* Encrypts the message and returns a package.
+* @method encryptMessage
+* @param callback {Function} Function to call when encryption is finished, passed a string with the package.
+*/
 var encryptMessage = function (msg, creatorId, recipients) {
 
     
