@@ -20,3 +20,4 @@ test-output
 benchmark_outputs
 *.pyc
 *.class
+BrowserBasedEncryption/output/
