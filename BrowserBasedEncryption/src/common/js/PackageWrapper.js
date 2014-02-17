@@ -14,6 +14,7 @@ var PackageWrapper = (function () {
     * @type String
     */
     var bootstrapMessage = [
+        /*
     "<!-- table align='left' border='0' cellpadding='1' cellspacing='1' name='DescriptionTable'>", 
     "<tbody><tr><td colspan=3><span style='font-family:verdana,geneva,sans-serif; font-size: x-large; font-weight: 600; font-style: normal; font-variant: normal; display: block; color: #333333;'>",
     "You have received a protected message.",
@@ -38,6 +39,10 @@ var PackageWrapper = (function () {
     "@PACKAGE",
     "<div style='display: block;'>--- End Encrypted Message ---</div>",
     "<!--/div></div-->"
+    */
+    
+    "@PACKAGE"
+   
     ].join('\n');
 
     /**

@@ -16,34 +16,55 @@ localStorage["login"] = "";
 */
 // Save this script as `options.js`
 function save_RecipientAddress() {
-    var content = document.getElementById("recipient").value;
-
-    localStorage["to_address"] = content;
-
+    var email = document.getElementById("recipient").value;
+    localStorage["to_address"] = email;
 }
 
+/*
+ */
+function getRecipientAddress() {
+    var email = document.getElementById("recipient").value;
+    if(email=="")
+        return null;
+
+    return email;
+}
+
+function getCreatorId() {
+    if(!login_done)
+        return null;
+
+    var email = document.getElementById("login");
+    return email.innerText;
+}
+
+/*
 function save_SenderAddress() {
     var content = document.getElementById("sender").value;
 
     localStorage["from_address"] = content;
 
 }
+*/
+
 // Saves current content into localStorage.
 function save_Msg() {
-    var content = document.getElementById("message").innerText;
+    //var content = document.getElementsByClassName(" nicEdit-main ");
+    var editorArea = nicEditors.findEditor("message");
+    localStorage["current_content"] = editorArea.getContent();//content[0].innerHTML;
 
-    localStorage["current_content"] = content;
-
-    update_status(content);
+    //update_status(content);
 }
+/*
+function update_status() {
+    var content = localStorage["current_content"];
 
-function update_status(content) {
     if (cipherTitle.length <= content.length && encryptionMode) { // decrypt message
         var subContent = content.substr(0, cipherTitle.length);
 
         if (cipherTitle == subContent) { // modify button "decrypt"
-            elementStyleDisplay("Ebutton", "none");
-            elementStyleDisplay("Dbutton", "");
+            elementStyleDisplay("addEmail_encrypt", "none");
+            elementStyleDisplay("addEmail_decrypt", "");
             
             elementStyleDisplay("to_id", "none");
             elementStyleDisplay("from_id", "");
@@ -57,8 +78,8 @@ function update_status(content) {
         }
     }
     else if (cipherTitle.length > content.length && !encryptionMode) {
-        elementStyleDisplay("Ebutton", "");
-        elementStyleDisplay("Dbutton", "none");
+        elementStyleDisplay("addEmail_encrypt", "");
+        elementStyleDisplay("addEmail_decrypt", "none");
 
         elementStyleDisplay("to_id", "");
         elementStyleDisplay("from_id", "none");
@@ -72,18 +93,15 @@ function update_status(content) {
         encryptionMode = true;
     }
 }
+*/
 
 // Restores select box state to saved value from localStorage.
 function restore_options() {
     var user_email = localStorage["login"];
     restore_login(user_email);
+    toggleEditor();
+    restore_content();
     
-    var content = localStorage["current_content"];
-    if(content)
-        restore_content(content)
-
-    //TODO  restore to/send email address
-    //restore_emailAddress();
 }
 
 function restore_login(user_email) {
@@ -98,10 +116,12 @@ function restore_login(user_email) {
         loginPage.style.display = "none";
         var changePage = document.getElementById("change");
         changePage.style.display = "";
+
+        login_done = true;
     }
     else {// not existing
-        var text = document.getElementById("login");
-        text.innerText = "log in";
+        var email = document.getElementById("login");
+        email.innerText = "log in";
         localStorage["login"] = "";
 
         //change Popover display status
@@ -110,13 +130,18 @@ function restore_login(user_email) {
         var changePage = document.getElementById("change");
         changePage.style.display = "none";
         
+        login_done = false;
     }
 }
 
-function restore_content(content) {
-    var textArea = document.getElementById("message");
-    textArea.innerText = content;
-    update_status(content);
+function restore_content() {
+    var content = localStorage["current_content"];
+    var editorArea = nicEditors.findEditor("message");//document.getElementsByClassName(" nicEdit-main ");
+
+    if (content == undefined || content == "")
+        return;
+    editorArea.setContent(content);
+    //editorArea[0].innerHTML = localStorage["current_content"];
 }
 
 function restore_emailAddress() {
@@ -125,53 +150,42 @@ function restore_emailAddress() {
         var textArea = document.getElementById("recipient");
         textArea.value = hisEmail;
     }
-
-    hisEmail = localStorage["from_address"];
 }
 
 
 // delete message, and erase to/from email address
 function cleanTable() {
-    localStorage["current_content"] = "";
-    var textArea = document.getElementById("message");
-    textArea.innerText = "";
+    if (encryptionMode) {
+        var editorArea = nicEditors.findEditor("message");
+        editorArea.setContent("<br>");
+        localStorage["current_content"] = "";
+        
+        var hisEmail = document.getElementById("recipient");
+        localStorage["to_address"] = "";
+        hisEmail.value = "";
+    }
+    else {
+        var cipherArea = document.getElementById("cipherMsg");
+        cipherArea.innerText = "";
 
-    localStorage["to_address"] = "";
-    
-    var hisEmail = document.getElementById("recipient");
-    hisEmail.value = "";
+       
+    }
 
-    removeOldCiphertext();
+    //removeOldCiphertext();
 }
 
-/*
-function createNewNode() {
-    var newNode = document.createElement("div");
-    var text = "Hello World -- Song";
+function closeButton() {
+    if (encryptionMode) {
+        var cipherArea = document.getElementById("appendMessage");
+        cipherArea.innerText = "";
+    }
+    else {
+        var plainTextArea = document.getElementById("plaintext");
+        plainTextArea.innerText = "";
 
-    newNode.appendChild(document.createTextNode(text));
-    return newNode;
-}
 
-function activeTo() {
-    var currentNode = document.getElementById("address");
-    currentNode.style.width = "554px";
-}
+    }
 
-function testing() {
-    var currentNode = document.getElementById("message");
-    var childNode = currentNode.childNodes[1];
-    var newNode = createNewNode();
-    currentNode.appendChild(newNode);
-  
-}
-*/
-
-/* Tool Bar */
-function changeButton() {
-    var currentNode = document.getElementById("button");
-    currentNode.className += " TIjw";
-    return;
 }
 
 /* Encrypt button */
@@ -222,29 +236,52 @@ function mouseOutTrash() {
     buttonClass = "";
     $('.og').css({ opacity: '.55' });
 }
-var done = true;
+
+
+var done = false;  // all set, include login email address and sender/recipient email address
+var login_done = false;
 // Cursor is in email address input after launch BME
-$(document).ready(function (event) {
+$(document).ready(function () {
+
     $('.vO').focus(); // cursor is at email address area
 
     $(".btn").popover({
 
     });
 
-    $("#button").click(function () {
-        if(!done)
-            $("#myModalMessage").modal('show');
-        else
+    $("#button").click(function (e) {
+        e.preventDefault();
+        if (done)
             $("#myOutputText").modal('show');
+        else
+            // Error Messages
+            $("#myModalMessage").modal('show');
     });
 
-    $("#Ebutton").tooltip({
-        placement: 'top'
+    
+    $("#button").hover(function (e) {
+        e.preventDefault();
+        if ($("#Ebutton").is(':visible')) {
+            $("#button").attr('data-original-title', "Encrypt (Ctrl-Enter)")
+                        .tooltip({
+                            placement: 'top'
+                        });
+        }
+
+        if ($("#Dbutton").is(':visible')) {
+            $("#button").attr('data-original-title', "Decrypt (Ctrl-Enter)")
+                        .tooltip({
+                            placement: 'top'
+                        });
+        }
     });
 
-    $("#Dbutton").tooltip({
-        placement: 'top'
+    // Tab switch
+    $("#myTab a").click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
     });
+
 
     $("#FormatTip").tooltip({
         placement: 'top'
@@ -282,6 +319,7 @@ function signIn() {
     elementStyleDisplay("login_Input", "none");
     elementStyleDisplay("change", "");
 
+    login_done = true;
 }
 
 
@@ -298,6 +336,8 @@ function signOut() {
     //my_email.innerText = "";
     document.getElementById("prefix").innerText = "";
     document.getElementById("email_id").innerText = "";
+
+    login_done = false;
 }
 
 function menuButton() {
@@ -315,75 +355,96 @@ function menuButton() {
 }
 
 // if either user or recipient's email is not valid, then fail, refuse encryption
-function ValidEmailAddress(encryptMsg) {
+function ValidEmailAddress() {
     // Check email address
-    if (localStorage["login"] == "") {
+    if (!login_done) {
         var warning = document.getElementById("messageBody");
-        if(encryptMsg)
+        if (encryptionMode)
             warning.innerText = "We need your Email address to encrypt the message, please specify your Email address."
         else
             warning.innerText = "We need your Email address to decrypt the message, please specify your Email address."
-
-        done = false;
+        
         return false;
     }
-
+    
     // check again, be sure that there is sender or recipient's email 
-    if (encryptMsg) {
-        save_RecipientAddress();
-        if (localStorage["to_address"] == "") {
+    if (encryptionMode) {
+        var email = document.getElementById("recipient").value;
+        if (email == "") {
+            // recipient input your email address please!
             var warning = document.getElementById("messageBody");
             warning.innerText = "Please specify the recipient's Email address.";
-            done = false;
-            return false;
-        }
-    } else {
-        save_SenderAddress();
-        if (localStorage["from_address"] == "") {
-            var warning = document.getElementById("messageBody");
-            warning.innerText = "Please specify the sender's Email address.";
-            done = false;
+
             return false;
         }
     }
+    /*
+    else {
+        var warning = document.getElementById("messageBody");
+        warning.innerText = "Please specify the sender's Email address.";
 
+        return false;
+    }
+    */
     return true;
 }
-
+/*
+function submitContent() {
+    update_status();
+    ValidEmailAddress();
+    
+}
+*/
 function elementStyleDisplay(id, value) {
     var element = document.getElementById(id);
     element.style.display = value;
     return element;
 }
 
-function encryption() {
+function getRecipients() {
+    var recipients = new Array();
+    var emails = getRecipientAddress();
+    if (emails)
+        recipients[0] = emails;
     
-    var msg = localStorage["current_content"];
+    var login = getCreatorId();
+    if (login)
+        recipients[1] = login;
 
-    // check emails
-    if (!ValidEmailAddress(true))
+    return recipients;
+}
+
+function encryption() {
+    done = ValidEmailAddress();
+    if (!done)
         return;
 
+    var editorArea = nicEditors.findEditor("message");
+    var msg = editorArea.getContent();
+    var creatorId = getRecipientAddress();
+    
     done = true;
-    var cipher = base64_it(msg);
+    var recipients = getRecipients();
+   
+    var cipher = sendEncryptedMessage(msg, creatorId, recipients);
 
-    removeOldCiphertext();
+    //removeOldCiphertext();
     if (cipher) {
         elementStyleDisplay("cipher", "");
         var cipherArea = document.getElementById("appendMessage");
-        cipherArea.appendChild(packageMessage(cipher));
+        cipherArea.innerText = cipher;//appendChild(packageMessage(cipher));
 
         var plainTextArea = elementStyleDisplay("plaintext", "none");
 
         elementStyleDisplay("Encryped_Text", "");
         elementStyleDisplay("Decrypted_Text", "none");
     }
-
+    /*
     // After encryption, recipient's email address should be deleted, avoid mistakes
     var hisEmail = document.getElementById("recipient");
     hisEmail.value = "";
     localStorage["to_address"] = "";
-
+    */
 }
 
 function packageMessage(cipher) {
@@ -404,27 +465,79 @@ function removeOldCiphertext() {
 }
 
 function decryption() {
-    // check emails
-    if (!ValidEmailAddress(false))
+    done = ValidEmailAddress();
+    if (!done)
         return;
-    done = true;
-    var msg_list = document.getElementById("message").innerText.split('\n');
 
-    if(msg_list.length<3)
-        return;
-    var cipher = msg_list[2];
-    var plainText = decode(cipher);
-
+    var msg = document.getElementById("appendMessage").innerText;
+  
+    var viewerId = getCreatorId();
+    var plainText = decryptEncryptedMessage(msg, viewerId);
     elementStyleDisplay("cipher", "none");
     
-    elementStyleDisplay("plaintext");
+    //elementStyleDisplay("plaintext");
 
     var plainTextArea = elementStyleDisplay("plaintext", "");
-    plainTextArea.appendChild(packageMessage(plainText));
+    plainTextArea.innerHTML = plainText;
     
     elementStyleDisplay("Encryped_Text", "none");
     elementStyleDisplay("Decrypted_Text", "");
 }
+
+function encryptionOption() {
+    var msg = elementStyleDisplay("textFormat", "");
+    var cipher = elementStyleDisplay("cipherFormat", "none");
+    encryptionMode = true;
+
+    elementStyleDisplay("Ebutton", "");
+    elementStyleDisplay("Dbutton", "none");
+    
+}
+
+function decryptionOption() {
+    var msg = elementStyleDisplay("textFormat", "none");
+    var cipher = elementStyleDisplay("cipherFormat", "");
+    encryptionMode = false;
+
+    elementStyleDisplay("Ebutton", "none");
+    elementStyleDisplay("Dbutton", "");
+}
+
+var editorLaunch = null;
+function toggleEditor() {
+    var o = document.getElementById("overflow");
+    var padding = document.getElementById("textFormat");
+    var textArea = document.getElementsByClassName(" nicEdit-main ");
+   
+    if (!editorLaunch) {
+        editorLaunch = new nicEditor({ fullPanel: true }).panelInstance('message', { hasPanel: true });
+        o.style.overflow = "hidden";
+        padding.className = "Ar Arr";
+        padding.children[0].style.width = "712px";
+        padding.children[1].style.width = "710px";
+        padding.children[1].style.borderRightStyle = "none";
+        padding.children[1].style.borderBottomStyle = "none";
+        padding.children[1].style.borderLeftStyle = "none";
+
+        textArea[0].style.margin= "4px 0px 3px 3px";//"8px 6px";
+        textArea[0].style.overflowY = "auto";
+        textArea[0].style.width = "706px";//"703px";
+        textArea[0].style.minHeight = "inherit";
+
+        editorLaunch.addEvent('blur', function () {
+            save_Msg();
+        });
+    }
+    /*
+    else {
+        editorLaunch.removeInstance('message');
+        editorLaunch = null;
+        o.style.overflow = "auto";
+        padding.className = "Ar";
+    }
+    */
+}
+
 // DOMContent loading, check if there is a signed in email address in local storage/session storage
 // And also check if there is a editing message in editing area
 document.addEventListener('DOMContentLoaded', restore_options);
@@ -432,9 +545,21 @@ document.addEventListener('DOMContentLoaded', restore_options);
 document.querySelector('#drop3').addEventListener('click', menuButton);
 document.querySelector('#signIn').addEventListener('click', signIn);
 document.querySelector('#signOut').addEventListener('click', signOut);
+//document.querySelector('#button').addEventListener('click', submitContent);
 document.querySelector('#Ebutton').addEventListener('click', encryption);
 document.querySelector('#Dbutton').addEventListener('click', decryption);
+document.querySelector('#Close').addEventListener('click', closeButton);
 document.querySelector('#Trash').addEventListener('click', cleanTable);
+//document.querySelector('#addEmail').addEventListener('click', addEmail);
+
+//document.querySelector('#Format').addEventListener('click', toggleArea1);
+document.querySelector('#encryptionTab').addEventListener('click', encryptionOption);
+document.querySelector('#decryptionTab').addEventListener('click', decryptionOption);
+
+//document.querySelector('#addEmail_encrypt').addEventListener('click', encryption);
+//document.querySelector('#addEmail_decrypt').addEventListener('click', decryption);
+
+
 // Encrypt/Decrypt Button
 document.querySelector('#button').addEventListener('mouseover', mouseOverButton, false);
 document.querySelector('#button').addEventListener('mouseout', mouseOutButton, false);
@@ -447,5 +572,5 @@ document.querySelector('#Trash').addEventListener('mouseover', mouseOverTrash, f
 document.querySelector('#Trash').addEventListener('mouseout', mouseOutTrash, false);
 
 document.querySelector('#recipient').addEventListener('keyup', save_RecipientAddress);//save_options);
-document.querySelector('#sender').addEventListener('keyup', save_SenderAddress);
-document.querySelector('#message').addEventListener('keyup', save_Msg);
+//document.querySelector('#sender').addEventListener('keyup', save_SenderAddress);
+document.querySelector('#textFormat').addEventListener('keyup', save_Msg);

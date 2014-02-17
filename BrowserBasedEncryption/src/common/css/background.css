@@ -1,14 +1,11 @@
-﻿body, td, input, textarea, select {
+﻿body, td, input, select {
 font-family: arial,sans-serif;
 padding:0;
 margin:0;
 overflow:hidden;
 }
 
-textarea {
-font-family:arial, sans-serif;
-background-color:#fff；
-}
+
 
 .AD {
 width: 712px;
@@ -18,7 +15,7 @@ box-shadow: rgba(0,0,0,0.2) 0 2px 6px;
 visibility: visible;
 margin: 0px;
 padding: 0px;
-
+overflow: hidden;
 }
 
 .H {
@@ -374,7 +371,7 @@ font-size: 120%;
 table-layout: fixed;
 width: 100%;
 vertical-align: top;
-height:494px;
+height:411px;
 }
 
 .GQ {
@@ -391,7 +388,13 @@ padding: 0px 1px;
 position: relative;
 max-height: 500px; 
 min-height: 360px; 
-height: 449px;
+height: 405px;
+}
+
+.nicEdit-main {
+    height:372px;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 
 .aaZ .GQ {
@@ -408,6 +411,7 @@ height: inherit;
 .et {
 border-color: transparent!important;
 height: inherit;
+max-height: 400px;
 }
 
 .Am {
@@ -426,7 +430,7 @@ table-layout: fixed;
 
 .Al {
 width: 100%;
-overflow: auto;
+/*overflow: auto;*/
 border:0;
 height:100%;
 
@@ -451,17 +455,17 @@ height:100%;
     width:100%;
     height:100%;
     border:0;
-    font-size:16px;
+    /*font-size:16px;*/
     outline:none;
 }
 
 
-
+/*
 .LW-avf {
 font: normal small arial;
 font-size: 18px;
 }
-
+*/
 .Ap {
 background-color: #fff;
 vertical-align:top;
@@ -475,6 +479,10 @@ margin: 0!important;
 background-color: #fff;
 padding: 12px 10px 9px;
 height: inherit;
+}
+
+.Arr {
+    padding: 0;
 }
 
 .HE {
@@ -739,7 +747,7 @@ opacity: .55;
     margin-top: 5px;
     width: 34px;
     height: 35px;
-    background: no-repeat url(images/general_2x-c1cf7af676c1a477d482206e5b5e1fc8.png) 0 -957px!important;
+    background: no-repeat url(../icons/general_2x-c1cf7af676c1a477d482206e5b5e1fc8.png) 0 -957px!important;
     background-size: 37px 1174px!important;
 }
 
@@ -748,7 +756,7 @@ margin-top: 5px;
 width: 31px;
 height: 35px;
 opacity: .55;
-background: no-repeat url('icons/compose_2x-cce2b67bdbce65218b83bb95dc1db4db.png') -4px -108px!important;
+background: no-repeat url('../icons/compose_2x-cce2b67bdbce65218b83bb95dc1db4db.png') -4px -108px!important;
 background-size: 37px 365px!important;
 }
 
@@ -1210,3 +1218,14 @@ input[type=checkbox]:focus {
         border: 2px solid #dcdcdc;
         color:#000;
     }
+
+
+textarea {
+    border: none;
+    overflow: auto;
+    outline: none;
+
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
