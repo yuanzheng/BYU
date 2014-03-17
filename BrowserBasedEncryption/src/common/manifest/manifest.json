@@ -1,0 +1,44 @@
+{
+    "name": "Message Protector", 
+	"version": "1.2.0", 
+    "manifest_version": 2, 
+	"description": "MS Thesis Project, a Browser-based Manual Encryption", 
+    "icons": {
+        "128": "icons/icon128.png", 
+        "48": "icons/icon48.png", 
+        "16": "icons/button.png"
+    }, 
+   
+	
+	
+    "homepage_url": "http://students.cs.byu.edu/~yuanzheng/homepage/", 
+    
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'", 
+	
+    "browser_action": {
+        "default_popup": "popup.html", 
+        "default_icon": "icons/button.png", 
+        "default_title": "Browser-based Manual Encryption"
+    }, 
+	
+    "permissions": [
+        "identity",
+        "https://accounts.google.com/*", "https://www.googleapis.com/*"
+    ],
+	
+	"web_accessible_resources": [
+        "oauth2/oauth2.html"
+    ], 
+
+	
+	"content_scripts": [
+	  {
+		"matches": ["http://www.google.com/robots.txt*"],
+		"js": ["oauth2/oauth2_inject.js"],
+		"run_at": "document_start"
+	  }
+	]
+   
+	
+
+}

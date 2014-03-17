@@ -1,11 +1,92 @@
-﻿body, td, input, select {
-font-family: arial,sans-serif;
+﻿@import url("http://fonts.googleapis.com/css?family=Droid Sans|Boogaloo");
+
+body, td, input, select {
+font-family: "Droid Sans",sans, arial,sans-serif;
 padding:0;
 margin:0;
 overflow:hidden;
 }
 
+.message-popup{position:absolute;top:0;right:250px;left:120px}
+.message-popup.fullscreen{height:100%;width:100%;left:0;right:0;background:rgba(243, 242, 238, 0.7);z-index:10}
+.message-popup.fullscreen .content{width:400px;box-shadow:0 2px 40px rgba(0,0,0,.4);margin-top:10%;border-top-left-radius:10px;border-top-right-radius:10px;padding-right:15px;border-top:1px solid #888}
+.message-popup .content{margin:auto;background:#fff;background:-webkit-linear-gradient(#fff 30%,#fff);background:-moz-linear-gradient(#ddd9d1 30%,#bebebe);background:-ms-linear-gradient(#ddd9d1 30%,#bebebe);background:-o-linear-gradient(#ddd9d1 30%,#bebebe);padding:10px 35px 10px 15px;border:1px solid #888;border-radius:10px;box-shadow:0 0 20px #666;border-top-left-radius:0;border-top-right-radius:0;border-top:0;text-align:center}
 
+
+
+#google_login {
+    margin-bottom:10px
+}
+
+.bg_profile {
+    background-size: 96px 96px;
+    border: none;
+    vertical-align: top;
+    /*height: 96px;*/
+    /*width: 96px;*/
+}
+
+.amibutton{
+    font-weight:600;
+    font-size:11px !important;
+    line-height:17px;
+    display:inline-block;
+    text-decoration:none;
+    padding:5px 12px;
+    position:relative;
+    display:inline-block;
+    text-shadow:0 1px 0 #fff;
+    background:#f3f3f3;
+    white-space:nowrap;
+    border:solid 1px #dcdcdc;
+    background:-webkit-gradient(linear,0% 40%,0% 70%,from(#f5f5f5),to(#f1f1f1));
+    background:-moz-linear-gradient(linear,0% 40%,0% 70%,from(#f5f5f5),to(#f1f1f1));
+    border-radius:2px !important
+
+}
+
+ .amibutton:hover{
+    color:#6e6e6e !important;
+    text-decoration:none !important;
+    border: 1px solid #6e6e6e;
+    box-shadow: 0.5px 0.5px 2px #6e6e6e
+}
+
+.amibutton img{
+    vertical-align:middle;
+    border:0;
+    margin-right:4px !important
+}
+
+.cmp_18_google{
+    width:16px;
+    height:16px;
+    padding:0 !important;
+    background: transparent url(../icons/5e5699d85459079f71596d11c707e93d.png) 0 0 no-repeat;
+}
+
+.separator{
+    margin-top:25px;
+    margin-bottom:25px;
+    height:0;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid white;
+    position:relative
+
+}
+
+.middle_separator{
+    position:absolute;
+    padding:0 16px;
+    color:#ccc;
+    background:white;
+    font-size:11px;
+    text-shadow:0 1px 0 white;
+    text-transform:uppercase;
+    top:-7px;
+    left:30%
+
+}
 
 .AD {
 width: 712px;
@@ -811,7 +892,7 @@ overflow: hidden;
 
 .info {
     background:#f5f5f5;
-    border-top:1px solid #ccc;
+    /*border-top:1px solid #ccc;*/
     border-top-color:rgba(0,0,0,.2);
     max-height: 230px;
     overflow: auto;
@@ -819,16 +900,26 @@ overflow: hidden;
 
 .info_1 {
     display: block;
-    padding: 10px 20px;
+    /*padding: 20px 15px;*/
+    padding: 8px 9px 6px 11px;
+	/*border: 1px dashed;*/
+}
+
+.info_3 {
+    display: block;
+    /*padding: 20px 15px;*/
+    padding:12px 5px 3px 77px;
+	/*border: 1px dashed;*/
 }
 
 .info_2 {
     display:inline-block;
-    margin:6px 0 6px 1px;
+    margin:5px 0 6px 1px;
 }
 
 .info_name {
     color: #000;
+    font-weight: bold;
 }
 
 .info_email {
@@ -836,12 +927,12 @@ overflow: hidden;
 }
 
 .loginfo {
-    background: #f5f5f5;
+    background: white;
     border-top: 1px solid #ccc;
     border-color: rgba(0,0,0,.2);
     padding: 10px 0;
     width: 100%;
-    height: 30px;
+    /*height: 61px;*/
     display: table;
 }
 /*
@@ -915,7 +1006,7 @@ overflow: hidden;
 }
 
 .card {
-background-color: #f7f7f7;
+/*background-color: #f7f7f7;*/
 padding: 20px 25px 30px;
 margin: 0 auto 25px;
 width: 304px;

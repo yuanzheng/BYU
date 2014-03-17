@@ -118,7 +118,7 @@ var PackageWrapper = (function () {
             this.wrappedBody = "";
             if (preambleMessage != null && preambleMessage.trim() != "")
                 this.wrappedBody += preamble.replace('@PREAMBLE', preambleMessage);
-            this.wrappedBody += bootstrapMessage.replace('@PACKAGE', Base64.encodeString(JSON.stringify(this.kiwiPackage), false, true));
+            this.wrappedBody += bootstrapMessage.replace('@PACKAGE', Base64.encodeString(JSON.stringify(this.kiwiPackage), false, false));
         },
 
         /**

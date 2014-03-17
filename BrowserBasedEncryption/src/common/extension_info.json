@@ -1,21 +1,23 @@
 {
-	"name": "BME",
+	"name": "Message Protector",
 	"version": "1.2.0", 
 	"creator": "Yuanzheng (Lucas) Song",
     "description": "MS Thesis Project, a Browser-based Manual Encryption", 
     "homepage_url": "http://students.cs.byu.edu/~yuanzheng/homepage/", 
-    
-    "background_scripts": ["main.js"], 
-   
+  
     "browser_button": {
-        "caption": "BME", 
+        "caption": "MP", 
         "icon": "icons/button.png", 
-        "tooltipText": "Browser Extension",
+        "tooltipText": "Message Protector - Browser-based Manual Encryption",
 		"popup": {
 			"url": "popup.html",
             "width": 800,
             "height": 620
 		}
     },
+	"web_accessible_resources": [
+        "oauth2/oauth2.html"
+    ], 
+	
 	"default_locale": "en"
 }

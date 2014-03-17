@@ -53,14 +53,16 @@ var encryptMessage = function (msg, creatorId, recipients) {
 
 
 var decryptEncryptedMessage = function (ciphText, viewerId) {
-    //var location = document.getElementsByName("package");
-    //var cipher = location[0].innerText;
+
     var kiwiPackage = JSON.parse(Base64.decodeString(ciphText));
 
     // get sender email
     //var userId = viewerId;//"yangseung0105@gmail.com";
     var msg = decryptMessage(Package.fromJsonObject(kiwiPackage), viewerId);
-    //var input = document.getElementById("Textarea1");
+
+    if (!msg) {
+        return "Decryption Failed!";
+    }
     return msg.contents;
 
 }

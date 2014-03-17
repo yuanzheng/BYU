@@ -1,19 +1,10 @@
-﻿/**
- * Created with IntelliJ IDEA.
- * User: SongYz
- * Date: 10/10/13
- * Time: 9:40 PM
- * To change this template use File | Settings | File Templates.
- */
+﻿ 
 var user_email = "";
 var cipherTitle = new String("--- Begin Encrypted Message ---");
 var encryptionMode = true;
-/*
-localStorage["to_address"] = "";
-localStorage["from_address"] = "";
-localStorage["current_content"] = "";
-localStorage["login"] = "";
-*/
+/* Encrypt button */
+var buttonClass = "";
+
 // Save this script as `options.js`
 function save_RecipientAddress() {
     var email = document.getElementById("recipient").value;
@@ -31,102 +22,38 @@ function getRecipientAddress() {
 }
 
 function getCreatorId() {
-    if(!login_done)
+    if (!localStorage["userInfo"])
         return null;
 
-    var email = document.getElementById("login");
-    return email.innerText;
+    var user_info = JSON.parse(localStorage["userInfo"]);
+    var email = user_info.email;
+    return email;
 }
 
-/*
-function save_SenderAddress() {
-    var content = document.getElementById("sender").value;
 
-    localStorage["from_address"] = content;
-
-}
-*/
 
 // Saves current content into localStorage.
 function save_Msg() {
-    //var content = document.getElementsByClassName(" nicEdit-main ");
     var editorArea = nicEditors.findEditor("message");
-    localStorage["current_content"] = editorArea.getContent();//content[0].innerHTML;
-
-    //update_status(content);
+    localStorage["current_content"] = editorArea.getContent();
 }
-/*
-function update_status() {
-    var content = localStorage["current_content"];
 
-    if (cipherTitle.length <= content.length && encryptionMode) { // decrypt message
-        var subContent = content.substr(0, cipherTitle.length);
-
-        if (cipherTitle == subContent) { // modify button "decrypt"
-            elementStyleDisplay("addEmail_encrypt", "none");
-            elementStyleDisplay("addEmail_decrypt", "");
-            
-            elementStyleDisplay("to_id", "none");
-            elementStyleDisplay("from_id", "");
-
-            elementStyleDisplay("recipient", "none");
-            elementStyleDisplay("sender", "");
-
-            // update email address
-
-            encryptionMode = false;
-        }
-    }
-    else if (cipherTitle.length > content.length && !encryptionMode) {
-        elementStyleDisplay("addEmail_encrypt", "");
-        elementStyleDisplay("addEmail_decrypt", "none");
-
-        elementStyleDisplay("to_id", "");
-        elementStyleDisplay("from_id", "none");
-
-        elementStyleDisplay("recipient", "");
-        elementStyleDisplay("sender", "none");
-
-        // update email address
-
-
-        encryptionMode = true;
-    }
-}
-*/
 
 // Restores select box state to saved value from localStorage.
 function restore_options() {
-    var user_email = localStorage["login"];
-    restore_login(user_email);
-    toggleEditor();
+    restore_login();
     restore_content();
-    
 }
 
-function restore_login(user_email) {
-    if (user_email) {  // email existing
-        var text = document.createTextNode(user_email);
-        var login = document.getElementById("login");
-        login.style.width = "";
-        document.getElementById("login").appendChild(text);
+function restore_login() {
+    var userInfo = localStorage["userInfo"];
 
-        //change Popover display status
-        var loginPage = document.getElementById("login_Input");
-        loginPage.style.display = "none";
+	if (userInfo) {  // userinfo existing
         var changePage = document.getElementById("change");
         changePage.style.display = "";
-
         login_done = true;
     }
     else {// not existing
-        var email = document.getElementById("login");
-        email.innerText = "log in";
-        localStorage["login"] = "";
-
-        //change Popover display status
-        var loginPage = document.getElementById("login_Input");
-        loginPage.style.display = "";
         var changePage = document.getElementById("change");
         changePage.style.display = "none";
         
@@ -136,12 +63,10 @@ function restore_login(user_email) {
 
 function restore_content() {
     var content = localStorage["current_content"];
-    var editorArea = nicEditors.findEditor("message");//document.getElementsByClassName(" nicEdit-main ");
-
+    var editorArea = nicEditors.findEditor("message");
     if (content == undefined || content == "")
         return;
     editorArea.setContent(content);
-    //editorArea[0].innerHTML = localStorage["current_content"];
 }
 
 function restore_emailAddress() {
@@ -159,7 +84,7 @@ function cleanTable() {
         var editorArea = nicEditors.findEditor("message");
         editorArea.setContent("<br>");
         localStorage["current_content"] = "";
-        
+
         var hisEmail = document.getElementById("recipient");
         localStorage["to_address"] = "";
         hisEmail.value = "";
@@ -167,29 +92,34 @@ function cleanTable() {
     else {
         var cipherArea = document.getElementById("cipherMsg");
         cipherArea.innerText = "";
-
-       
     }
-
-    //removeOldCiphertext();
 }
 
 function closeButton() {
     if (encryptionMode) {
-        var cipherArea = document.getElementById("appendMessage");
+        var cipherArea = document.getElementById("cipher");
         cipherArea.innerText = "";
     }
     else {
         var plainTextArea = document.getElementById("plaintext");
         plainTextArea.innerText = "";
-
-
     }
-
 }
 
-/* Encrypt button */
-var buttonClass = "";
+function selectEntireMsg() {
+    if (encryptionMode) {
+        var cipherArea = document.getElementById("cipher");
+
+        cipherArea.focus();
+        cipherArea.select();
+    }
+    else {
+        var plainTextArea = document.getElementById("plaintext");
+        plainTextArea.innerText = "";
+    }
+}
+
+
 function mouseOverButton() {
     var button = document.getElementById("button");
     buttonClass = button.className;
@@ -207,11 +137,8 @@ function mouseOverFormat() {
     var button = document.getElementById("Format");
     buttonClass = button.className;
     button.className += " JZIJW";
-
-    //var highlight = document.getElementsByClassName("dv");
     // add jquery to modify class attribute - opacity
     $('.dv').css({opacity:'1.0'});
-    
 }
 
 function mouseOutFormat() {
@@ -227,7 +154,6 @@ function mouseOverTrash() {
     button.className += " JZIJW";
 
     $('.og').css({ opacity: '1.0' });
-    
 }
 
 function mouseOutTrash() {
@@ -237,27 +163,256 @@ function mouseOutTrash() {
     $('.og').css({ opacity: '.55' });
 }
 
-
 var done = false;  // all set, include login email address and sender/recipient email address
 var login_done = false;
+
+
+function signOut() {
+	clearAuthorized();
+    var login = document.getElementById("login");
+    login.innerText = "login";
+    login.style.width = "0px";
+    
+    document.getElementById("prefix").innerText = "";
+    document.getElementById("email_id").innerText = "";
+
+    login_done = false;
+}
+
+function loginButton() {
+    // if never log in before
+    if (!localStorage["userInfo"]) {
+		var loginInfo = document.getElementById("login_button");
+		loginInfo.removeAttribute("data-toggle");
+        $("#LoginMessage").modal('show'); // google OAuth
+        return;
+    }
+}
+
+var msg_from_login = false;
+// if either user or recipient's email is not valid, then fail, refuse encryption
+function ValidEmailAddress() {
+    var warning = document.getElementById("messageBody");
+    // Check email address
+    if (!login_done) {
+        if (encryptionMode)
+            warning.innerHTML = "<b>Warning!</b> We need your Email address to encrypt the message, please login with your Email address."
+        else
+            warning.innerHTML = "<b>Warning!</b> We need your Email address to decrypt the message, please login with your Email address."
+
+        msg_from_login = true;
+        return false;
+    }
+    
+    // check again, be sure that there is sender or recipient's email 
+    if (encryptionMode) {
+        var email = document.getElementById("recipient").value;
+        if (email == "") {
+            // recipient input your email address please!
+            warning.innerHTML = "<b>Warning!</b> Please specify the recipient's Email address.";
+            msg_from_login = false;
+            return false;
+        }
+        // illegal email address spelling
+        if (!email.match(/[a-zA-z0-9_.]+@[a-zA-Z0-9_.]+\.(edu|com|org|net)/g)) {
+            warning.innerHTML = "<b>Warning!</b> Recipient's email address is in a wrong format. <br />" +
+                "Using a wrong email address, recipient cannot decrypt your message.";
+            msg_from_login = false;
+            return false;
+        }
+    }
+    return true;
+}
+
+function requestLogin() {
+    if (!login_done && msg_from_login) {
+        $("#LoginMessage").modal('show');
+    }
+}
+
+function elementStyleDisplay(id, value) {
+    var element = document.getElementById(id);
+    element.style.display = value;
+    return element;
+}
+
+function getRecipients() {
+    var recipients = new Array();
+    var emails = getRecipientAddress();
+    if (emails)
+        recipients[0] = emails;
+    
+    var login = getCreatorId();
+    if (login)
+        recipients[1] = login;
+
+    return recipients;
+}
+
+function encryption() {
+    elementStyleDisplay("Encryped_Text", "");
+    elementStyleDisplay("Decrypted_Text", "none");
+    elementStyleDisplay("encryptOutputWindow", "");
+    elementStyleDisplay("decryptOutputWindow", "none");
+    var cipherArea = document.getElementById("cipher");
+
+    done = ValidEmailAddress();
+    if (!done) {
+        $("#myModalMessage").modal('show');
+        return;
+    }
+
+    var editorArea = nicEditors.findEditor("message");
+    var msg = editorArea.getContent();
+    var creatorId = getRecipientAddress();
+    
+    var recipients = getRecipients();
+   
+    var cipher = sendEncryptedMessage(msg, creatorId, recipients);
+
+    var header =
+        "You have received a message that has been <span style='font-weight: bold;'>encrypted</span> using Message Protector (MP). " +
+        "<br><br>Directions for decrypting and reading this message can be found at <a href='https://mp.isrl.byu.edu'>https://mp.isrl.byu.edu</a>." +
+
+        "<br><br><br>" + 
+        "<pre>---------- Begin Encrypted Message ----------\n";
+    var footer =
+        "\n---------- End Encrypted Message ----------</pre>";
+    
+    if (cipher) {
+        cipherArea.innerHTML = header + cipher + footer;
+        $("#myOutputText").modal('show');
+    }
+    
+}
+
+function packageMessage(cipher) {
+    var newNode = document.createElement("span");
+    newNode.id = "t1";
+    newNode.appendChild(document.createTextNode(cipher));
+
+    return newNode;
+}
+
+function removeOldCiphertext() {
+    var cipherNode = document.getElementById("appendMessage");
+    var childNode = document.getElementById("t1");
+
+    if(childNode!=null)
+        cipherNode.removeChild(childNode);
+}
+
+function GetCipherText() {
+    var cipher = document.getElementById("cipherMsg").innerText;
+    var base64Regex = /(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})/g;
+    var message = "";
+    while (message = base64Regex.exec(cipher)) {
+        if (message[0].length > 20) {
+            return message[0];
+        }
+    }
+
+    warning.innerHTML = "The message input did not contain an encrypted message. Please copy and paste the entire message into Message Protector.";     
+    //Message is missing!</b> Please copy and paste the entire message from \"--- Begin Encrypted Message ---\" to  \"--- End Encrypted Message ---\".";
+    msg_from_login = false;
+    return null;
+}
+
+function decryption() {
+    elementStyleDisplay("encryptOutputWindow", "none");
+    elementStyleDisplay("decryptOutputWindow", "");
+    elementStyleDisplay("Encryped_Text", "none");
+    elementStyleDisplay("Decrypted_Text", "");
+
+    var plainTextArea = document.getElementById("plaintext");
+    done = ValidEmailAddress();
+    if (!done) {
+        $("#myModalMessage").modal('show');
+        return;
+    }
+
+    var cipherText = GetCipherText();
+    if (cipherText == null) {
+        done = false;
+        $("#myModalMessage").modal('show');
+        return;
+    }
+    
+    var msg = document.getElementById("cipherMsg").innerText;
+    var viewerId = getCreatorId();
+    var plainText = decryptEncryptedMessage(cipherText, viewerId);
+   
+    if (plainText == "Decryption Failed!") {
+        var warning = document.getElementById("messageBody");
+        warning.innerHTML = "<b>Sorry</b>, decryption is failed! You may sign in with a wrong email account.<br /> Please try another account or contact with sender to ask which recipient email address using for encryption.";
+        msg_from_login = false;
+        $("#myModalMessage").modal('show');
+        return;
+    }
+       
+    plainTextArea.innerHTML = plainText;
+    $("#myOutputText").modal('show');
+}
+
+function encryptionOption() {
+    var msg = elementStyleDisplay("textFormat", "");
+    var cipher = elementStyleDisplay("cipherFormat", "none");
+    encryptionMode = true;
+
+    elementStyleDisplay("Ebutton", "");
+    elementStyleDisplay("Dbutton", "none");
+}
+
+function decryptionOption() {
+    var msg = elementStyleDisplay("textFormat", "none");
+    var cipher = elementStyleDisplay("cipherFormat", "");
+    encryptionMode = false;
+
+    elementStyleDisplay("Ebutton", "none");
+    elementStyleDisplay("Dbutton", "");
+}
+
+var editorLaunch = null;
+function toggleEditor() {
+    var o = document.getElementById("overflow");
+    var padding = document.getElementById("textFormat");
+    var textArea = document.getElementsByClassName(" nicEdit-main ");
+   
+    if (!editorLaunch) {
+        editorLaunch = new nicEditor({ fullPanel: true }).panelInstance('message', { hasPanel: true });
+        o.style.overflow = "hidden";
+        padding.className = "Ar Arr";
+        padding.children[0].style.width = "712px";
+        padding.children[1].style.width = "710px";
+        padding.children[1].style.borderRightStyle = "none";
+        padding.children[1].style.borderBottomStyle = "none";
+        padding.children[1].style.borderLeftStyle = "none";
+
+        textArea[0].style.margin= "4px 0px 3px 3px";//"8px 6px";
+        textArea[0].style.overflowY = "auto";
+        textArea[0].style.width = "706px";//"703px";
+        textArea[0].style.minHeight = "inherit";
+
+        editorLaunch.addEvent('blur', function () {
+            save_Msg();
+        });
+    }
+}
+
 // Cursor is in email address input after launch BME
 $(document).ready(function () {
 
     $('.vO').focus(); // cursor is at email address area
 
-    $(".btn").popover({
-
+    /*
+    $('a#copy').clipboard({
+        path: 'js/jquery.clipboard.swf',
+        copy: function() {
+            alert('Text copied. Try to paste it now!');
+            return; //$('div#cipher').text();
+        }
     });
-
-    $("#button").click(function (e) {
-        e.preventDefault();
-        if (done)
-            $("#myOutputText").modal('show');
-        else
-            // Error Messages
-            $("#myModalMessage").modal('show');
-    });
-
+    */
     
     $("#button").hover(function (e) {
         e.preventDefault();
@@ -299,278 +454,84 @@ $(document).ready(function () {
     });
 });
 
-function signIn() {
-    user_email = document.getElementById("Email").value;
+function reset_login() {
+
+    var element = document.getElementById("change");
+    element.style.display = "";
     
-    //var text = document.createTextNode(user_email);
-    var login = document.getElementById("login");
-    login.style.width = "183px";
-    login.innerText = user_email;
-    //login.appendChild(text);
-    var my_email = document.getElementById("email_id");
-    my_email.innerText = user_email;
-    localStorage["login"] = user_email;
-
-    // finally check if Stay signed in is checked
-    if (document.getElementById("PersistentCookie").checked)
-        localStorage["login"] = user_email;
-
-    //change Drop menu display status
-    elementStyleDisplay("login_Input", "none");
-    elementStyleDisplay("change", "");
-
     login_done = true;
+    
+
+    $("#LoginMessage").modal('hide');
 }
 
+// user doesn't Auth
+function clear_login() {
 
-function signOut() {
-    var login = document.getElementById("login");
-    login.innerText = "log in";
-    login.style.width = "0px";
-    localStorage["login"] = "";
+    var element = document.getElementById("change");
+    element.style.display = "none";
 
-    elementStyleDisplay("login_Input", "");
-    elementStyleDisplay("change", "none");
-    
-    //var my_email = document.getElementById("email_id");
-    //my_email.innerText = "";
-    document.getElementById("prefix").innerText = "";
-    document.getElementById("email_id").innerText = "";
+    delete localStorage["userInfo"];
 
     login_done = false;
 }
 
-function menuButton() {
-    var loginInfo = document.getElementById("login").innerText;
-
-    if (loginInfo == "log in")
-        return;
-    //var text = document.createTextNode(loginInfo);
-    document.getElementById("email_id").innerText = loginInfo;
-    var email_elements = loginInfo.split("@");
-
-    var addPrefix = document.getElementById("prefix");
-    addPrefix.innerText = email_elements[1];
-    
-}
-
-// if either user or recipient's email is not valid, then fail, refuse encryption
-function ValidEmailAddress() {
-    // Check email address
-    if (!login_done) {
-        var warning = document.getElementById("messageBody");
-        if (encryptionMode)
-            warning.innerText = "We need your Email address to encrypt the message, please specify your Email address."
-        else
-            warning.innerText = "We need your Email address to decrypt the message, please specify your Email address."
-        
-        return false;
+function select_all() {
+    el = document.getElementById('cipher');
+    if (typeof window.getSelection != "undefined" && typeof document.createRange != "undefined") {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    } else if (typeof document.selection != "undefined" && typeof document.body.createTextRange != "undefined") {
+        var textRange = document.body.createTextRange();
+        textRange.moveToElementText(el);
+        textRange.select();
     }
-    
-    // check again, be sure that there is sender or recipient's email 
-    if (encryptionMode) {
-        var email = document.getElementById("recipient").value;
-        if (email == "") {
-            // recipient input your email address please!
-            var warning = document.getElementById("messageBody");
-            warning.innerText = "Please specify the recipient's Email address.";
-
-            return false;
-        }
-    }
-    /*
-    else {
-        var warning = document.getElementById("messageBody");
-        warning.innerText = "Please specify the sender's Email address.";
-
-        return false;
-    }
-    */
-    return true;
-}
-/*
-function submitContent() {
-    update_status();
-    ValidEmailAddress();
-    
-}
-*/
-function elementStyleDisplay(id, value) {
-    var element = document.getElementById(id);
-    element.style.display = value;
-    return element;
 }
 
-function getRecipients() {
-    var recipients = new Array();
-    var emails = getRecipientAddress();
-    if (emails)
-        recipients[0] = emails;
-    
-    var login = getCreatorId();
-    if (login)
-        recipients[1] = login;
-
-    return recipients;
-}
-
-function encryption() {
-    done = ValidEmailAddress();
-    if (!done)
-        return;
-
-    var editorArea = nicEditors.findEditor("message");
-    var msg = editorArea.getContent();
-    var creatorId = getRecipientAddress();
-    
-    done = true;
-    var recipients = getRecipients();
+document.addEventListener('DOMContentLoaded', function () {
+    toggleEditor();
+    document.querySelector('#google_login').addEventListener('click', function() { authorize('google'); });
    
-    var cipher = sendEncryptedMessage(msg, creatorId, recipients);
+    document.querySelector('#login_button').addEventListener('click', loginButton);
+    document.querySelector('#signOut').addEventListener('click', signOut);
+    document.querySelector('#errorButton1').addEventListener('click', requestLogin);
+    document.querySelector('#errorButton2').addEventListener('click', requestLogin);
+    document.querySelector('#Ebutton').addEventListener('click', encryption);
+    document.querySelector('#Dbutton').addEventListener('click', decryption);
+    document.querySelector('#Close').addEventListener('click', closeButton);
+    document.querySelector('#CloseIt').addEventListener('click', closeButton);
 
-    //removeOldCiphertext();
-    if (cipher) {
-        elementStyleDisplay("cipher", "");
-        var cipherArea = document.getElementById("appendMessage");
-        cipherArea.innerText = cipher;//appendChild(packageMessage(cipher));
+    document.querySelector('#cipher').addEventListener('click', select_all);
 
-        var plainTextArea = elementStyleDisplay("plaintext", "none");
+    document.querySelector('#Trash').addEventListener('click', cleanTable);
 
-        elementStyleDisplay("Encryped_Text", "");
-        elementStyleDisplay("Decrypted_Text", "none");
-    }
-    /*
-    // After encryption, recipient's email address should be deleted, avoid mistakes
-    var hisEmail = document.getElementById("recipient");
-    hisEmail.value = "";
-    localStorage["to_address"] = "";
-    */
-}
+    document.querySelector('#encryptionTab').addEventListener('click', encryptionOption);
+    document.querySelector('#decryptionTab').addEventListener('click', decryptionOption);
 
-function packageMessage(cipher) {
-    
-    var newNode = document.createElement("span");
-    newNode.id = "t1";
-    newNode.appendChild(document.createTextNode(cipher));
 
-    return newNode;
-}
+    // Encrypt/Decrypt Button
+    document.querySelector('#button').addEventListener('mouseover', mouseOverButton, false);
+    document.querySelector('#button').addEventListener('mouseout', mouseOutButton, false);
 
-function removeOldCiphertext() {
-    var cipherNode = document.getElementById("appendMessage");
-    var childNode = document.getElementById("t1");
+    // Erase content
+    document.querySelector('#Trash').addEventListener('mouseover', mouseOverTrash, false);
+    document.querySelector('#Trash').addEventListener('mouseout', mouseOutTrash, false);
 
-    if(childNode!=null)
-        cipherNode.removeChild(childNode);
-}
+    document.querySelector('#recipient').addEventListener('keyup', save_RecipientAddress);
+    document.querySelector('#textFormat').addEventListener('keyup', save_Msg);
 
-function decryption() {
-    done = ValidEmailAddress();
-    if (!done)
-        return;
-
-    var msg = document.getElementById("appendMessage").innerText;
+    checkAuthorized();
   
-    var viewerId = getCreatorId();
-    var plainText = decryptEncryptedMessage(msg, viewerId);
-    elementStyleDisplay("cipher", "none");
-    
-    //elementStyleDisplay("plaintext");
-
-    var plainTextArea = elementStyleDisplay("plaintext", "");
-    plainTextArea.innerHTML = plainText;
-    
-    elementStyleDisplay("Encryped_Text", "none");
-    elementStyleDisplay("Decrypted_Text", "");
-}
-
-function encryptionOption() {
-    var msg = elementStyleDisplay("textFormat", "");
-    var cipher = elementStyleDisplay("cipherFormat", "none");
-    encryptionMode = true;
-
-    elementStyleDisplay("Ebutton", "");
-    elementStyleDisplay("Dbutton", "none");
-    
-}
-
-function decryptionOption() {
-    var msg = elementStyleDisplay("textFormat", "none");
-    var cipher = elementStyleDisplay("cipherFormat", "");
-    encryptionMode = false;
-
-    elementStyleDisplay("Ebutton", "none");
-    elementStyleDisplay("Dbutton", "");
-}
-
-var editorLaunch = null;
-function toggleEditor() {
-    var o = document.getElementById("overflow");
-    var padding = document.getElementById("textFormat");
-    var textArea = document.getElementsByClassName(" nicEdit-main ");
-   
-    if (!editorLaunch) {
-        editorLaunch = new nicEditor({ fullPanel: true }).panelInstance('message', { hasPanel: true });
-        o.style.overflow = "hidden";
-        padding.className = "Ar Arr";
-        padding.children[0].style.width = "712px";
-        padding.children[1].style.width = "710px";
-        padding.children[1].style.borderRightStyle = "none";
-        padding.children[1].style.borderBottomStyle = "none";
-        padding.children[1].style.borderLeftStyle = "none";
-
-        textArea[0].style.margin= "4px 0px 3px 3px";//"8px 6px";
-        textArea[0].style.overflowY = "auto";
-        textArea[0].style.width = "706px";//"703px";
-        textArea[0].style.minHeight = "inherit";
-
-        editorLaunch.addEvent('blur', function () {
-            save_Msg();
-        });
+    if (localStorage["userInfo"]) {
+        
+        restore_options();
+        
+        $("#LoginMessage").modal('hide');
     }
-    /*
     else {
-        editorLaunch.removeInstance('message');
-        editorLaunch = null;
-        o.style.overflow = "auto";
-        padding.className = "Ar";
+        $("#LoginMessage").modal('show');
     }
-    */
-}
-
-// DOMContent loading, check if there is a signed in email address in local storage/session storage
-// And also check if there is a editing message in editing area
-document.addEventListener('DOMContentLoaded', restore_options);
-
-document.querySelector('#drop3').addEventListener('click', menuButton);
-document.querySelector('#signIn').addEventListener('click', signIn);
-document.querySelector('#signOut').addEventListener('click', signOut);
-//document.querySelector('#button').addEventListener('click', submitContent);
-document.querySelector('#Ebutton').addEventListener('click', encryption);
-document.querySelector('#Dbutton').addEventListener('click', decryption);
-document.querySelector('#Close').addEventListener('click', closeButton);
-document.querySelector('#Trash').addEventListener('click', cleanTable);
-//document.querySelector('#addEmail').addEventListener('click', addEmail);
-
-//document.querySelector('#Format').addEventListener('click', toggleArea1);
-document.querySelector('#encryptionTab').addEventListener('click', encryptionOption);
-document.querySelector('#decryptionTab').addEventListener('click', decryptionOption);
-
-//document.querySelector('#addEmail_encrypt').addEventListener('click', encryption);
-//document.querySelector('#addEmail_decrypt').addEventListener('click', decryption);
-
-
-// Encrypt/Decrypt Button
-document.querySelector('#button').addEventListener('mouseover', mouseOverButton, false);
-document.querySelector('#button').addEventListener('mouseout', mouseOutButton, false);
-
-// Text format button
-document.querySelector('#Format').addEventListener('mouseover', mouseOverFormat, false);
-document.querySelector('#Format').addEventListener('mouseout', mouseOutFormat, false);
-// Erase content
-document.querySelector('#Trash').addEventListener('mouseover', mouseOverTrash, false);
-document.querySelector('#Trash').addEventListener('mouseout', mouseOutTrash, false);
-
-document.querySelector('#recipient').addEventListener('keyup', save_RecipientAddress);//save_options);
-//document.querySelector('#sender').addEventListener('keyup', save_SenderAddress);
-document.querySelector('#textFormat').addEventListener('keyup', save_Msg);
+});
