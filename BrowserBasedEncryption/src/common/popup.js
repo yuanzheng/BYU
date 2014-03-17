@@ -312,6 +312,7 @@ function GetCipherText() {
         }
     }
 
+	var warning = document.getElementById("messageBody");
     warning.innerHTML = "The message input did not contain an encrypted message. Please copy and paste the entire message into Message Protector.";     
     //Message is missing!</b> Please copy and paste the entire message from \"--- Begin Encrypted Message ---\" to  \"--- End Encrypted Message ---\".";
     msg_from_login = false;
