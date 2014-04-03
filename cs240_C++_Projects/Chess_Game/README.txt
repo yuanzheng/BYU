@@ -114,6 +114,3 @@ The easiest way to document this information is to create a commented header fil
 The best way to document these algorithms is to actually write the code or psuedocode for them in terms of the specific classes and methods in your design. This will help you see how your classes will work together at runtime to accomplish each task. The description should be specific and include solutions to algorithmic problems inherent in the project.
 Submit a hard-copy printout of your design document at the TA's office before midnight on the due date (remember that the building's doors are locked at 11). Please make sure that your name is clearly visible on the front of your design document. Design documents may not be submitted by email. 
 NOTE: A good way to create a good, easy to read (and easy to grade) design document is to use the grading sheet as an outline.
-
-5
-
