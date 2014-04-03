@@ -1,0 +1,40 @@
+<style>
+.thumblist {
+	clear: both;
+}	
+.thumblist a {
+		float: left;
+		margin-right: 5px;
+	}
+</style>
+
+<h1>Recent Images</h1>
+<div class="thumblist">
+#for $image in $recent
+<a href="$image.viewurl"><img src="$image.thumburl"/></a>
+#end for
+
+<br clear="both"/>
+</div>
+<br/>
+<a href="./list/recent">See more Recent Images</a>
+<br/><br/><br/>
+
+
+<h1>Popular Images</h1>
+<div class="thumblist">
+#for $image in $popular
+<a href="$image.viewurl"><img src="$image.thumburl"/></a>
+#end for
+
+<br clear="both"/>
+</div>
+<br/>
+<a href="./list/popular">See more Popular Images</a>
+<br/><br/><br/>
+<h1>About The Image Project</h1>
+
+
+<p>The Image Project is a simple website used in teaching cloud computing principles and techniques.
+This project uses Python, EC2, SQS, SimpleDB, Cheetah, and jQuery.</p>
+

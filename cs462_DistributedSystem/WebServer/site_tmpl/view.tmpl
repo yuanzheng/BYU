@@ -1,0 +1,110 @@
+<style>
+	/* RATING */
+	.ui-rater>span {vertical-align:top;}
+	.ui-rater-rating {margin-left:.8em}
+	.ui-rater-starsOff, .ui-rater-starsOn {display:inline-block; height:18px; background:url(/stars.png) repeat-x 0 0px;}
+	.ui-rater-starsOn {display:block; max-width:90px; top:0; background-position: 0 -36px;}
+	.ui-rater-starsHover {background-position: 0 -18px!important;}
+
+.imagebox {
+	width:620px;
+	background-color: #eeeeee;
+	padding:10px;
+	float: left; 
+}
+.infobox {
+	float:left;
+	width: 250px;
+	margin-left: 10px;
+	
+}
+.imagebox img {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+h2 {
+	margin-left: 0px;
+}
+
+.comment{
+	background-color: #eeeeee;
+	padding: 1em;
+	color: #777777;
+	margin-bottom: 2em;
+	padding-left: 4em;
+	font-size: .8em
+}
+.comment p {
+	color: black;
+	margin-left: -2em;
+	font-size: 1.2em;
+}
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script type="text/javascript" src="/jquery.rater.js"></script>
+<script type="text/javascript">
+    	\$(function() {
+    		\$('#imageRater').rater({ id: '$image.imagekey', postHref: '/ratesubmit' });
+    	});
+function saveComment(){
+	var commentinfo = \$('#commentform').serialize();
+	//console.log(commentinfo);
+	\$.postJSON("/commentsubmit", commentinfo, function(response){
+		//console.log("commentsubmit response", response);
+		\$('#commentform').html('Your comment has been submitted for approval.');
+	});
+}
+\$.postJSON = function(url, data, callback) {
+	$.post(url, data, callback, "json");
+};
+
+</script>
+<div class="imagebox">
+<a href="$image.detailURL"><img src="$image.imageURL" height="$image.imageheight" width="$image.imagewidth"/></a>
+</div>
+<div class="infobox">
+<h2>Info</h2>
+Submitted By: $image.submituser on $image.submitdate<br/>
+<h2>Description</h2>
+<p>$image.description</p>
+<h2>Tags</h2>
+#if $image.tag
+#echo ', '.join($image.tag)#<br/>
+#else
+<br/>
+#end if
+
+
+<h2>Rating</h2>
+<!-- http://jvance.com/TestRater.htm -->
+	<div id="imageRater" class="stat">
+		
+		<div class="statVal">
+			<span class="ui-rater">
+				<span class="ui-rater-starsOff" style="width:90px;"><span class="ui-rater-starsOn" style="width:$(90/5*$image.rating)px"></span></span>
+				<span class="ui-rater-rating">$image.rating</span>&#160;(<span class="ui-rater-rateCount">$image.ratingcount</span>)
+			</span>
+        </div>
+</div>
+</div>
+<br clear="both"/>
+<div id="commentbox">
+<h1>Comments</h1>
+
+#for $comment in $image.comments
+<div class="comment">
+<p>$comment.comment</p>
+- $comment.submituser $comment.submitdate
+</div>
+#end for
+
+<form id="commentform">
+<input type="hidden" name="imagekey" value="$image.imagekey"/>
+
+<textarea name="comment" style="width:40em;"></textarea><br/>
+Name: <input type="text" name="commentuser" value=""/>
+
+<input type="button" value="Add Comment" onclick="saveComment();"/>
+</form>
+</div>

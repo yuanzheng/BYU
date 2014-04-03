@@ -1,0 +1,25 @@
+<style>
+.listitem {
+	margin-bottom: 2em;
+}
+.listitem a {
+	float:left;
+	margin-right: 2em;
+}
+</style>
+
+<h1>Recent Images</h1>
+
+#for $image in $imagelist
+<div class="listitem">
+<a href="$image.viewurl"><img src="$image.thumburl"/></a>
+<p>$image.description</p><br/>
+Submitted by $image.submituser on $image.submitdate
+<br clear="both"/>
+</div>
+#end for
+
+<br/>
+#if len($nextsubmitdate)
+<a href="/list/recent?nextsubmitdate=$nextsubmitdate">More Images ...</a>
+#end if

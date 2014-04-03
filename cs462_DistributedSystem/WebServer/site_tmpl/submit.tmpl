@@ -1,0 +1,37 @@
+<style>
+label {
+	display: block;
+	width: 8em;
+float: left;
+	text-align: right;
+	margin-right: 0.5em;
+}
+input, textarea {
+	width: 18em;
+}
+input[type="submit"] {
+	width: 8em;
+	margin-left: 7.5em;
+}
+</style>
+
+<h1>Submit Picture</h1>
+
+<form action="/submit" method="post" enctype="multipart/form-data">
+<input type="hidden" name="filesubmit" value="true"/>
+<label>Image URL</label>
+<input type="text" name="imageurl" value="$f.imageurl"/><br/>
+<label>Detail URL</label>
+<input type="text" name="detailurl" value="$f.detailurl"/><br/>
+<label>Tags</label>
+<input type="text" name="tags" value="$f.tags"/> (comma seperated)<br/>
+<label>Description</label>
+<textarea name="description">$f.description</textarea><br/>
+<label>Your Name</label>
+<input type="text" name="submituser" value="$f.submituser"/><br/>
+<input type="submit" value="Submit Picture"/>
+</form>
+
+#for $error in $errorlist
+ Error: $error<br/>
+#end for
