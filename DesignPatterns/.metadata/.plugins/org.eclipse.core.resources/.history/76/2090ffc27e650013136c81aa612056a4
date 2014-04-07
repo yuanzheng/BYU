@@ -1,7 +1,0 @@
-package FactoryMethod;
-
-public abstract class AnimalFactory {
-
-	// Factory method
-	protected abstract Animal getAnimal();
-}
