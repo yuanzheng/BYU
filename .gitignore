@@ -8,7 +8,7 @@ pom.xml.versionsBackup
 test-output/
 /atlassian-ide-plugin.xml
 .idea
-.metadata
+.class
 .DS_Store
 .classpath
 .settings
