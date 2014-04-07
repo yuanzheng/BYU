@@ -1,0 +1,13 @@
+package FactoryMethod;
+
+public class DogFactory extends AnimalFactory {
+
+	// get animal
+	protected Animal factoryMethod(){
+
+		System.out.println("Dog");
+
+		return new Dog();
+
+	}
+}

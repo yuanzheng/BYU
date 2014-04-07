@@ -1,0 +1,28 @@
+package FactoryMethod;
+
+public class TestFactoryMethod {
+
+	public static void main(String[] args) {
+
+		AnimalFactory af=new DogFactory();
+
+		Animal a=af.getAnimal();
+
+	}
+
+}
+
+
+}
+
+class CatFactory extends AnimalFactory{
+
+public Animal1 getAnimal(){
+
+System.out.println("Cat");
+
+return new Cat1();
+
+}
+
+} 

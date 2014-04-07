@@ -1,0 +1,13 @@
+package FactoryMethod;
+
+public abstract class Animal {
+}
+	
+
+	
+	
+	abstract class AnimalFactory{
+
+		public abstract Animal1 getAnimal();
+	}
+	

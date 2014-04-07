@@ -1,0 +1,18 @@
+package FactoryMethod;
+
+/*
+ * author SongYz
+ */
+
+public class TestFactoryMethod {
+
+	public static void main(String[] args) {
+
+		AnimalFactory af=new DogFactory();
+
+		Animal a=af.getAnimal();
+
+	}
+
+}
+

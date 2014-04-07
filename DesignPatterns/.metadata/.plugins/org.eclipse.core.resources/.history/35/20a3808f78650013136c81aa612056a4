@@ -1,0 +1,7 @@
+package FactoryMethod;
+
+Interface Animal {
+}
+	
+
+	
