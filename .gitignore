@@ -11,6 +11,7 @@ test-output/
 .class
 .DS_Store
 .classpath
+
 .settings
 .project
 temp-testng-customsuite.xml
