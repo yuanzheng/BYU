@@ -1,0 +1,71 @@
+
+public class main {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		byte[] byteKey = hexStringToByteArray("000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f");
+		byte[] plainText = hexStringToByteArray("00112233445566778899aabbccddeeff");
+		AES aes = new AES();
+
+
+		byteKey = hexStringToByteArray("000102030405060708090a0b0c0d0e0f");
+		plainText = hexStringToByteArray("00112233445566778899aabbccddeeff");
+		
+		System.out.println("PlainText: 00112233445566778899aabbccddeeff");
+		System.out.println("Key: 000102030405060708090a0b0c0d0e0f");
+		plainText = aes.encrypt(plainText, byteKey);
+		System.out.println("Encrypted:"+bytesToHex(plainText));
+		plainText = aes.decrypt(plainText, byteKey);
+		System.out.println("Decrypted:"+bytesToHex(plainText));	
+		System.out.println("------------------------------");
+		
+		
+		
+		byteKey = hexStringToByteArray("000102030405060708090a0b0c0d0e0f1011121314151617");
+		plainText = hexStringToByteArray("00112233445566778899aabbccddeeff");
+		
+		System.out.println("PlainText: 00112233445566778899aabbccddeeff");
+		System.out.println("Key: 000102030405060708090a0b0c0d0e0f1011121314151617");
+		plainText = aes.encrypt(plainText, byteKey);
+		System.out.println("Encrypted:"+bytesToHex(plainText));
+		plainText = aes.decrypt(plainText, byteKey);
+		System.out.println("Decrypted:"+bytesToHex(plainText));		
+		System.out.println("------------------------------");
+		
+		
+		byteKey = hexStringToByteArray("000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f");
+		plainText = hexStringToByteArray("00112233445566778899aabbccddeeff");
+		
+		System.out.println("PlainText: 00112233445566778899aabbccddeeff");
+		System.out.println("Key: 000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f");
+		plainText = aes.encrypt(plainText, byteKey);
+		System.out.println("Encrypted:"+bytesToHex(plainText));
+		plainText = aes.decrypt(plainText, byteKey);
+		System.out.println("Decrypted:"+bytesToHex(plainText));
+		System.out.println("------------------------------");
+
+	}
+	public static byte[] hexStringToByteArray(String s) {
+	    int len = s.length();
+	    byte[] data = new byte[len / 2];
+	    for (int i = 0; i < len; i += 2) {
+	        data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+	                             + Character.digit(s.charAt(i+1), 16));
+	    }
+	    return data;
+	}
+	final protected static char[] hexArray = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+	public static String bytesToHex(byte[] bytes) {
+	    char[] hexChars = new char[bytes.length * 2];
+	    int v;
+	    for ( int j = 0; j < bytes.length; j++ ) {
+	        v = bytes[j] & 0xFF;
+	        hexChars[j * 2] = hexArray[v >>> 4];
+	        hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+	    }
+	    return new String(hexChars);
+	}
+}
