@@ -1,6 +1,6 @@
 
 
-Overview
+##CS 462 Distributed System -- Projects Overview##
 
 For the class project, we will be building a website that allows users to submit pictures and comment on 
 and rate other user's submissions.
@@ -12,3 +12,5 @@ and leave comments on pictures. All pictures and comments are reviewed before po
 Not all services required to run this website will be built by students. In particular, a Class Server 
 will provide load balancing services and logging services. DNS services will also need to be configured 
 prior to students building their labs.
+
+![](http://classes.windley.com/462/wiki/images/f/f5/462_Lab_Overview.png)
