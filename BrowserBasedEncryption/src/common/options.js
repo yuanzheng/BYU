@@ -51,10 +51,6 @@
 
   }
   
-
-
-
-
 function xhrWithAuth(method, url, interactive, callback) {
     var access_token;
 
@@ -135,7 +131,7 @@ function setUserInfo() {
     var user_info = JSON.parse(localStorage["userInfo"]);
 
     var login = document.getElementById("login");
-    login.style.width = "183px";
+    //login.style.width = "183px";
     login.innerText = user_info.email;
     /*
     var prefix = document.getElementById("prefix");

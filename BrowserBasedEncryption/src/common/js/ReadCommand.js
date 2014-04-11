@@ -53,18 +53,24 @@ var encryptMessage = function (msg, creatorId, recipients) {
 
 
 var decryptEncryptedMessage = function (ciphText, viewerId) {
+    try {
+        var kiwiPackage = JSON.parse(Base64.decodeString(ciphText));
 
-    var kiwiPackage = JSON.parse(Base64.decodeString(ciphText));
+        // get sender email
+        //var userId = viewerId;//"yangseung0105@gmail.com";
+        var msg = decryptMessage(Package.fromJsonObject(kiwiPackage), viewerId);
 
-    // get sender email
-    //var userId = viewerId;//"yangseung0105@gmail.com";
-    var msg = decryptMessage(Package.fromJsonObject(kiwiPackage), viewerId);
+        if (!msg) {
+            return "Decryption Failed!";
+        }
 
-    if (!msg) {
-        return "Decryption Failed!";
+        return msg.contents;
+
+    } catch (exception) {
+        return "Exception";
     }
-    return msg.contents;
 
+    return "Success";
 }
 
 /**

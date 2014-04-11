@@ -13,7 +13,6 @@ overflow:hidden;
 .message-popup .content{margin:auto;background:#fff;background:-webkit-linear-gradient(#fff 30%,#fff);background:-moz-linear-gradient(#ddd9d1 30%,#bebebe);background:-ms-linear-gradient(#ddd9d1 30%,#bebebe);background:-o-linear-gradient(#ddd9d1 30%,#bebebe);padding:10px 35px 10px 15px;border:1px solid #888;border-radius:10px;box-shadow:0 0 20px #666;border-top-left-radius:0;border-top-right-radius:0;border-top:0;text-align:center}
 
 
-
 #google_login {
     margin-bottom:10px
 }
@@ -24,6 +23,10 @@ overflow:hidden;
     vertical-align: top;
     /*height: 96px;*/
     /*width: 96px;*/
+}
+
+.processDialog{
+    margin: 67px 237px 20px 115px;
 }
 
 .amibutton{
@@ -158,7 +161,7 @@ visibility:visible;
 }
 
 .aCk {
-width: 64%;
+/*width: 64%;*/
 height: 90%;
 float:left;
 }
@@ -227,17 +230,18 @@ padding:5px 0 0 0;
 }
 
 .displayEmail {
-    max-width: 183px; 
+    max-width: 97%;
     min-width: 42px; 
     text-overflow:ellipsis;
     display: inline-block;
     white-space:nowrap;
     overflow: hidden;
-    text-align:left;
+    text-align:right;
     line-height:20px;
     vertical-align:top;
     padding: 0 0 2px 0;
-
+    float:left;
+    width:97%;
 }
 
 /*
@@ -373,7 +377,7 @@ cursor: pointer;
 }
 
 .eV {
-width:80%;
+width:94%;
 }
 
 .oj {

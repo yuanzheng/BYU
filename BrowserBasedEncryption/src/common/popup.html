@@ -11,7 +11,6 @@
 	
         <script type="text/javascript" src="oauth2/oauth2.js"></script>
         <script type="text/javascript" src="options.js"></script>
-        <script type="text/javascript" src="popup.js"></script>
   
         <script type="text/javascript" src="js/Base/SymmetricAlgorithm.js"></script> 
         <script type="text/javascript" src="js/AesSymmetricAlgorithm.js"></script> 
@@ -38,6 +37,8 @@
         <script type="text/javascript" src="js/ComposeWindow.js"></script>
         <script type="text/javascript" src="js/ReadCommand.js"></script>
 	    
+        <!-- script type="text/javascript" src="ZeroClipboard.js"></script -->
+       
 
       <style>
         h1 { font-size: 20px }
@@ -63,14 +64,14 @@
                         <ul class="nav pull-right">
                         <li id="fat-menu" class="dropdown">
                             <!-- Sender's email login -->
-                            <a data-target="#" id="login_button" role="button" class="dropdown-toggle" title="Is it your Email Address" style="padding:10px 9px;">
-                                <div id="login" class="displayEmail" tabindex="3" style="width:0px;">
+                            <a data-target="#" id="login_button" role="button" class="dropdown-toggle" title="Sign in/out from here" style="padding:10px 9px;float: right;width:365px;">
+                                <div id="login" class="displayEmail" tabindex="1">
                                 login
                                 </div>
                                 <b class="caret"></b>
                             </a>
                             <!-- Email account information: login/change -->
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="drop3"  style="width:314px; height:280px;">
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="drop3"  style="width:314px; height:148px;">
                                 <!-- login with a new Email address -->
                                 <li>
                             
@@ -82,8 +83,8 @@
                                         </b>
                                     </div>
 						        
-                                    <div style="height:106px">
-                                    </div>
+                                    <!--div style="height:106px">
+                                    </div-->
                                     <div class="info">
 						
 							            <div class="info_1" style="float: left;">
@@ -149,13 +150,13 @@
 					                                <tr> 
                                                         <!-- To label -->
 						                                <td id="to_id" class="ok az4">
-							                                <label class="gO" id="To" data-toggle="tooltip" data-original-title="Select Contacts" style="cursor:default;">To</label>
+							                                <label class="gO" id="To" style="cursor:default;">To</label>
 						                                </td>
 						                                <!-- email address input area -->
                                                         <td class="eV" style="max-width:306px;">
 							                                <div class="oj">
 							                                <div class="wO nr l1">
-                                                                <input type="text" id="recipient" class="span2 vO" tabindex="2" style="width:533px;" placeholder="Recipient's email address">
+                                                                <input type="text" id="recipient" tabindex="2" class="span2 vO" style="width:533px;" placeholder="Recipient's email address">
 								                                <div class="aA6">
 								                                </div>
 							                                </div>
@@ -169,7 +170,7 @@
 					                                <tr> 
                                                         <!-- From label -->
                                                         <td id="Td4" class="ok az4">
-							                                <label id="Label2" class="gO" data-toggle="tooltip" data-original-title="Message From the Select Contact" style="cursor:default;line-height: 27px;">
+							                                <label id="Label2" class="gO" style="cursor:default;line-height: 27px;">
                                                                 Paste the encrypted message below:
 							                                </label>
 						                                </td>
@@ -199,13 +200,13 @@
                                                         <!-- Encription -->
 										                <div id="textFormat" class="Ar" style="display: normal;">
                                                 
-											                <div id="message" class="Am Al editable LW-avf" tabindex="1"  g_editable="true" role="textbox" contentEditable="true" style="direction: ltr; min-height: 80px;"><br></div>
+											                <div id="message" class="Am Al editable LW-avf" g_editable="true" role="textbox" contentEditable="true" style="direction: ltr; min-height: 80px; padding-left:10px;"><br></div>
 										       
                                                         </div>
                                                         <!-- Decryption -->
                                                         <div id="cipherFormat" class="Ar" style="overflow:auto; display: none;">
                                                 
-											                <div id="cipherMsg" class="Am Al editable LW-avf" tabindex="1"  g_editable="true" role="textbox" contentEditable="true" style="direction: ltr; min-height: 80px;"><br></div>
+											                <div id="cipherMsg" class="Am Al editable LW-avf"  g_editable="true" role="textbox" contentEditable="true" style="direction: ltr; min-height: 80px;"><br></div>
 										       
                                                         </div>
 									                </td>
@@ -230,11 +231,11 @@
 									            <tr class="ntfz">
                                                     <!--   -->
 										            <td class="gU Up">
-                                                        <div id="button" class="TI JJ5Ji aoO TIatl L3" data-toggle="tooltip" data-original-title="" role="button" tabindex="4" >
-											                <div id="Ebutton" style="display:normal;"  aria-label="Encrypt (Ctrl-Enter)" data-tooltip-delay="800" style="-webkit-user-select:none;">
+                                                        <div id="button" class="TI JJ5Ji aoO TIatl L3" tabindex="3" data-toggle="tooltip" data-original-title="Encrypt (Enter)" role="button">
+											                <div id="Ebutton" style="display:normal;" aria-label="Encrypt (Enter)" style="-webkit-user-select:none;">
 											                Encrypt
 											                </div>
-                                                            <div id="Dbutton" style="display:none;" aria-label="Decrypt (Ctrl-Enter)" data-tooltip-delay="800" style="-webkit-user-select:none;">
+                                                            <div id="Dbutton" style="display:none;" aria-label="Decrypt (Enter)" style="-webkit-user-select:none;">
 											                Decrypt
 											                </div>
 										                </div>
@@ -250,14 +251,14 @@
 											                </div></div></div>
 										                </div>
 										            </!-->
-										            <td id="Td2" class="gU" style="width:409px;">
+										            <!-- td id="Td2" class="gU" style="width:409px;">
 										                <div id="Div10" class="aWQ">
 											                <span id=":ps" class="oG" style=""></span>
 											                <span class="aWR">&nbsp;</span>
 										                </div>
-										            </td>
+										            </td -->
 										            <td class="gU az5">
-                                                        <div id="Trash" class="oh JZI JJ5Ji TIax7" tabindex="6" role="button" data-toggle="tooltip" data-original-title="Delete message" aria-label="Delete message" style="-webkit-user-select: none;">
+                                                        <div id="Trash" class="oh JZI JJ5Ji TIax7" tabindex="5" role="button" data-toggle="tooltip" data-original-title="Delete message" style="-webkit-user-select: none;">
                                                             <div class="JJ5Ji JZIKvH" style="-webkit-user-select: none;">
                                                                 <div class="JJ5Ji JZIJ6H" style="-webkit-user-select: none;">
                                                                     <div class="og TIJ3" style="-webkit-user-select: none;"></div>
@@ -313,15 +314,33 @@
         </div><!-- /.modal Login --> 
 
         <!-- Modal Output-->
-        <div class="modal fade" id="myOutputText" role="dialog" aria-labelledby="OutputText" aria-hidden="true" style="left:40%; width:700px; height:487px;">
+        <div class="modal fade" id="myOutputText" role="dialog" aria-labelledby="OutputText" aria-hidden="true" style="left:40%; width:700px;">
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header" style="padding: 4px 2px;border-bottom: 1px solid #dff0d8;">
                 <button id="Close" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <div class="modal-title alert alert-success" id="Encryped_Text" style="display:normal;margin-bottom: 0px;font-size: large;"><strong font-weight: bold;>Success!</strong> Message has been encrypted. Please copy all of the below text.</div>
-                <div class="modal-title alert alert-success" id="Decrypted_Text" style="display:none;margin-bottom: 0px;font-size: large;"><strong font-weight: bold;>Success!</strong> Message has been decrypted.</div>
+                
+                <div id="encrypt_Processsing" class="modal-title alert alert-success" style="display:none;margin-bottom: 0px;font-size: large;" ><strong font-weight: bold;>Encrypting...</strong> </div>
+
+                <div id="decrypt_Processsing" class="modal-title alert alert-success" style="display:none;margin-bottom: 0px;font-size: large;" ><strong font-weight: bold;>Decrypting...</strong> </div>
+
+                <div id="Encryped_Text" class="modal-title alert alert-success" style="display:none;margin-bottom: 0px;font-size: large;"><strong font-weight: bold;>Success!</strong> Message has been encrypted. Please copy all of the below text.</div>
+
+                <div id="Decrypted_Text" class="modal-title alert alert-success" style="display:none;margin-bottom: 0px;font-size: large;"><strong font-weight: bold;>Success!</strong> The message has been decrypted.</div>
                 </div>
-                <div id="encryptOutputWindow" class="modal-body" style="height:372px;overflow:scroll;padding-left: 5px; padding-top: 5px; padding-right:13px; display:normal;">
+
+
+                <div id="processing" class="processDialog" style="display:none;">
+                    <div class="progress progress-info">
+                        <div id="progressBar" class="bar" style="width: 0%"></div>
+                    </div>
+                    <span id="status"></span>
+                    <h1 id="finalMessage"></h1>
+                </div>
+                
+
+
+                <div id="encryptOutputWindow" class="modal-body" style="height:372px;overflow:scroll;padding-left: 5px; padding-top: 5px; padding-right:13px; display:none;">
                     <!-- cipher text -->
                     <div id="cipher" class="A3" aria-label="Output Body" role="textbox" style="resize: none;">
                       
@@ -336,24 +355,26 @@
                 </div>
            
                 <div class="modal-footer">
-                <!--button type="button" class="ChangeAccount" data-dismiss="modal">Close</button-->
-                <button id="CloseIt" type="button" class="rc-button rc-button-submit" data-dismiss="modal">Close</button>
-                <a id="copy" type="button" class="rc-button rc-button-submit">Copy to Clipboard</a>
+                <button id="cancelIt" type="button" class="rc-button rc-button-submit" data-dismiss="modal" style="display:none;">Cancel</button>
+
+                 <button id="copy-button" class="rc-button rc-button-submit" data-clipboard-text="Copy Me!" title="Click to copy me." style="display:none;">Copy to Clipboard</button>
+
+                <button id="CloseIt" type="button" class="rc-button rc-button-submit" data-dismiss="modal" style="display:none;">Close</button>
                 </div>
             </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal --> 
 
         <!-- Modal Error Messages -->
-        <div class="modal fade" id="myModalMessage" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="errorModalMessage" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header" style="padding: 4px 2px;border-bottom: 1px solid #f2dede;">
+                <div class="modal-header" style="padding: 12px 2px;border-bottom: 1px solid #f2dede;">
             
-                <div class="modal-title alert alert-danger alert-error" id="myModalLabel" style="padding: 8px 21px 8px 10px; margin-bottom: 0px;font-weight: bold;
+                <div class="modal-title alert alert-danger alert-error" id="myModalLabel" style="padding: 4px 27px 7px 9px; margin-bottom: -9px;margin-top: -8px;font-weight: bold;
         font-size: larger;">
-                    Error
-                    <button id="errorButton1" type="button" class="close" data-dismiss="modal">&times;</button>
+                    <span id="ErrorTitle">Error</span>
+                    <button id="errorXButton" type="button" class="close" data-dismiss="modal" >&times;</button>
                 </div>
             
                 </div>
@@ -361,12 +382,15 @@
                 ...
                 </div>
                 <div class="modal-footer">
-                <button id="errorButton2" type="button" class="KjJDJl" data-dismiss="modal">Close</button>
+                <button id="errorCloseButton" type="button" class="KjJDJl" data-dismiss="modal">Close</button>
             
                 </div>
             </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+
+        <script type="text/javascript" src="popup.js"></script>
+        <script type="text/javascript" src="copytoclipboard.js"></script>
 
     </body>
 
