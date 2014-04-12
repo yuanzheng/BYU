@@ -19,7 +19,7 @@ a collection of Pair objects. Each Pair object contains two values (appropriatel
 named first and second). The pairs in a PairSet might represent locations on the 
 Earths surface (latitude, longitude), dimensions of rectangles (width, height), points 
 on a plane (x, y), or any other kind of information that is naturally stored as pairs. 
-In addition to storing pairs, the PairSetdata structure also supports queries to determine 
+In addition to storing pairs, the PairSet data structure also supports queries to determine 
 which pairs fall in a specified range. The interface for the PairSet data structure 
 is shown below:
  
@@ -55,7 +55,7 @@ In addition to implementing the Pair interface, your Pair implementation class m
 Java equals and toString methods. To simplify your PairSet implementation, you may assume that a PairSet 
 will never contain more than 2000 pairs.
 
-####File I/O#### 
+####File I/O
 Once you have implemented the Pair and PairSet interfaces, you will have a generic data structure that 
 is capable of storing pairs of anyComparable objects (strings, dates, times, numbers, etc.). Next, you 
 will use your PairSet class for a specific application, storing sets of points (integer pairs 
