@@ -1,19 +1,19 @@
 
-Java Skills
+##Project 1 Java Skills##
 
-Introduction
-        Using a text editor to write Java programs
-        Compiling Java programs using the command-line javac compiler
-        Running Java programs using the command-line java interpreter
-        Using packages to organize Java programs
-        Reading and writing text files from a Java program
-        Implementing Java interfaces on a class
-        Implementing the equals and toString methods on a class
-        Using the Comparable interface
-        Throwing and catching exceptions
+####Introduction####
+1. Using a text editor to write Java programs
+2. Compiling Java programs using the command-line javac compiler
+3. Running Java programs using the command-line java interpreter
+4. Using packages to organize Java programs
+5. Reading and writing text files from a Java program
+6. Implementing Java interfaces on a class
+7. Implementing the equals and toString methods on a class
+8. Using the Comparable interface
+9. Throwing and catching exceptions
 
 		
-PairSet
+####PairSet####
 This project requires you to implement a data structure named PairSet that stores 
 a collection of Pair objects. Each Pair object contains two values (appropriately 
 named first and second). The pairs in a PairSet might represent locations on the 
@@ -48,14 +48,14 @@ both elements of a pair. The PairSet interface provides methods for inserting pa
 is in the set, and returning all pairs that fall in a particular range of values. The fully documented 
 interface definitions are found in Pair.java and PairSet.java.
 
-Requirement #1
+####Requirement #1####
 Write two Java classes, one that implements the Pair interface, and one that implements the PairSet 
 interface. Each methods behavior should be implemented precisely according to the methods documentation. 
 In addition to implementing the Pair interface, your Pair implementation class must also implement the 
 Java equals and toString methods. To simplify your PairSet implementation, you may assume that a PairSet 
 will never contain more than 2000 pairs.
 
-File I/O 
+####File I/O#### 
 Once you have implemented the Pair and PairSet interfaces, you will have a generic data structure that 
 is capable of storing pairs of anyComparable objects (strings, dates, times, numbers, etc.). Next, you 
 will use your PairSet class for a specific application, storing sets of points (integer pairs 
@@ -64,31 +64,41 @@ for reading and writing files of points.The loadPointFile method reads a file of
 returns a PairSet containing those pairs. The savePointFile method takes aPairSet of points and writes 
 them to a text file.
 
-public class FileIO
-{
-	public static PairSet loadPointFile(String fileName) {
-		// read in point file and return a PairSet of points
+	public class FileIO
+	{
+		public static PairSet loadPointFile(String fileName) {
+			// read in point file and return a PairSet of points
+		}
+		public static boolean savePointFile(PairSet points, String fileName) {
+			// save the PairSet of points to the specified file
+		}
 	}
-	public static boolean savePointFile(PairSet points, String fileName) {
-		// save the PairSet of points to the specified file
-	}
-}
  
 The format of the point files is demonstrated below. Each line in the file contains a pair of integers 
 with the two values being separated by a space.
- 
+
 8 -6
+
 -1 8
+
 6 3
+
 0 4
+
 -2 4
+
 0 1
+
 7 -9
+
 4 4
+
 0 0
+
 -3 -5
 
-Requirement #2
+
+####Requirement #2####
 Using your Pair and PairSet classes, implement the loadPointFile and savePointFile methods on the 
 FileIO class. Each methods behavior should be implemented precisely according to the methods 
 documentation. Please note that the elements of a Pair must be objects, so the values read from a 
@@ -110,22 +120,22 @@ write a factory class that knows how to create Pair and PairSet objects and retu
 programs. The file JavaSkillsFactory.javacontains the outline of a factory class that has methods for 
 creating Pair and PairSet objects. You must also implement these methods, as shown below:
  
-public class JavaSkillsFactory
-{
-	public static Pair createPair(Comparable first, Comparable second)
+	public class JavaSkillsFactory
 	{
-		// create one of your Pair objects and return it
+		public static Pair createPair(Comparable first, Comparable second)
+		{
+			// create one of your Pair objects and return it
+		}
+		public static PairSet createEmptyPairSet()
+		{
+			// create one of your PairSet objects and return it
+		}
+		public static PairSet createPairSet(Pair[] pairdata)
+		{
+			// create one of your PairSet objects, initialize it,
+			// and return it
+		}
 	}
-	public static PairSet createEmptyPairSet()
-	{
-		// create one of your PairSet objects and return it
-	}
-	public static PairSet createPairSet(Pair[] pairdata)
-	{
-		// create one of your PairSet objects, initialize it,
-		// and return it
-	}
-}
  
 The createPair method creates a new Pair object containing the passed-in elements. The 
 createEmptyPairSet method creates a new emptyPairSet. The createPairSet method creates a new PairSet 
