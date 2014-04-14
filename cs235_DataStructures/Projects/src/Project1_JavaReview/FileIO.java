@@ -1,6 +1,14 @@
 
 package Project1_JavaReview;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.StringTokenizer;
+
 public class FileIO
 {
 	/**
@@ -11,9 +19,62 @@ public class FileIO
 	*      If the file cannot be opened or the contents of the file are invalid, null is returned
 	* @throws IllegalArgumentException if fileName is null
 	*/
-	public static PairSet loadPointFile(String fileName)
+	public static PairSet loadPointFile(String fileName) throws IllegalArgumentException
 	{
-		return null;
+		PairSet set = new PositionSet();
+		Pair newpair;
+		BufferedReader in = null;
+		
+		if(fileName == null)
+			throw new IllegalArgumentException("You pass a null as parameter of loadPointFile!");
+		
+		try {
+			in = new BufferedReader(new FileReader(fileName));
+		} catch (FileNotFoundException e1) {
+			
+			//e1.printStackTrace();
+			return null;
+		}
+		
+        String line;
+        try {
+			while ((line = in.readLine()) != null) {
+				
+				if (line.length() == 0)
+					break;
+				StringTokenizer st = new StringTokenizer(line);
+			
+				String s1 = st.nextToken();
+				String s2 = st.nextToken();
+				
+				/*
+				 * the elements of a Pair must be objects, so the values read from a point file should 
+				 * be represented as Integer objects rather than int primitives.
+				 */
+			    Integer x = Integer.parseInt(s1);
+			    Integer y = Integer.parseInt(s2);
+   
+			    newpair = new Position(x,y);
+			    
+			    if (!set.add(newpair)) {
+			    	throw new IllegalStateException(
+						    "Failed to add a unique pair [" + x + "," + y + "]");	
+			    }
+			}
+    
+		} catch (IOException e) {
+			//e.printStackTrace();
+			return null;
+		}  
+        finally {
+        	try {
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+		
+		return set;
 	}
 
 	/**
@@ -25,9 +86,35 @@ public class FileIO
 	*         or false if an error occurred
 	* @throws IllegalArgumentException if points and/or fileName is null
 	*/
-	public static boolean savePointFile(PairSet points, String fileName)
+	public static boolean savePointFile(PairSet points, String fileName) throws IllegalArgumentException
 	{
-		return false;
+		if( points == null || fileName == null) {
+			throw new IllegalArgumentException("Either points or fileName is null!");
+		}
+		
+		PrintWriter out = null;
+		
+		try {
+			out = new PrintWriter(new FileWriter(fileName));
+			
+			for(Pair p : points.getAllPairs()) {
+				int x = (Integer)p.getFirst();
+                int y = (Integer)p.getSecond();
+                
+                out.println(x + " " + y);
+			}
+			
+		} catch (IOException e) {
+			
+			//e.printStackTrace();
+			return false;
+		}
+		finally {
+			out.close();
+		}
+		
+		
+		return true;
 	}
 }
 

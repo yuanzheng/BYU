@@ -61,7 +61,7 @@ is capable of storing pairs of any Comparable objects (strings, dates, times, nu
 will use your PairSet class for a specific application, storing sets of points (integer pairs 
 representing x, y coordinates). The file FileIO.java contains the outline for a class that has methods 
 for reading and writing files of points.The loadPointFile method reads a file of integer pairs and 
-returns a PairSet containing those pairs. The savePointFile method takes aPairSet of points and writes 
+returns a PairSet containing those pairs. The savePointFile method takes a PairSet of points and writes 
 them to a text file.
 
 	public class FileIO
@@ -117,7 +117,7 @@ The test and pass off drivers need to instantiate your Pair and PairSet implemen
 order to test them. The problem with this is that the test programs do not know what names you chose 
 for your classes, making it impossible to directly instantiate them. Therefore, you will also need to 
 write a factory class that knows how to create Pair and PairSet objects and return them to the test 
-programs. The file JavaSkillsFactory.javacontains the outline of a factory class that has methods for 
+programs. The file JavaSkillsFactory.java contains the outline of a factory class that has methods for 
 creating Pair and PairSet objects. You must also implement these methods, as shown below:
  
 	public class JavaSkillsFactory
@@ -143,7 +143,7 @@ and populates it with the passed-in array of Pairs. Your implementations of thes
 new to create instances of your implementation classes, perform any required initialization of those 
 objects, and then return them.
 
-Requirement #3
+####Requirement #3####
 Implement the methods on the JavaSkillsFactory class. Each methods behavior should be implemented 
 precisely according to the methods documentation.
 
