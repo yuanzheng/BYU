@@ -97,15 +97,8 @@ public class FileIO
 		PrintWriter out = null;
 		
 		try {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 			out = new PrintWriter(new FileWriter("P1_testing/"+fileName));
-=======
-			out = new PrintWriter(new FileWriter(fileName));
->>>>>>> working
-=======
-			out = new PrintWriter(new FileWriter(fileName));
->>>>>>> working
 			
 			for(Pair p : points.getAllPairs()) {
 				int x = (Integer)p.getFirst();
