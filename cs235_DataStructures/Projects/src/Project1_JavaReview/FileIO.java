@@ -29,7 +29,7 @@ public class FileIO
 			throw new IllegalArgumentException("You pass a null as parameter of loadPointFile!");
 		
 		try {
-			in = new BufferedReader(new FileReader(fileName));
+			in = new BufferedReader(new FileReader("P1_testing/"+fileName));
 		} catch (FileNotFoundException e1) {
 			
 			//e1.printStackTrace();
@@ -95,7 +95,7 @@ public class FileIO
 		PrintWriter out = null;
 		
 		try {
-			out = new PrintWriter(new FileWriter(fileName));
+			out = new PrintWriter(new FileWriter("P1_testing/"+fileName));
 			
 			for(Pair p : points.getAllPairs()) {
 				int x = (Integer)p.getFirst();
