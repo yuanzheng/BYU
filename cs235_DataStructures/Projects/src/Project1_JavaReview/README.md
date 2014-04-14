@@ -57,7 +57,7 @@ will never contain more than 2000 pairs.
 
 ####File I/O
 Once you have implemented the Pair and PairSet interfaces, you will have a generic data structure that 
-is capable of storing pairs of anyComparable objects (strings, dates, times, numbers, etc.). Next, you 
+is capable of storing pairs of any Comparable objects (strings, dates, times, numbers, etc.). Next, you 
 will use your PairSet class for a specific application, storing sets of points (integer pairs 
 representing x, y coordinates). The file FileIO.java contains the outline for a class that has methods 
 for reading and writing files of points.The loadPointFile method reads a file of integer pairs and 
