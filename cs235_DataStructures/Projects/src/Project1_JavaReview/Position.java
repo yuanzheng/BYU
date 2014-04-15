@@ -37,9 +37,11 @@ public class Position implements Pair {
 	 */
 	public boolean equals(Object nextPosition) {
 		
-		if(x.equals( ((Position)nextPosition).getFirst()) &&
-				y.equals( ((Position)nextPosition).getSecond()) )
-			return true;
+		if(nextPosition instanceof Position) {
+			if(x.equals( ((Position)nextPosition).getFirst()) &&
+					y.equals( ((Position)nextPosition).getSecond()) )
+				return true;
+		}
 		
 		return false;
 	}

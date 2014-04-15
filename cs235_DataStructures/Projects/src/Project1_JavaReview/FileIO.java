@@ -19,7 +19,7 @@ public class FileIO
 	*      If the file cannot be opened or the contents of the file are invalid, null is returned
 	* @throws IllegalArgumentException if fileName is null
 	*/
-	public static PairSet loadPointFile(String fileName) throws IllegalArgumentException
+	public static PairSet loadPointFile(String fileName)
 	{
 		PairSet set = new PositionSet();
 		Pair newpair;
@@ -88,7 +88,7 @@ public class FileIO
 	*         or false if an error occurred
 	* @throws IllegalArgumentException if points and/or fileName is null
 	*/
-	public static boolean savePointFile(PairSet points, String fileName) throws IllegalArgumentException
+	public static boolean savePointFile(PairSet points, String fileName)
 	{
 		if( points == null || fileName == null) {
 			throw new IllegalArgumentException("Either points or fileName is null!");

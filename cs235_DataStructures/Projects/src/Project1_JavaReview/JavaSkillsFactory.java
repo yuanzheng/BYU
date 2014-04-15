@@ -18,7 +18,7 @@ public class JavaSkillsFactory	{
 	* @return a reference to the new PairSet object
 	* @throws IllegalArgumentException if any pair in pairdata or it's members is invalid. 
 	*/ 
-	public static PairSet createPairSet(Pair[] pairdata) throws IllegalArgumentException
+	public static PairSet createPairSet(Pair[] pairdata)
 	{	
 		PairSet set;
 		
@@ -51,7 +51,7 @@ public class JavaSkillsFactory	{
 	* @return a new instance of the class that implements the Pair interface.
 	* @throws IllegalArgumentException if either first or second are null.
 	*/	
-	public static Pair createPair(Comparable first, Comparable second) throws IllegalArgumentException
+	public static Pair createPair(Comparable first, Comparable second)
 	{
 		if(first == null || second == null)
 			throw new IllegalArgumentException("One of newpair members is null!");

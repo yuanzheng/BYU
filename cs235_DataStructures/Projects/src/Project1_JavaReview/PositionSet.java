@@ -29,7 +29,7 @@ public class PositionSet implements PairSet {
 	}
 
 	@Override
-	public boolean add(Pair newpair) throws IllegalArgumentException {
+	public boolean add(Pair newpair) {
 		
 		if(!contains(newpair) && pairList.size() < capacity) {
 			pairList.add(newpair);
@@ -47,7 +47,7 @@ public class PositionSet implements PairSet {
 	}
 
 	@Override
-	public boolean contains(Pair checkpair) throws IllegalArgumentException {
+	public boolean contains(Pair checkpair) {
 		
 		if(checkpair == null)
 			throw new IllegalArgumentException("This pair is null!");
@@ -70,7 +70,7 @@ public class PositionSet implements PairSet {
 	}
 
 	@Override
-	public Pair[] getItemsInInterval(Pair lowerLeft, Pair upperRight) throws IllegalArgumentException {
+	public Pair[] getItemsInInterval(Pair lowerLeft, Pair upperRight) {
 	
 		if(lowerLeft == null || upperRight == null)
 			throw new IllegalArgumentException("Either lowerLeft or upperRight is null!");
@@ -89,7 +89,7 @@ public class PositionSet implements PairSet {
 				result.add(p);
 			}
 		}
-				
+
 		return convertArrayListToPairs(result);
 	}
 	
@@ -104,6 +104,7 @@ public class PositionSet implements PairSet {
 		}
 		
 		return r;
+
 	}
 
 	@Override
