@@ -1,5 +1,5 @@
 
-package cs235.spell;
+package Project2_SpellingChecker;
 
 /** SpellCheckGUI v1.0 
 *		by Brian Sanderson 6/22/2004

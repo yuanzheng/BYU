@@ -1,5 +1,5 @@
 
-package cs235.spell;
+package Project2_SpellingChecker;
 
 public class CheckerFactory {
 
