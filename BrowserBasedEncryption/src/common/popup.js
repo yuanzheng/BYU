@@ -1,4 +1,4 @@
-﻿ 
+﻿
 var user_email = "";
 var cipherTitle = new String("--- Begin Encrypted Message ---");
 var encryptionMode = true;
@@ -106,13 +106,23 @@ function closeButton() {
         plainTextArea.innerText = "";
     }
 
+    // click 'x' to cancel processing of encryption or decryption
+    if(processStatus) {
+        cancel = true;
+        clearInterval(vInterval);
+        processStatus = false;
+    }
+        
     //clearProcessDialog();
 }
 
+var processStatus = false;
 var cancel = false;
 function cancelProgress() {
     closeButton();
     cancel = true;
+    clearInterval(vInterval);
+    processStatus = false;
 }
 
 function selectEntireMsg() {
@@ -266,6 +276,88 @@ function getRecipients() {
     return recipients;
 }
 
+var vInterval;
+
+jQuery.fn.anim_progressbar = function (aOptions) {
+    // def values
+    var iCms = 1000;
+    var iMms = 60 * iCms;
+    var iHms = 3600 * iCms;
+    var iDms = 24 * 3600 * iCms;
+
+    // def options
+    var aDefOpts = {
+        start: new Date(), // now
+        finish: new Date().setTime(new Date().getTime() + iCms), // now + 60 sec
+        interval: 100
+    }
+    var aOpts = jQuery.extend(aDefOpts, aOptions);
+    var vPb = this;
+
+    // each progress bar
+    return this.each(
+        function() {
+            var iDuration = aOpts.finish - aOpts.start;
+
+            // calling original progressbar
+            $(vPb).children('.pbar').progressbar();
+
+            // looping process
+            vInterval = setInterval(
+                function(){
+                    var iLeftMs = aOpts.finish - new Date(); // left time in MS
+                    var iElapsedMs = new Date() - aOpts.start, // elapsed time in MS
+                        iDays = parseInt(iLeftMs / iDms), // elapsed days
+                        iHours = parseInt((iLeftMs - (iDays * iDms)) / iHms), // elapsed hours
+                        iMin = parseInt((iLeftMs - (iDays * iDms) - (iHours * iHms)) / iMms), // elapsed minutes
+                        iSec = parseInt((iLeftMs - (iDays * iDms) - (iMin * iMms) - (iHours * iHms)) / iCms), // elapsed seconds
+                        iPerc = (iElapsedMs > 0) ? iElapsedMs / iDuration * 100 : 0; // percentages
+
+                    // display current positions and progress
+                    $(vPb).children().children('.percent').html('<b>'+iPerc.toFixed(0)+'%</b>');
+                    /*
+                    if(iPerc<35)
+                        $(vPb).children().children('#processMessage').html('Retrieving the key...');
+                    else {
+                        if(encryptionMode) {
+                            $(vPb).children().children('#processMessage').html('Starting encryption.');
+                        }
+                        else {
+                            $(vPb).children().children('#processMessage').html('Starting decryption.');
+                        }
+                    }
+                    */
+                    $(vPb).children('.pbar').children('.ui-progressbar-value').css('width', iPerc+'%');
+
+                    // in case of Finish
+                    if (iPerc >= 100) {
+                        
+                        $(vPb).children().children('.percent').html('<b>100%</b>');
+                        //$(vPb).children('.elapsed').html('Finished');
+
+                        if (!cancel) {
+                            
+                            if(encryptionMode) {
+                                //document.getElementById("processMessage").innerHTML = "Encryption is complete!";
+                                $(vPb).children().children('#processMessage').html('Encryption is complete!');
+                            }
+                            else {
+                                //document.getElementById("processMessage").innerHTML = "Decryption is complete!";
+                                $(vPb).children().children('#processMessage').html('Decryption is complete!');
+
+                            }
+
+                            showOutput();
+                        }
+
+                        clearInterval(vInterval);
+                    }
+                } ,aOpts.interval
+            );
+        }
+    );
+}
+
 function initializeProcessDialog() {
     
     elementStyleDisplay("processing", "");
@@ -279,56 +371,16 @@ function initializeProcessDialog() {
     elementStyleDisplay("copy-button", "none");
     elementStyleDisplay("CloseIt", "none");
 
-
-    document.getElementById("finalMessage").innerHTML = "";
+    document.getElementById("processMessage").innerHTML = "";
     var dialog = document.getElementById("myOutputText");
     dialog.style.height = "";
 }
 
-function progressBarSim(al) {
-    var bar = document.getElementById('progressBar');
-    var status = document.getElementById('status');
-
-    status.innerHTML = al + "%";
-    bar.style.width = al + "%";
-    al++;
-
-    var sim = setTimeout(function() { progressBarSim(al); }, 30);
-    if(al==100) {
-        status.innerHTML = al + "%";
-        bar.style.width = al + "%";
-        clearTimeout(sim);
-        
-
-        if (!cancel) {
-            elementStyleDisplay("encrypt_Processsing", "none");
-            elementStyleDisplay("decrypt_Processsing", "none");
-            elementStyleDisplay("processing", "none");
-            if(encryptionMode) {
-                document.getElementById("finalMessage").innerHTML = "Encryption is complete!";
-                elementStyleDisplay("Encryped_Text", "");
-                elementStyleDisplay("Decrypted_Text", "none");
-                elementStyleDisplay("encryptOutputWindow", "");
-                elementStyleDisplay("decryptOutputWindow", "none");
-                elementStyleDisplay("copy-button", "");
-            }
-            else {
-                document.getElementById("finalMessage").innerHTML = "Decryption is complete!";
-                elementStyleDisplay("Encryped_Text", "none");
-                elementStyleDisplay("Decrypted_Text", "");
-                elementStyleDisplay("encryptOutputWindow", "none");
-                elementStyleDisplay("decryptOutputWindow", "");
-            }
-            elementStyleDisplay("cancelIt", "none");
-            
-            elementStyleDisplay("CloseIt", "");
-            var dialog = document.getElementById("myOutputText");
-            dialog.style.height = "487px";
-        }
-    }
-}
-
 function processingDialog() {
+
+    cancel = false; // reset cancel status
+    processStatus = true;  // in processing status
+
     if(encryptionMode) {
         elementStyleDisplay("encrypt_Processsing", "");
         elementStyleDisplay("decrypt_Processsing", "none");
@@ -342,14 +394,38 @@ function processingDialog() {
     
     $("#myOutputText").modal('show');
 
-    var load = 0;
-    cancel = false;  // reset cancel button
-    progressBarSim(load);
+    $('#progress1').anim_progressbar();
+}
+
+function showOutput() {
+    if(encryptionMode) {
+        elementStyleDisplay("Encryped_Text", "");
+        elementStyleDisplay("Decrypted_Text", "none");
+        elementStyleDisplay("encryptOutputWindow", "");
+        elementStyleDisplay("decryptOutputWindow", "none");
+        elementStyleDisplay("copy-button", "");
+    }
+    else {
+        elementStyleDisplay("Encryped_Text", "none");
+        elementStyleDisplay("Decrypted_Text", "");
+        elementStyleDisplay("encryptOutputWindow", "none");
+        elementStyleDisplay("decryptOutputWindow", "");
+    }
+
+    elementStyleDisplay("encrypt_Processsing", "none");
+    elementStyleDisplay("decrypt_Processsing", "none");
+    elementStyleDisplay("processing", "none");
+    elementStyleDisplay("cancelIt", "none");
+    
+    elementStyleDisplay("CloseIt", "");
+    var dialog = document.getElementById("myOutputText");
+    dialog.style.height = "487px";
 }
 
 function encryption() {
     
     done = ValidEmailAddress();
+
     if (!done) {
         $("#errorModalMessage").modal('show');
         return;
@@ -378,9 +454,7 @@ function encryption() {
     
     if (cipher) {
         cipherArea.innerHTML = header + cipher + footer;
-        //$("#myOutputText").modal('show');
     }
-    
 }
 
 function packageMessage(cipher) {
@@ -428,17 +502,15 @@ function decryption() {
         return;
     }
 
-    processingDialog();
-
     var cipherText = GetCipherText();
     if (cipherText == null) {
         done = false;
         $("#myOutputText").modal('hide');
-        cancelProgress();
+        //cancelProgress();
         $("#errorModalMessage").modal('show');
         return;
     }
-    
+
     var msg = document.getElementById("cipherMsg").innerText;
     var viewerId = getCreatorId();
     var plainText = decryptEncryptedMessage(cipherText, viewerId);
@@ -454,7 +526,7 @@ function decryption() {
         msg_from_login = false;
 
         $("#myOutputText").modal('hide');
-        cancelProgress();
+        //cancelProgress();
         $("#errorModalMessage").modal('show');
         return;
     }
@@ -466,11 +538,12 @@ function decryption() {
           //                  "Please copy and paste the entire message and try again!";
         msg_from_login = false;
         $("#myOutputText").modal('hide');
-        cancelProgress();
+        //cancelProgress();
         $("#errorModalMessage").modal('show');
         return;
     }
        
+    processingDialog();
     plainTextArea.innerHTML = plainText;
     //$("#myOutputText").modal('show');
 }
@@ -501,7 +574,7 @@ function updateTabindex_for_ecryption() {
 
     var button = document.getElementById("button");
     button.tabIndex = "4";
-    $("#button").attr('data-original-title', "Encrypt (Ctrl-Enter)")
+    $("#button").attr('data-original-title', "Encrypt")
                         .tooltip({
                             placement: 'top'
                         });
@@ -539,7 +612,7 @@ function updateTabindex_for_decryption()
 
     var button = document.getElementById("button");
     button.tabIndex = "2";
-    $("#button").attr('data-original-title', "Decrypt (Ctrl-Enter)")
+    $("#button").attr('data-original-title', "Decryption (Enter)")
                         .tooltip({
                             placement: 'top'
                         });
@@ -608,6 +681,12 @@ $(document).ready(function () {
         if(e.which == 13 && !encryptionMode)
             decryption();
     });
+
+    $('#copy-button').clickover({
+        placement: 'top', 
+        auto_close: 1000,
+        content: 'The encrypted message is in your clipboard now.'
+    });
 });
 
 function reset_login() {
@@ -646,11 +725,10 @@ function select_all() {
     }
 }
 
-// The extension should disable editing of text other than pasting text into the decryption area.
-function removeTyping()
-{
-
-
+function changeAccount() {
+    clearAuthorized();
+    login_done = false; 
+    authorize('google'); 
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -660,6 +738,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#google_login').addEventListener('click', function() { authorize('google'); });
     document.querySelector('#login_button').addEventListener('click', loginButton);
     document.querySelector('#signOut').addEventListener('click', signOut);
+    document.querySelector('#changeAccount').addEventListener('click', changeAccount);
+
     document.querySelector('#errorXButton').addEventListener('click', requestLogin);
     document.querySelector('#errorCloseButton').addEventListener('click', requestLogin);
     document.querySelector('#Ebutton').addEventListener('click', encryption);
@@ -686,8 +766,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelector('#recipient').addEventListener('keyup', save_RecipientAddress);
     document.querySelector('#textFormat').addEventListener('keyup', save_Msg);
-
-    document.querySelector('#cipherMsg').addEventListener('keyup', removeTyping);
 
     if (localStorage["userInfo"]) {
         

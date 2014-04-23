@@ -12,6 +12,10 @@ overflow:hidden;
 .message-popup.fullscreen .content{width:400px;box-shadow:0 2px 40px rgba(0,0,0,.4);margin-top:10%;border-top-left-radius:10px;border-top-right-radius:10px;padding-right:15px;border-top:1px solid #888}
 .message-popup .content{margin:auto;background:#fff;background:-webkit-linear-gradient(#fff 30%,#fff);background:-moz-linear-gradient(#ddd9d1 30%,#bebebe);background:-ms-linear-gradient(#ddd9d1 30%,#bebebe);background:-o-linear-gradient(#ddd9d1 30%,#bebebe);padding:10px 35px 10px 15px;border:1px solid #888;border-radius:10px;box-shadow:0 0 20px #666;border-top-left-radius:0;border-top-right-radius:0;border-top:0;text-align:center}
 
+.pbar .ui-progressbar-value {display:block !important}
+.pbar {overflow: hidden}
+.percent {position:relative;text-align: right;float:right;}
+.elapsed {position:relative;text-align: right;}
 
 #google_login {
     margin-bottom:10px
@@ -26,7 +30,7 @@ overflow:hidden;
 }
 
 .processDialog{
-    margin: 67px 237px 20px 115px;
+    margin: 33px 140px 32px 135px;
 }
 
 .amibutton{
@@ -44,8 +48,8 @@ overflow:hidden;
     border:solid 1px #dcdcdc;
     background:-webkit-gradient(linear,0% 40%,0% 70%,from(#f5f5f5),to(#f1f1f1));
     background:-moz-linear-gradient(linear,0% 40%,0% 70%,from(#f5f5f5),to(#f1f1f1));
-    border-radius:2px !important
-
+    border-radius:2px !important;
+    cursor: pointer;
 }
 
  .amibutton:hover{
@@ -961,7 +965,7 @@ overflow: hidden;
     -webkit-border-radius:2px;
     border-radius:2px;
     position:absolute;
-    right:0px;
+    /*right:0px;*/
     margin:0 20px;
     cursor:pointer;
 }
@@ -973,6 +977,28 @@ overflow: hidden;
     }
 
 
+.Signout {
+    color: #666;
+    cursor: default;
+    text-decoration:none;
+    background:#f8f8f8;
+    border:1px solid #c6c6c6;
+    display:inline-block;
+    line-height:28px;
+    padding:0 12px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    position:absolute;
+    right:0px;
+    margin:0 20px;
+    cursor:pointer;
+}
+    
+    .Signout:hover {
+        text-decoration:none;
+        background:#fff;
+        color:#000;
+    }
 
 ::-webkit-scrollbar {
         width: 12px;

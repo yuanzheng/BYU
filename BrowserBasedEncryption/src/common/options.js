@@ -34,9 +34,7 @@
     console.log('checkAuthorized');
     ['google'].forEach(function(providerName) {
       var provider = window[providerName];
-      //var button = document.querySelector('#' + providerName);
       if (provider.hasAccessToken()) {
-        //button.classList.add('authorized');
 		var loginInfo = document.getElementById("login_button");
 		loginInfo.setAttribute("data-toggle", "dropdown");
 
@@ -44,7 +42,6 @@
 		reset_login();
 
       } else {
-        //button.classList.remove('authorized');
         clear_login();
       }
     });
