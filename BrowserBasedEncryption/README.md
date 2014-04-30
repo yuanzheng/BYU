@@ -2,9 +2,9 @@
 ## Master Thesis Project ##
 ##### (Browser-based Manual Encryption) #####
 
-This is a master thesis project in Internet Security Research Lab (ISRL) at Brigham Young University. The purpose of this project is to explore methods to design a usable, portable, and secure web communication tool. 
+This is a Master's thesis project in Internet Security Research Lab (ISRL) at Brigham Young University. The purpose of this project is to explore methods to design a usable, portable, and secure web communication tool. 
 
-The current version is in version 2.2. You may install it following the instruction on the project homepage: [https://mp.isrl.byu.edu](https://mp.isrl.byu.edu)
+The current version is in version 2.8. You may install it following the instruction on the project homepage: [https://mp.isrl.byu.edu](https://mp.isrl.byu.edu)
 
 ### Requirements ###
 - Google Gmail users

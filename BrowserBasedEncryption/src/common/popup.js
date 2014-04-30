@@ -5,6 +5,14 @@ var encryptionMode = true;
 /* Encrypt button */
 var buttonClass = "";
 
+/*
+ * localStorage["to_address"] is recipient's address
+ * localStorage["userInfo"] is the Object including user login email address
+ *                          and 
+ * localStorage["current_content"] is the encrypting plaintext message
+ * 
+ */
+
 // Save this script as `options.js`
 function save_RecipientAddress() {
     var email = document.getElementById("recipient").value;
@@ -38,12 +46,22 @@ function save_Msg() {
     localStorage["current_content"] = editorArea.getContent();
 }
 
+// Saves pasted cipher into localStorage
+function save_cipher(e) {
+    // paste encrypted message by "ctrl+v"
+    if((e.keyCode == 86 && e.ctrlKey) || (e.keyCode == 224 && e.metaKey)) {
+        var editorArea = document.getElementById("cipherMsg");
+        localStorage["cipher"] = editorArea.innerHTML;
+    }
+    
+}
 
 // Restores select box state to saved value from localStorage.
 function restore_options() {
     restore_login();
     restore_emailAddress();
     restore_content();
+    restore_cipher();
 }
 
 function restore_login() {
@@ -70,6 +88,16 @@ function restore_content() {
     editorArea.setContent(content);
 }
 
+function restore_cipher() {
+    var cipher = localStorage["cipher"];
+    var editorArea = document.getElementById("cipherMsg");
+
+    if(cipher == undefined || cipher == "")
+        return;
+
+    editorArea.innerHTML = cipher;
+}
+
 function restore_emailAddress() {
     var recipientEmail = localStorage["to_address"];
     if (recipientEmail) {
@@ -93,6 +121,7 @@ function cleanTable() {
     else {
         var cipherArea = document.getElementById("cipherMsg");
         cipherArea.innerText = "";
+        localStorage["cipher"] = "";
     }
 }
 
@@ -201,6 +230,23 @@ function signOut() {
         
         $("#LoginMessage").modal('show');
     }
+
+    cleanAllContent();
+}
+
+// user signs out, delete all contents
+function cleanAllContent() {
+    var editorArea = nicEditors.findEditor("message");
+    editorArea.setContent("<br>");
+    localStorage["current_content"] = "";
+
+    var hisEmail = document.getElementById("recipient");
+    localStorage["to_address"] = "";
+    hisEmail.value = "";
+
+    var cipherArea = document.getElementById("cipherMsg");
+    cipherArea.innerText = "";
+    localStorage["cipher"] = "";
 }
 
 function loginButton() {
@@ -315,18 +361,7 @@ jQuery.fn.anim_progressbar = function (aOptions) {
 
                     // display current positions and progress
                     $(vPb).children().children('.percent').html('<b>'+iPerc.toFixed(0)+'%</b>');
-                    /*
-                    if(iPerc<35)
-                        $(vPb).children().children('#processMessage').html('Retrieving the key...');
-                    else {
-                        if(encryptionMode) {
-                            $(vPb).children().children('#processMessage').html('Starting encryption.');
-                        }
-                        else {
-                            $(vPb).children().children('#processMessage').html('Starting decryption.');
-                        }
-                    }
-                    */
+
                     $(vPb).children('.pbar').children('.ui-progressbar-value').css('width', iPerc+'%');
 
                     // in case of Finish
@@ -364,6 +399,7 @@ function initializeProcessDialog() {
 
     elementStyleDisplay("Encryped_Text", "none");
     elementStyleDisplay("Decrypted_Text", "none");
+    elementStyleDisplay("Instruction", "none");
     elementStyleDisplay("encryptOutputWindow", "none");
     elementStyleDisplay("decryptOutputWindow", "none");
 
@@ -377,7 +413,6 @@ function initializeProcessDialog() {
 }
 
 function processingDialog() {
-
     cancel = false; // reset cancel status
     processStatus = true;  // in processing status
 
@@ -393,7 +428,6 @@ function processingDialog() {
     initializeProcessDialog();
     
     $("#myOutputText").modal('show');
-
     $('#progress1').anim_progressbar();
 }
 
@@ -401,6 +435,7 @@ function showOutput() {
     if(encryptionMode) {
         elementStyleDisplay("Encryped_Text", "");
         elementStyleDisplay("Decrypted_Text", "none");
+        elementStyleDisplay("Instruction", "");
         elementStyleDisplay("encryptOutputWindow", "");
         elementStyleDisplay("decryptOutputWindow", "none");
         elementStyleDisplay("copy-button", "");
@@ -408,6 +443,7 @@ function showOutput() {
     else {
         elementStyleDisplay("Encryped_Text", "none");
         elementStyleDisplay("Decrypted_Text", "");
+        elementStyleDisplay("Instruction", "none");
         elementStyleDisplay("encryptOutputWindow", "none");
         elementStyleDisplay("decryptOutputWindow", "");
     }
@@ -443,6 +479,9 @@ function encryption() {
    
     var cipher = sendEncryptedMessage(msg, creatorId, recipients);
 
+    var instuction = document.getElementById("Instruction");
+    instuction.innerHTML = "The message has been encrypted for <strong>" +
+                            localStorage["to_address"] +"</strong>.<br />To copy this message, select “Copy to Clipboard” below."
     var header =
         "You have received a message that has been <span style='font-weight: bold;'>encrypted</span> using Message Protector (MP). " +
         "<br><br>Directions for decrypting and reading this message can be found at <a href='https://mp.isrl.byu.edu'>https://mp.isrl.byu.edu</a>." +
@@ -493,6 +532,36 @@ function GetCipherText() {
     return null;
 }
 
+function decryption_error(msg_package) {
+    var warning = document.getElementById("messageBody");
+    var title = document.getElementById("ErrorTitle");
+    title.innerText = "Failed!";
+
+    if (msg_package == "Decryption Failed!") {
+        warning.innerHTML = "The email account <b>" + getCreatorId() +
+                            "</b> does not have permission to view this message. "+
+                            "If you feel this is a mistake, contact the message sender to verify that they encrypted the message for this account.";
+        msg_from_login = false;
+
+        $("#myOutputText").modal('hide');
+        //cancelProgress();
+        $("#errorModalMessage").modal('show');
+        return true;
+    }
+    else if (msg_package == "Exception") {
+        warning.innerHTML = "This is not a complete message. Please check that you have pasted all of the text between <br />" +
+                            "<b>“Begin Encrypted Message”</b> and <b>“End Encrypted Message”</b>";
+
+        msg_from_login = false;
+        $("#myOutputText").modal('hide');
+        //cancelProgress();
+        $("#errorModalMessage").modal('show');
+        return true;
+    }
+    
+    return false;
+}
+
 function decryption() {
     
     var plainTextArea = document.getElementById("plaintext");
@@ -513,39 +582,17 @@ function decryption() {
 
     var msg = document.getElementById("cipherMsg").innerText;
     var viewerId = getCreatorId();
-    var plainText = decryptEncryptedMessage(cipherText, viewerId);
-
-    var warning = document.getElementById("messageBody");
-    var title = document.getElementById("ErrorTitle");
-    title.innerText = "Failed!";
-
-    if (plainText == "Decryption Failed!") {
-        warning.innerHTML = "The email account <b>" + getCreatorId() +
-                            "</b> does not have permission to view this message. "+
-                            "If you feel this is a mistake, contact the message sender to verify that they encrypted the message for this account.";
-        msg_from_login = false;
-
-        $("#myOutputText").modal('hide');
-        //cancelProgress();
-        $("#errorModalMessage").modal('show');
+    var msg_package = decryptEncryptedMessage(cipherText, viewerId);
+    // if decryption is error
+    if(decryption_error(msg_package))
         return;
-    }
-    else if (plainText == "Exception") {
-        warning.innerHTML = "This is not a complete message. Please check that you have pasted all of the text between <br />" +
-                            "<b>“Begin Encrypted Message”</b> and <b>“End Encrypted Message”</b>";
-
-        //"<b>This Encryted Message has been modified!</b> We cannot decrypt it. <br /> "+
-          //                  "Please copy and paste the entire message and try again!";
-        msg_from_login = false;
-        $("#myOutputText").modal('hide');
-        //cancelProgress();
-        $("#errorModalMessage").modal('show');
-        return;
-    }
-       
+    
     processingDialog();
-    plainTextArea.innerHTML = plainText;
-    //$("#myOutputText").modal('show');
+    var title = document.getElementById("Decrypted_Text");
+    title.innerHTML = "<strong font-weight: bold;>Success!</strong> The message from " +
+                       msg_package.sender + " has been decrypted.";
+    plainTextArea.innerHTML = msg_package.message;
+
 }
 
 function encryptionOption() {
@@ -596,7 +643,6 @@ function decryptionOption() {
     // active cipher text area, focus
     var cipherEditing = document.getElementById("cipherMsg");
     cipherEditing.focus();
-    
 }
 
 function updateTabindex_for_decryption()
@@ -620,7 +666,6 @@ function updateTabindex_for_decryption()
     var trashTabindex = document.getElementById("Trash");
     trashTabindex.tabIndex = "3";
 }
-
 
 var editorLaunch = null;
 function toggleEditor() {
@@ -684,9 +729,10 @@ $(document).ready(function () {
 
     $('#copy-button').clickover({
         placement: 'top', 
-        auto_close: 1000,
-        content: 'The encrypted message is in your clipboard now.'
+        auto_close: 3000,
+        content: 'The encrypted message is now in your clipboard and ready to be copied into your application.'
     });
+
 });
 
 function reset_login() {
@@ -766,6 +812,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelector('#recipient').addEventListener('keyup', save_RecipientAddress);
     document.querySelector('#textFormat').addEventListener('keyup', save_Msg);
+    document.querySelector('#cipherMsg').addEventListener('keyup', save_cipher);
 
     if (localStorage["userInfo"]) {
         
