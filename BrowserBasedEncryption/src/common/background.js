@@ -7,4 +7,5 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
 
     //Copy Content
     document.execCommand("Copy", false, null);
+
 });

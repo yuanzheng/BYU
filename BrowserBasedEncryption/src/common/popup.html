@@ -53,7 +53,6 @@
     </head>
 
     <body>
-
         <div class="AD">
         <div class="H">
         <div class="pi"></div>
@@ -84,7 +83,7 @@
                                 <!-- change the encryption Email address -->
                                 <div id="change" style="display:none;">
                                     <div id="email_intro" class="intro">
-                                        Current active account
+                                        Current Account
                                         <b id="prefix">
                                         </b>
                                     </div>
@@ -136,7 +135,7 @@
             <!-- BME body -->
             <div class="aaZ">
             <div class="aoI">
-                <table class="aoP">
+                <table class="aoP" id="mp" style="display:none;">
 		            <tr>
 			            <td class="IS">
 				            <div class="fX" >
@@ -147,6 +146,7 @@
                                         <ul class="nav nav-tabs" id="myTab">
                                             <li id="encryptionTab" class="active"><a href="#sectionA">Encryption</a></li>
                                             <li id="decryptionTab"><a href="#sectionB">Decryption</a></li>
+                                            <li id="helpandtutorialsTab" style="float: right;"><a href="#sectionC">Help</a></li>
                                         </ul>
                                     </td>
                                 </tr>
@@ -186,6 +186,19 @@
 					                                </tr>
 				                                </table>
                                             </div>
+                                            <div id="sectionC" class="tab-pane fade">
+                                                <table class="GS">
+                                                    <tr> 
+                                                        <!-- From label -->
+                                                        <td id="Td4" class="ok az4">
+                                                            <label id="Label2" class="gO" style="cursor:default;line-height: 27px;">
+                                                                Welcome to Message Protector v3.4
+                                                            </label>
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -196,7 +209,7 @@
 				            <table class="iN">
 					            <tr>
 						            <td class="GQ">
-							            <div class="GP">
+							            <div class="GP" id="contentArea">
 							            <div id="overflow" class="qz">
 							            <!--div-- class="et>
                                         <!-- Message Editing -->
@@ -216,6 +229,73 @@
                                                 
 											                <div id="cipherMsg" class="Am Al editable LW-avf"  g_editable="true" role="textbox" contentEditable="true" style="direction: ltr; min-height: 80px;"><br></div>
 										       
+                                                        </div>
+                                                        <!-- Help and Tutorials -->
+                                                        <div id="help" class="Ar" style="overflow:auto; display: none;">
+
+                                                            <h2 style="font-size:18px;line-height:18px;">What is Message Protector (MP)?</h2>
+                                                            <p style="font-size:14px;line-height:22px;width:666px;text-align:justify;">
+                                                            MP is a browser extension that lets Alice easily encrypt a message for Bob. MP supports manual encryption so the user sees the encrypted message and can trust that it is encrypted before sharing the message.
+                                                            </p>
+                                                            <br />
+                                                            <!--h2 style="font-size:18px;line-height:26px;">Learn MP in 2 Steps</h2 -->
+                                                            <ul>
+                                                                <li style="line-height: 30px;"><a id="tutorial">Getting Started with MP</a></li>
+                                                                <p style="font-size:14px;line-height:22px;width:387px;text-align:justify;">
+                                                                    Learn how to encrypt and decrypt a message using MP
+                                                                </p>
+                                                                
+                                                                <li style="line-height: 30px;"><a id="security">Security Details</a></li>
+                                                                <p style="font-size:14px;line-height:22px;width:387px;text-align:justify;">
+                                                                Learn basic security details of MP 
+                                                                </p>
+                                                                <li style="line-height: 30px;"><a href="https://mp.isrl.byu.edu" target="_blank">MP Home Page</a></li>
+                                                            </ul>
+                                                            
+                                                        </div>
+
+                                                        <div id="Tutorials" class="Ar" style="overflow:auto; display: none;">
+                                                            <h2 style="font-size:18px;line-height:18px;">Getting Started with MP</h2>
+                                                            <p style="font-size:12px;line-height:22px;width:387px;text-align:justify;"><a id="tutorialPrevious">Previous</a> | </p> 
+                                                            <br>
+                                                            <h2 style="font-size:16px;line-height:14px;">Steps to encrypt a message and send it through Gmail</h2>
+                                                            <ol style="font-size:14px;">
+                                                                <li style="line-height: 30px;">Select the encryption tab in MP</li>
+                                                                <li style="line-height: 30px;">Enter the recipient’s email address (only recipient can read the message)</li>
+                                                                <li style="line-height: 30px;">Edit your message in the compose area</li>
+                                                                <li style="line-height: 30px;">Click the “Encrypt” button (message will be encrypted)</li>
+                                                                <li style="line-height: 30px;">Click the “Copy to Clipboard” button</li>
+                                                                <li style="line-height: 30px;">Go to Gmail to compose a message to the recipient</li>
+                                                                <li style="line-height: 30px;">Paste the MP encrypted message into your Gmail message</li>
+                                                            </ol>
+                                                            <br>
+                                                            <h2 style="font-size:16px;line-height:14px;">Steps to decrypt a message using MP</h2>
+                                                            <ol style="font-size:14px;">
+                                                                <li style="line-height: 30px;">Go to Gmail and copy an encrypted message</li>
+                                                                <li style="line-height: 30px;">Go to MP and select the decryption tab</li>
+                                                                <li style="line-height: 30px;">Paste the encrypted message into MP (use ctrl-v or right click->paste)</li>
+                                                                <li style="line-height: 30px;">Click Enter or click the "Decrypt" button</li>
+                                                            </ol>
+                                                        </div>
+
+                                                        <div id="securitydetails" class="Ar" style="overflow:auto; display: none;">
+                                                            <h2 style="font-size:18px;line-height:18px;">Security Details</h2>
+                                                            <p style="font-size:12px;line-height:22px;width:387px;text-align:justify;"><a id="securityPrevious">Previous</a> | </p> 
+                                                            <br>
+                                                            <h2 style="font-size:16px;line-height:16px;">Who can read the encrypted message?</h2>
+                                                            <p style="font-size:14px;line-height:22px;width:678px;text-align:justify;">                  
+                                                                The encryption is based on email addresses. If Alice encrypts a message for Bob, only someone that can access Bob’s email account will be able to read the message. The message is as secure as the email account.
+                                                            </p>
+                                                            <br>
+                                                            <h2 style="font-size:16px;line-height:16px;">What encryption algorithm is used?</h2>
+                                                            <p style="font-size:14px;line-height:22px;width:678px;text-align:justify;">    
+                                                                Messages are encrypted using 256-bit AES, the U.S. government standard for symmetric encryption.
+                                                            </p>
+                                                            <br>
+                                                            <h2 style="font-size:16px;line-height:16px;">Who manages the encryption keys?</h2>
+                                                            <p style="font-size:14px;line-height:22px;width:678px;text-align:justify;"> 
+                                                                The MP server generates and distributes encryption keys using an email-based authentication system to limit each user to only the keys associated with their email address. Even though the MP server has the encryption keys, all encryption happens in the browser and the encrypted messages are never sent to the MP server.
+                                                            </p>
                                                         </div>
 									                </td>
                                     
@@ -248,23 +328,12 @@
 											                </div>
 										                </div>
 										            </td>
-										
-										            <!-- td id="Td1" class="oc gU">
-										                <div id="FormatTip" data-toggle="tooltip" data-original-title="Formatting options" aria-label="Formatting options">
-											                <div id="Format" class="JZI JJ5Ji" aria-pressed="false" role="button" tabindex="5" style="-webkit-user-select: none;">
-											                <div class="JJ5Ji JZIKvH">
-											                <div class="JJ5Ji JZIJ6H">
-											                <div class="dv">
-											                </div>
-											                </div></div></div>
-										                </div>
-										            </!-->
-										            <!-- td id="Td2" class="gU" style="width:409px;">
+										            <td id="Td2" class="gU" style="width:20px;">
 										                <div id="Div10" class="aWQ">
 											                <span id=":ps" class="oG" style=""></span>
 											                <span class="aWR">&nbsp;</span>
 										                </div>
-										            </td -->
+										            </td>
 										            <td class="gU az5">
                                                         <div id="Trash" class="oh JZI JJ5Ji TIax7" tabindex="5" role="button" data-toggle="tooltip" data-original-title="Delete message" style="-webkit-user-select: none;">
                                                             <div class="JJ5Ji JZIKvH" style="-webkit-user-select: none;">
@@ -288,6 +357,170 @@
 			            </td>
 		            </tr>
 	            </table>
+                <!-- At the beginning, user receive this tutorial. -->
+                <table class="iN" id="beginTutorials" style="display:normal;">
+                    <tr>
+                        <td class="GQ">
+                            <div class="GP" id="contentArea" style="height:492px;">
+                            <div id="overflow" class="qz">
+                                <table cellpadding="0" class="cf An">
+                                    <tr>
+                                        <td class="Ap">
+                                            
+                                            <!-- Tutorials -->
+                                            <div class="Ar" style="overflow:auto;">
+                                                <div id="weltitle" style="display:normal;">
+                                                    <h2 style="font-size:18px;line-height:60px;">Welcome to Message Protector</h2>
+                                                    <p style="font-size:16px;line-height:22px;width:666px;text-align:justify;">
+                                                    A brief tutorial will show you how to use MP to decrypt and encrypt messages. 
+                                                    </p>
+                                                    <p>
+                                                        Part 1: How to Decrypt a Message
+                                                    </p>
+                                                    <p>
+                                                        Part 2: How to Encrypt a Message
+                                                    </p>
+                                                    <br>
+                                                    <p>
+                                                        Please click the "Continue" button below to start the tutorial.
+                                                    </p>
+                                                </div>
+                                                <div id="firstTutorial" style="display:none;">
+                                                    <!-- decryption tutorial -->
+                                                    <h2 id="decryptTitle" style="font-size:16px;line-height:18px;display:none;">How to Decrypt a Message</h2>
+                                                    <pre id="dec_first" style="font-size:16px;line-height:22px;text-align:justify;display:none;">1. Suppose you receive an encrypted MP message through Gmail
+                                                        <img src="images/email.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                    </pre>
+                                                    <pre id="dec_second" style="font-size:16px;line-height:22px;text-align:justify;display:none;">2. Select the encrypted text in your Gmail message and copy it      (use right-click-copy or control-c)
+                                                        <img src="images/copyEncryption.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                    </pre>
+                                                    <pre id="dec_third" style="font-size:16px;line-height:22px;text-align:justify;display:none;">3. Go to MP and select the decryption tab
+                                                        <img src="images/decryption.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                    </pre>
+                                                    <pre id="dec_forth" style="font-size:16px;line-height:22px;text-align:justify;display:none;">4. Paste the encrypted message into MP (use right-click-paste       or Ctrl-v)
+                                                        <img src="images/pasteCipher.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                    </pre>
+                                                    <pre id="dec_fifth" style="font-size:16px;line-height:22px;text-align:justify;display:none;">5. Click Enter or click the "Decrypt" button
+                                                        <img src="images/decrypt.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                    </pre>
+                                                    <pre id="dec_fifth_helf" style="font-size:16px;line-height:22px;text-align:justify;display:none;">6. Now, you can see decrypted message
+                                                        <img src="images/result.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                    </pre>
+
+                                                    <!-- encryption tutorial -->
+                                                    <h2 id="encryptTitle" style="font-size:16px;line-height:18px;display:none;">How to Encrypt a Message</h2>
+                                                    <pre id="enc_sixth" style="font-size:16px;line-height:22px;text-align:justify;display:none;">1. Select the encryption tab in MP
+                                                        <img src="images/mp.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                    </pre>
+                                                    <pre id="enc_seventh" style="font-size:16px;line-height:22px;text-align:justify;display:none;">2. Enter the recipient’s email address (only recipient will be      able to read the message)
+                                                        <img src="images/recipient.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                    </pre>
+                                                    <pre id="enc_eighth" style="font-size:16px;line-height:22px;text-align:justify;display:none;">3. Create your message in the compose area
+                                                        <img src="images/msg.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                    </pre>
+                                                    <pre id="enc_ninth" style="font-size:16px;line-height:22px;text-align:justify;display:none;">4. Click the “Encrypt” button (the message will be encrypted)
+                                                        <img src="images/encrypt.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                    </pre>
+                                                    <pre id="enc_tenth" style="font-size:16px;line-height:22px;text-align:justify;display:none;">5. Click the “Copy to Clipboard” button
+                                                        <img src="images/copy.png" alt="encrypted email" width="431px" style="padding:0px 31px;"><br><br>Alternatively,<br>If you click on the cipher text area, the content will be        selected automatically. You may use right-click-copy or ctrl-c   to copy the cipher text.
+                                                        <img src="images/copyor.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                    </pre>
+                                                    <pre id="enc_eleventh" style="font-size:16px;line-height:22px;text-align:justify;display:none;">6. Go to Gmail to compose a message to the recipient
+                                                    <br>Paste the MP encrypted message into your Gmail message and send  it.<br>If you are replying to a message, you can reply as normal and    simply paste the encrypted message into your reply.
+                                                        <img src="images/paste.png" alt="encrypted email" width="431px" style="padding:0px 31px;">
+                                                        
+                                                    </pre>
+                                                    <pre id="enc_twelvth" style="font-size:16px;line-height:22px;text-align:justify;display:none;">Done! You are ready to start MP (click "Skip to MP" button blow to star MP)
+                                                    </pre>
+
+                                                </div>
+                                            </div>
+                                            <!--
+                                            <div id="Tutorials" class="Ar" style="overflow:auto; display: none;">
+                                                <h2 style="font-size:18px;line-height:18px;">Getting Started with MP</h2>
+                                                <p style="font-size:12px;line-height:22px;width:387px;text-align:justify;"><a id="tutorialPrevious">Previous</a> | </p> 
+                                                <br>
+                                                <h2 style="font-size:16px;line-height:14px;">Steps to encrypt a message and send it through Gmail</h2>
+                                                <ol style="font-size:14px;">
+                                                    <li style="line-height: 30px;">Select the encryption tab in MP</li>
+                                                    <li style="line-height: 30px;">Enter the recipient’s email address (only recipient can read the message)</li>
+                                                    <li style="line-height: 30px;">Edit your message in the compose area</li>
+                                                    <li style="line-height: 30px;">Click the “Encrypt” button (message will be encrypted)</li>
+                                                    <li style="line-height: 30px;">Click the “Copy to Clipboard” button</li>
+                                                    <li style="line-height: 30px;">Go to Gmail to compose a message to the recipient</li>
+                                                    <li style="line-height: 30px;">Paste the MP encrypted message into your Gmail message</li>
+                                                </ol>
+                                                <br>
+                                                <h2 style="font-size:16px;line-height:14px;">Steps to decrypt a message using MP</h2>
+                                                <ol style="font-size:14px;">
+                                                    <li style="line-height: 30px;">Go to Gmail and copy an encrypted message</li>
+                                                    <li style="line-height: 30px;">Go to MP and select the decryption tab</li>
+                                                    <li style="line-height: 30px;">Paste the encrypted message into MP (use ctrl-v or right click->paste)</li>
+                                                    <li style="line-height: 30px;">Click Enter or click the "Decrypt" button</li>
+                                                </ol>
+                                            </div>
+
+                                            <div id="securitydetails" class="Ar" style="overflow:auto; display: none;">
+                                                <h2 style="font-size:18px;line-height:18px;">Security Details</h2>
+                                                <p style="font-size:12px;line-height:22px;width:387px;text-align:justify;"><a id="securityPrevious">Previous</a> | </p> 
+                                                <br>
+                                                <h2 style="font-size:16px;line-height:16px;">Who can read the encrypted message?</h2>
+                                                <p style="font-size:14px;line-height:22px;width:678px;text-align:justify;">                  
+                                                    The encryption is based on email addresses. If Alice encrypts a message for Bob, only someone that can access Bob’s email account will be able to read the message. The message is as secure as the email account.
+                                                </p>
+                                                <br>
+                                                <h2 style="font-size:16px;line-height:16px;">What encryption algorithm is used?</h2>
+                                                <p style="font-size:14px;line-height:22px;width:678px;text-align:justify;">    
+                                                    Messages are encrypted using 256-bit AES, the U.S. government standard for symmetric encryption.
+                                                </p>
+                                                <br>
+                                                <h2 style="font-size:16px;line-height:16px;">Who manages the encryption keys?</h2>
+                                                <p style="font-size:14px;line-height:22px;width:678px;text-align:justify;"> 
+                                                    The MP server generates and distributes encryption keys using an email-based authentication system to limit each user to only the keys associated with their email address. Even though the MP server has the encryption keys, all encryption happens in the browser and the encrypted messages are never sent to the MP server.
+                                                </p>
+                                            </div>
+                                            -->
+                                        </td>
+                        
+                                    </tr>
+                                </table>
+                
+                            </div>
+                            </div>
+                
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="HE">
+                            <div class="aDg">
+                            <div class="aDj aDn">
+                            <div id="" class="aC5"><div style="display: none;"><div id="" class="aBt"><div id="" class="aBq" style="width: 447px;"><div id="" class="aBs" style="width: 433px;"></div></div><div class="aBr"></div></div></div></div>
+                            <!-- 3 extra div -->
+                            <div class="aDh">
+                                <!-- Tool bar: Encrypt/Decrypt, message format ... -->
+                                <table class="IZ">
+                                    <tr class="ntfz">
+                                        <td>
+                                            <div style="float:right;">
+                                                <div id="previous" class="Signout" role="button" style="position:relative;margin:0;">
+                                                    Previous
+                                                </div>
+                                                <div id="continue" class="Signout" role="button" style="position:relative;margin:0;">
+                                                    Continue
+                                                </div>
+                                                <div id="skip" class="ChangeAccount" role="button" style="position:relative;">
+                                                    Skip to MP
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>    
             </div>
             </div>
         </div>
@@ -364,7 +597,7 @@
                 </div>
                 <div id="decryptOutputWindow" class="modal-body" style="height:372px;overflow:hidden;padding-left: 6px; padding-top: 11px; padding-right:2px; display:none;">  
                     <!-- Plain Text -->
-                    <label id="plaintext" class="A3" aria-label="Output Body" role="textbox" contentEditable="true" style="overflow-y: auto;">
+                    <label id="plaintext" class="A3" aria-label="Output Body" role="textbox" contentEditable="true" style="overflow-y: auto;cursor:text;">
 
                     </label>
                 </div>

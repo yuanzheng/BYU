@@ -5,13 +5,6 @@ var encryptionMode = true;
 /* Encrypt button */
 var buttonClass = "";
 
-/*
- * localStorage["to_address"] is recipient's address
- * localStorage["userInfo"] is the Object including user login email address
- *                          and 
- * localStorage["current_content"] is the encrypting plaintext message
- * 
- */
 
 // Save this script as `options.js`
 function save_RecipientAddress() {
@@ -62,6 +55,97 @@ function restore_options() {
     restore_emailAddress();
     restore_content();
     restore_cipher();
+    restore_tab();
+    restore_lastStatus();
+}
+
+function restore_tab() {
+    if(localStorage["Tab"] == "encryption") {
+        var en = document.getElementById("encryptionTab");
+        en.className = "active";
+        var de = document.getElementById("decryptionTab")
+        de.className = "";
+        var h = document.getElementById("helpandtutorialsTab");
+        h.className = "";
+
+        var en1 = document.getElementById("sectionA");
+        en1.className += " active in";
+        var de1 = document.getElementById("sectionB")
+        de1.className = "tab-pane fade";
+        var h1 = document.getElementById("sectionC")
+        h1.className = "tab-pane fade";
+
+        encryptionOption();
+
+        //localStorage["encryption_status"] = "open";
+        //localStorage["decryption_status"] = "closed";
+    }
+
+    if(localStorage["Tab"] == "decryption") {
+        var de = document.getElementById("decryptionTab")
+        de.className = "active";
+        var en = document.getElementById("encryptionTab");
+        en.className = "";
+        var h = document.getElementById("helpandtutorialsTab");
+        h.className = "";
+
+        var de1 = document.getElementById("sectionB")
+        de1.className += " active in";
+        var en1 = document.getElementById("sectionA");
+        en1.className = "tab-pane fade";
+        var h1 = document.getElementById("sectionC")
+        h1.className = "tab-pane fade";
+
+        decryptionOption();
+
+    }
+
+    if(localStorage["Tab"] == "help") {
+        var h = document.getElementById("helpandtutorialsTab");
+        h.className = "active";
+        var en = document.getElementById("encryptionTab");
+        en.className = "";
+        var de = document.getElementById("decryptionTab")
+        de.className = "";
+
+        var h1 = document.getElementById("sectionC")
+        h1.className += " active in";
+        var en1 = document.getElementById("sectionA");
+        en1.className = "tab-pane fade";
+        var de1 = document.getElementById("sectionB")
+        de1.className = "tab-pane fade";
+        
+        helpandTutorials();
+		
+    }
+}
+
+function restore_lastStatus() {
+    if(localStorage["encryption_status"] == "open" && localStorage["Tab"] == "encryption") {
+        encryptionMode = true;
+        var instuction = document.getElementById("Instruction");
+        instuction.innerHTML = "The message has been encrypted for <strong>" +
+                            localStorage["to_address"] +"</strong>.<br />To copy this message, select “Copy to Clipboard” below.";
+
+        var cipherArea = document.getElementById("cipher");
+        cipherArea.innerHTML = localStorage["encryptedMSG"];
+        
+        showOutput();
+        $("#myOutputText").modal('show');
+    }
+
+    if(localStorage["decryption_status"] == "open" && localStorage["Tab"] == "decryption") {
+        encryptionMode = false;
+        var title = document.getElementById("Decrypted_Text");
+        title.innerHTML = "<strong font-weight: bold;>Decryption Succeeded: </strong> This message was sent from " +
+                       localStorage["sender"] +".";
+        var plainTextArea = document.getElementById("plaintext");
+        plainTextArea.innerHTML = localStorage["decryptedMSG"];
+    
+        showOutput();
+        $("#myOutputText").modal('show');
+    }
+
 }
 
 function restore_login() {
@@ -129,10 +213,15 @@ function closeButton() {
     if (encryptionMode) {
         var cipherArea = document.getElementById("cipher");
         cipherArea.innerText = "";
+        localStorage["encryption_status"] = "closed";
+        localStorage["encryptedMSG"] = "";
     }
     else {
         var plainTextArea = document.getElementById("plaintext");
         plainTextArea.innerText = "";
+        localStorage["decryption_status"] = "closed";
+        localStorage["decryptedMSG"] = "";
+        localStorage["sender"] = "";
     }
 
     // click 'x' to cancel processing of encryption or decryption
@@ -141,8 +230,7 @@ function closeButton() {
         clearInterval(vInterval);
         processStatus = false;
     }
-        
-    //clearProcessDialog();
+
 }
 
 var processStatus = false;
@@ -334,7 +422,7 @@ jQuery.fn.anim_progressbar = function (aOptions) {
     // def options
     var aDefOpts = {
         start: new Date(), // now
-        finish: new Date().setTime(new Date().getTime() + iCms), // now + 60 sec
+        finish: new Date().setTime(new Date().getTime() + iCms), // now + 2 sec
         interval: 100
     }
     var aOpts = jQuery.extend(aDefOpts, aOptions);
@@ -361,12 +449,11 @@ jQuery.fn.anim_progressbar = function (aOptions) {
 
                     // display current positions and progress
                     $(vPb).children().children('.percent').html('<b>'+iPerc.toFixed(0)+'%</b>');
-
                     $(vPb).children('.pbar').children('.ui-progressbar-value').css('width', iPerc+'%');
-
+                    
                     // in case of Finish
-                    if (iPerc >= 100) {
-                        
+                    if (iPerc >= 95) {
+    
                         $(vPb).children().children('.percent').html('<b>100%</b>');
                         //$(vPb).children('.elapsed').html('Finished');
 
@@ -413,6 +500,7 @@ function initializeProcessDialog() {
 }
 
 function processingDialog() {
+
     cancel = false; // reset cancel status
     processStatus = true;  // in processing status
 
@@ -429,6 +517,7 @@ function processingDialog() {
     
     $("#myOutputText").modal('show');
     $('#progress1').anim_progressbar();
+
 }
 
 function showOutput() {
@@ -481,7 +570,8 @@ function encryption() {
 
     var instuction = document.getElementById("Instruction");
     instuction.innerHTML = "The message has been encrypted for <strong>" +
-                            localStorage["to_address"] +"</strong>.<br />To copy this message, select “Copy to Clipboard” below."
+                            localStorage["to_address"] +"</strong>.<br />To copy this message, select “Copy to Clipboard” below.";
+
     var header =
         "You have received a message that has been <span style='font-weight: bold;'>encrypted</span> using Message Protector (MP). " +
         "<br><br>Directions for decrypting and reading this message can be found at <a href='https://mp.isrl.byu.edu'>https://mp.isrl.byu.edu</a>." +
@@ -492,7 +582,11 @@ function encryption() {
         "\n---------- End Encrypted Message ----------</pre>";
     
     if (cipher) {
+        //var cipherArea = document.getElementById("cipher");
         cipherArea.innerHTML = header + cipher + footer;
+        localStorage["encryption_status"] = "open";
+        localStorage["encryptedMSG"] = header + cipher + footer;
+
     }
 }
 
@@ -583,15 +677,21 @@ function decryption() {
     var msg = document.getElementById("cipherMsg").innerText;
     var viewerId = getCreatorId();
     var msg_package = decryptEncryptedMessage(cipherText, viewerId);
+
     // if decryption is error
     if(decryption_error(msg_package))
         return;
     
     processingDialog();
     var title = document.getElementById("Decrypted_Text");
-    title.innerHTML = "<strong font-weight: bold;>Success!</strong> The message from " +
-                       msg_package.sender + " has been decrypted.";
+    title.innerHTML = "<strong font-weight: bold;>Decryption Succeeded: </strong> This message was sent from " +
+                       msg_package.sender +".";
+
+    localStorage["sender"] = msg_package.sender;
+    //var plainTextArea = document.getElementById("plaintext");
     plainTextArea.innerHTML = msg_package.message;
+    localStorage["decryptedMSG"] = msg_package.message;
+    localStorage["decryption_status"] = "open";
 
 }
 
@@ -607,6 +707,10 @@ function encryptionOption() {
     //button.data-original-title = "Encrypt (Ctrl-Enter)";
     var textArea = document.getElementById("message")
     textArea.focus();
+
+    var content = document.getElementById("contentArea");
+    content.style.height = null;
+    localStorage["Tab"] = "encryption";
 }
 
 function updateTabindex_for_ecryption() {
@@ -643,6 +747,11 @@ function decryptionOption() {
     // active cipher text area, focus
     var cipherEditing = document.getElementById("cipherMsg");
     cipherEditing.focus();
+
+    var content = document.getElementById("contentArea");
+    content.style.height = null;
+    localStorage["Tab"] = "decryption"
+
 }
 
 function updateTabindex_for_decryption()
@@ -665,6 +774,45 @@ function updateTabindex_for_decryption()
 
     var trashTabindex = document.getElementById("Trash");
     trashTabindex.tabIndex = "3";
+
+}
+
+function helpandTutorials() {
+    var msg = elementStyleDisplay("textFormat", "none");
+    var cipher = elementStyleDisplay("cipherFormat", "none");
+    var help = elementStyleDisplay("help", "");
+    encryptionMode = false;
+
+    elementStyleDisplay("Ebutton", "none");
+    elementStyleDisplay("Dbutton", "none");
+
+    updateTabindex_for_help();
+
+    var content = document.getElementById("contentArea");
+    content.style.height = "449px";
+    localStorage["Tab"] = "help";
+}
+
+function updateTabindex_for_help() {
+    var login = document.getElementById("login");
+    login.tabIndex = "4";
+
+    var emailField = document.getElementById("recipient");
+    emailField.tabIndex = "";
+
+    var editor = document.getElementById("cipherMsg");
+    editor.tabIndex = "1";
+
+    var button = document.getElementById("button");
+    button.tabIndex = "2";
+    $("#button").attr('data-original-title', "")
+                        .tooltip({
+                            placement: 'top'
+                        });
+
+    var trashTabindex = document.getElementById("Trash");
+    trashTabindex.tabIndex = "2";
+
 }
 
 var editorLaunch = null;
@@ -737,9 +885,7 @@ $(document).ready(function () {
 
 function reset_login() {
 
-    var element = document.getElementById("change");
-    element.style.display = "";
-    
+    elementStyleDisplay("change", "");
     login_done = true;
     
     $("#LoginMessage").modal('hide');
@@ -748,8 +894,7 @@ function reset_login() {
 // user doesn't Auth
 function clear_login() {
 
-    var element = document.getElementById("change");
-    element.style.display = "none";
+    elementStyleDisplay("change", "none");
 
     delete localStorage["userInfo"];
 
@@ -775,12 +920,185 @@ function changeAccount() {
     clearAuthorized();
     login_done = false; 
     authorize('google'); 
+
+}
+
+function initialize_ui() {
+
+    if(localStorage["skiptomp"] != "true") {
+        elementStyleDisplay("mp", "none");
+        elementStyleDisplay("beginTutorials", "");
+        elementStyleDisplay("Ebutton", "none");
+        elementStyleDisplay("Dbutton", "none");
+
+        //localStorage["firtTime"] = false;
+        localStorage["Tab"] = "encryption";
+    }
+    else {
+        elementStyleDisplay("mp", "");
+        elementStyleDisplay("beginTutorials", "none");
+        elementStyleDisplay("Ebutton", "");
+        elementStyleDisplay("Dbutton", "none");
+
+        checkAuthorized();
+        toggleEditor();
+        if (localStorage["userInfo"]) {
+            
+            restore_options();
+            
+            $("#LoginMessage").modal('hide');
+        }
+        else {
+            $("#LoginMessage").modal('show');
+        }
+    }
+}
+
+function skipTutorial() {
+	localStorage["skiptomp"] = "true";
+    initialize_ui();
+}
+
+function tutorials() {
+    elementStyleDisplay("help", "none");
+    elementStyleDisplay("Tutorials", "");
+    elementStyleDisplay("securitydetails", "none");
+}
+
+function securitydetails() {
+    elementStyleDisplay("help", "none");
+    elementStyleDisplay("Tutorials", "none");
+    elementStyleDisplay("securitydetails", "");
+}
+
+function tutorialPrevious() {
+    elementStyleDisplay("help", "");
+    elementStyleDisplay("Tutorials", "none");
+    elementStyleDisplay("securitydetails", "none");
+}
+
+function securityPrevious() {
+    elementStyleDisplay("help", "");
+    elementStyleDisplay("Tutorials", "none");
+    elementStyleDisplay("securitydetails", "none");
+}
+
+var counter = 0;
+function continueTutorial() {
+    elementStyleDisplay("weltitle", "none");
+    elementStyleDisplay("firstTutorial", "");
+    switch(counter) {
+        case 0: elementStyleDisplay("firstTutorial", "");
+                elementStyleDisplay("decryptTitle", "");
+                elementStyleDisplay("dec_first", "");
+                break;
+        case 1: elementStyleDisplay("dec_second", "");
+                elementStyleDisplay("dec_first", "none");
+                break;
+        case 2: elementStyleDisplay("dec_third", "");
+                elementStyleDisplay("dec_second", "none");
+                break;
+        case 3: elementStyleDisplay("dec_forth", "");
+                elementStyleDisplay("dec_third", "none");
+                break;
+        case 4: elementStyleDisplay("dec_fifth", "");
+                elementStyleDisplay("dec_forth", "none");
+                break;
+        case 5: elementStyleDisplay("dec_fifth_helf", "");
+                elementStyleDisplay("dec_fifth", "none");
+                break;
+        case 6: elementStyleDisplay("encryptTitle", "");
+                elementStyleDisplay("enc_sixth", "");
+                elementStyleDisplay("dec_fifth_helf", "none");
+                elementStyleDisplay("decryptTitle", "none");
+                break;
+        case 7: elementStyleDisplay("enc_seventh", "");
+                elementStyleDisplay("enc_sixth", "none");
+                break;
+        case 8: elementStyleDisplay("enc_eighth", "");
+                elementStyleDisplay("enc_seventh", "none");
+                break;
+        case 9: elementStyleDisplay("enc_ninth", "");
+                elementStyleDisplay("enc_eighth", "none");
+                break;
+        case 10: elementStyleDisplay("enc_tenth", "");
+                elementStyleDisplay("enc_ninth", "none");
+                break;
+        case 11: elementStyleDisplay("enc_eleventh", "");
+                elementStyleDisplay("enc_tenth", "none");
+                break;
+        case 12: elementStyleDisplay("enc_twelvth", "");
+                elementStyleDisplay("enc_eleventh", "none");
+                elementStyleDisplay("encryptTitle", "none");
+                break;
+        default:
+                break;
+    }
+ 
+    if(counter<13)
+        counter++;
+
+}
+
+function previousTutorial() {
+  
+    if(counter >=0) {
+        switch(counter) {
+            case 1: elementStyleDisplay("weltitle", "");
+                    elementStyleDisplay("firstTutorial", "none");
+                    elementStyleDisplay("dec_first", "none");
+                    break;
+            case 2: elementStyleDisplay("dec_second", "none");
+                    elementStyleDisplay("dec_first", "");
+                    break;
+            case 3: elementStyleDisplay("dec_third", "none");
+                    elementStyleDisplay("dec_second", "");
+                    break;
+            case 4: elementStyleDisplay("dec_forth", "none");
+                    elementStyleDisplay("dec_third", "");
+                    break;
+            case 5: elementStyleDisplay("dec_fifth", "none");
+                    elementStyleDisplay("dec_forth", "");
+                    break;
+            case 6: elementStyleDisplay("dec_fifth_helf", "none");
+                    elementStyleDisplay("dec_fifth", "");
+                    break;
+            case 7: elementStyleDisplay("dec_fifth_helf", "");
+                    elementStyleDisplay("decryptTitle", "");
+                    elementStyleDisplay("encryptTitle", "none");
+                    elementStyleDisplay("enc_sixth", "none");
+                    break;
+            case 8: elementStyleDisplay("enc_seventh", "none");
+                    elementStyleDisplay("enc_sixth", "");
+                    break;
+            case 9: elementStyleDisplay("enc_eighth", "none");
+                    elementStyleDisplay("enc_seventh", "");
+                    break;
+            case 10: elementStyleDisplay("enc_ninth", "none");
+                    elementStyleDisplay("enc_eighth", "");
+                    break;
+            case 11: elementStyleDisplay("enc_tenth", "none");
+                    elementStyleDisplay("enc_ninth", "");
+                    break;
+            case 12: elementStyleDisplay("enc_eleventh", "none");
+                    elementStyleDisplay("enc_tenth", "");
+                    break;
+            case 13: elementStyleDisplay("enc_twelvth", "none");
+                    elementStyleDisplay("enc_eleventh", "");
+                    elementStyleDisplay("encryptTitle", "");
+                    break;
+            default:
+                    break;
+        }
+        counter--;
+    }
+    if(counter<0)
+        counter++;
+
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    toggleEditor();
-    
-    checkAuthorized();
+
     document.querySelector('#google_login').addEventListener('click', function() { authorize('google'); });
     document.querySelector('#login_button').addEventListener('click', loginButton);
     document.querySelector('#signOut').addEventListener('click', signOut);
@@ -795,11 +1113,17 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#cancelIt').addEventListener('click', cancelProgress);
 
     document.querySelector('#cipher').addEventListener('click', select_all);
-
     document.querySelector('#Trash').addEventListener('click', cleanTable);
 
     document.querySelector('#encryptionTab').addEventListener('click', encryptionOption);
     document.querySelector('#decryptionTab').addEventListener('click', decryptionOption);
+    document.querySelector('#helpandtutorialsTab').addEventListener('click', helpandTutorials);
+
+    document.querySelector('#tutorial').addEventListener('click', tutorials);
+    document.querySelector('#security').addEventListener('click', securitydetails);
+
+    document.querySelector('#tutorialPrevious').addEventListener('click', tutorialPrevious);
+    document.querySelector('#securityPrevious').addEventListener('click', securityPrevious);
 
 
     // Encrypt/Decrypt Button
@@ -814,16 +1138,12 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#textFormat').addEventListener('keyup', save_Msg);
     document.querySelector('#cipherMsg').addEventListener('keyup', save_cipher);
 
-    if (localStorage["userInfo"]) {
-        
-        restore_options();
-        
-        $("#LoginMessage").modal('hide');
-    }
-    else {
-        $("#LoginMessage").modal('show');
-    }
-    
+    document.querySelector('#continue').addEventListener('click', continueTutorial);
+    document.querySelector('#previous').addEventListener('click', previousTutorial);
+    document.querySelector('#skip').addEventListener('click', skipTutorial);
+
+    initialize_ui(); 
+
 });
 
 
