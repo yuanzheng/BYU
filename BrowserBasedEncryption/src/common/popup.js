@@ -145,7 +145,6 @@ function restore_lastStatus() {
         showOutput();
         $("#myOutputText").modal('show');
     }
-
 }
 
 function restore_login() {
@@ -230,7 +229,7 @@ function closeButton() {
         clearInterval(vInterval);
         processStatus = false;
     }
-
+        
 }
 
 var processStatus = false;
@@ -453,7 +452,7 @@ jQuery.fn.anim_progressbar = function (aOptions) {
                     
                     // in case of Finish
                     if (iPerc >= 95) {
-    
+                        
                         $(vPb).children().children('.percent').html('<b>100%</b>');
                         //$(vPb).children('.elapsed').html('Finished');
 
@@ -571,7 +570,6 @@ function encryption() {
     var instuction = document.getElementById("Instruction");
     instuction.innerHTML = "The message has been encrypted for <strong>" +
                             localStorage["to_address"] +"</strong>.<br />To copy this message, select “Copy to Clipboard” below.";
-
     var header =
         "You have received a message that has been <span style='font-weight: bold;'>encrypted</span> using Message Protector (MP). " +
         "<br><br>Directions for decrypting and reading this message can be found at <a href='https://mp.isrl.byu.edu'>https://mp.isrl.byu.edu</a>." +
@@ -586,7 +584,6 @@ function encryption() {
         cipherArea.innerHTML = header + cipher + footer;
         localStorage["encryption_status"] = "open";
         localStorage["encryptedMSG"] = header + cipher + footer;
-
     }
 }
 
@@ -692,7 +689,6 @@ function decryption() {
     plainTextArea.innerHTML = msg_package.message;
     localStorage["decryptedMSG"] = msg_package.message;
     localStorage["decryption_status"] = "open";
-
 }
 
 function encryptionOption() {
@@ -751,7 +747,6 @@ function decryptionOption() {
     var content = document.getElementById("contentArea");
     content.style.height = null;
     localStorage["Tab"] = "decryption"
-
 }
 
 function updateTabindex_for_decryption()
@@ -881,6 +876,7 @@ $(document).ready(function () {
         content: 'The encrypted message is now in your clipboard and ready to be copied into your application.'
     });
 
+    
 });
 
 function reset_login() {
@@ -920,7 +916,6 @@ function changeAccount() {
     clearAuthorized();
     login_done = false; 
     authorize('google'); 
-
 }
 
 function initialize_ui() {
@@ -1094,7 +1089,6 @@ function previousTutorial() {
     }
     if(counter<0)
         counter++;
-
 }
 
 document.addEventListener('DOMContentLoaded', function () {
