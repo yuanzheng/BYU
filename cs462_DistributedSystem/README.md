@@ -1,6 +1,6 @@
 
 
-##CS 462 Distributed System -- Projects Overview##
+## CS 462 Distributed System -- Projects Overview ##
 
 For the class project, we will be building a website that allows users to submit pictures and comment on 
 and rate other user's submissions.
