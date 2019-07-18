@@ -52,7 +52,7 @@ You can see your instance in the table.
       >  deb `http://us.ec2.archive.ubuntu.com/ubuntu/` karmic multiverse<br>
       >  deb-src `http://us.ec2.archive.ubuntu.com/ubuntu/` karmic main<br>
       >  into `/etc/apt/sources.list.d/multiverse.list` file<br>
-		  >  (another way, run: sudo add-apt-repository "deb http://...." -- 直接修改/etc/apt/sources.list)<br>
+	> (another way, run: sudo add-apt-repository "deb http://...." -- 直接修改/etc/apt/sources.list)<br>
 		  > (Instead of `us.ec2.archive.ubuntu.com/ubuntu/ ` it may instead be something like `us-west-2.ec2.archive.ubuntu.com/ubuntu/`.)<br>
 		  > )<br>
       
@@ -117,5 +117,130 @@ You can see your instance in the table.
 	    >(config.py  -- executable, put it into package)
 
 
+### lab2: ###
+
+1. AppServer return a string, "http://imaj-app.lddi.org:8010/list/recent or popular". It's not dict()
+So we need json.load() to convert it.
+$recent is the list [{....}, {...}, ...]
+$image is each dict {} from the list $recent
+$image.thumburl is the one of keys in each dict ({..., thumburl:"324242.2sdf2.243", ...}), and return the value. 
+2.
+3. The root directory for each template is where the index.py locates.
+
+all templates are put into fold site_tmpl. HOwever, all links inside template.tmpl should be changed:
+example:
+	<li><a href="./">Home</a></li>
+	<li><a href="./list/popular">Popular</a></li>
+	<li><a href="./list/recent">Recent</a></li>
+	<li><a href="./submit">Submit</a></li>
+Directory: http://localhost:8080/cs462/lab2/
+		   http://localhost:8080/cs462/lab2/site_tmpl
+		   ...
+Note: ./ current directory is not site_tmpl. It is the parent directory, http://localhost:8080/cs462/lab2/
+		style sheet should be modified, <link rel="stylesheet" type="text/css" href="./site_tmpl/style.css" />
+		So it cannot be just href="style.css"
+
+*** Since all templates are in the folder, check all links in each template, if they point to the correct directories. 
+    For lab2 the correct root directory is http://localhost:8080/cs462/lab2/ ***
+
+/list/recent
+
+The root directory is at http://localhost:8080/cs462/lab2/list/recent
+1.
+2.
+3.
 
 
+
+
+//////////////////////// change the port on my local machine, each lab uses diff port /////////
+(It cannot be setup on AWI, only for my laptop)
+cs360 lab uses 8080
+cs462 lab uses 8060
+
+1. vim /etc/httpd.conf
+2. <VirtualHost *:8080>
+      DocumentRoot /home/yuanzheng/Public/public_html/
+      <Directory />
+          ....
+3. <VirtualHost *:8060>
+      DocumentRoot /home/yuanzheng/Public/public_html/cs462/lab2
+      <Directory />
+          ...
+4. ports.conf  --- add one more port (Listen 8060)
+
+
+
+//////////////////////////////// localhost:8060/view?imagekey=123123   ////////////////
+When click a pic, it will send /view?imagekey=12345 request to server, so we need a 'view' method
+In root directory, index.py file 
+Since both /index.py/view  and /view should work, 'view' should be one of method in index.py
+
+( add a view method:     def view(req): )
+The previous httpd.config cannot run /view (in index.py )
+
+Modification of httpd.conf
+```Html
+          #AddHandler mod_python .py
+          SetHandler mod_python
+          <Files ~ "\.(css|js|jpg|png)$">
+            SetHandler default-handler
+          </Files>
+```
+
+
+//////////////////// submit page
+open the submit page and send submit page both, use the same method
+call.
+In the main page, 'submit' button will send request for /submit/
+if there is no such directory, server will looking for submit.py file
+in root directory.
+Since submit.tmpl, <form action="/submit" method="post" 
+We cannot create a submit direstory. So the best way is to create a
+submit.py in root directory.
+					
+
+////////////////////// urlencode()
+data = {....}
+urllib.urlencode(data);
+The reason is for avoid someone adding query code as part.
+e.g. /comment?
+
+
+Load Balancer:
+in Userdata.py, adding a function
+it should inlude, 
+```Python
+import urllib
+from boto.ec2.elb import ELBConnection
+ 
+AWSKey = "{redacted}"
+AWSSecretKey = "{redacted}"
+ 
+# Establish the connection with the load balancer
+conn = ELBConnection(AWSKey, AWSSecretKey)
+ 
+# Gets instance-id information
+instance_id = urllib.urlopen("http://169.254.169.254/latest/meta-data/instance-id").read()
+ 
+# webserver-lb is second in the list
+lb = conn.get_all_load_balancers()[1]
+ 
+# Now register the instance
+lb.register_instances(instance_id)
+```
+
+
+### lab3: ###
+```Python
+def getImageDomain():
+	sdb = boto.connect_sdb(AWSKey, AWSSecret)
+	domain = sdb.lookup(imageDomain)
+	return domain
+
+def _getmostrecentimage():
+	domain = _getImageDomain()
+	query = "['submitdate' <= '2900'] intersection ['status'='approved'] 	sort 'submitdate' desc"
+
+params = urllib.urlencode("
+```
