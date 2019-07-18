@@ -13,4 +13,4 @@ Not all services required to run this website will be built by students. In part
 will provide load balancing services and logging services. DNS services will also need to be configured 
 prior to students building their labs.
 
-![](http://classes.windley.com/462/wiki/images/f/f5/462_Lab_Overview.png)
+![System Design](https://github.com/yuanzheng/BYU/blob/master/cs462_DistributedSystem/462_Lab_Overview.png)
